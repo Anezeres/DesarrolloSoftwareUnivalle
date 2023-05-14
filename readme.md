@@ -1,5 +1,8 @@
 # GREEN WHEELS
 
+This software is for an university project. Its objective it's to serve as 
+a resources manager for a electric car seller company.
+
 ## Initializing backend application.
 
 1. Download or clone the repository.
@@ -55,7 +58,7 @@ python manage.py runserver
 
 ## Initializing frontend application
 
-1. Move into **client** directory and install node dependencies.
+1. In another terminal, move into **front-green-wheels** directory inside **client** directory and install node dependencies.
 
 ```
 npm install

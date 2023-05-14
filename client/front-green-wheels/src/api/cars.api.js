@@ -9,7 +9,7 @@ import axios from 'axios';
 */
 
 const carsApi = axios.create({
-    baseURL: "http://127.0.0.1:8000/api/cars/",
+    baseURL: "http://localhost:8000/api/cars/",
 });
 
 export const getAllCars = () => carsApi('/');
