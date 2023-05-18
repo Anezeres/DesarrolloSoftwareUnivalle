@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'green_wheels_app',
     'rest_framework',
     'restapp',
     'corsheaders',
