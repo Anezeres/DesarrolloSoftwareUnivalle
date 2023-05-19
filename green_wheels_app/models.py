@@ -13,8 +13,9 @@ class Gw_Person(AbstractBaseUser):
     CHOICES = [
         (1, 'National_id'),
         (2, 'International_id'),
-    ]
+    ];
 
+    person_id = models.IntegerField(primary_key=True);
     id_type = models.SmallIntegerField(choices=CHOICES);
     names = models.CharField(max_length=100);
     last_names = models.CharField(max_length=100);
@@ -24,8 +25,8 @@ class Gw_Person(AbstractBaseUser):
     phone2 = models.IntegerField();
     email = models.EmailField();
 
-    USERNAME_FIELD = 'id';
-    REQUIRED_FIELDS =['id', 'email'];
+    USERNAME_FIELD = 'person_id';
+    REQUIRED_FIELDS =['person_id', 'email'];
 
 
 
@@ -35,7 +36,8 @@ class Gw_Person(AbstractBaseUser):
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
 class Gw_Client(models.Model):
-    person_id = models.ForeignKey('Gw_Person', on_delete=models.CASCADE)
+    client_id = models.IntegerField(primary_key=True);
+    person_id = models.ForeignKey('Gw_Person', on_delete=models.CASCADE);
 
 
 
@@ -49,10 +51,11 @@ class Gw_Employee(models.Model):
     CHOICES = [
         (1, 'Seller'),
         (2, 'WorkshopBoss'),
-    ]
+    ];
 
+    employee_id = models.IntegerField(primary_key=True);
     position = models.SmallIntegerField(choices=CHOICES);
-    person_id = models.ForeignKey('Gw_Person', on_delete=models.CASCADE)
+    person_id = models.ForeignKey('Gw_Person', on_delete=models.CASCADE);
 
 
 
@@ -62,7 +65,8 @@ class Gw_Employee(models.Model):
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
 class Gw_Manager(models.Model):
-    person_id = models.ForeignKey('Gw_Person', on_delete=models.CASCADE)
+    manager_id = models.IntegerField(primary_key=True);
+    person_id = models.ForeignKey('Gw_Person', on_delete=models.CASCADE);
 
 
 
@@ -72,4 +76,5 @@ class Gw_Manager(models.Model):
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
 class Gw_Main_Manager(models.Model):
-    person_id = models.ForeignKey('Gw_Person', on_delete=models.CASCADE)
+    main_manager_id = models.IntegerField(primary_key=True);
+    person_id = models.ForeignKey('Gw_Person', on_delete=models.CASCADE);
