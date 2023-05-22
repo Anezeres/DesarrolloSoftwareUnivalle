@@ -109,11 +109,227 @@ class Gw_Manager(models.Model):
 
 
 
-# @name: Gw_Main_Manager
-# @description: Model that represents the main manager and it is associated with a person instance.
+# @name: Gw_Admin
+# @description: Model that represents the admin and it is associated with a person instance.
 # @author: Paul Rodrigo Rojas G.
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
 class Gw_Admin(models.Model):
     admin_id = models.AutoField(primary_key=True);
     person_id = models.ForeignKey('Gw_Person', on_delete=models.CASCADE);
+
+
+
+# @name: Gw_Brand
+# @description: Represents the vehicles brands
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Brand(models.Model):
+    name = models.CharField(max_length=50); 
+    country = models.CharField(max_length=50); 
+
+
+
+# @name: Gw_Vehicle
+# @description:
+# @author: Julian A. Alvarez Payares
+# @email: alvarez.julian@correounivalle.edu.co
+
+class Gw_Vehicle_Model(models.Model):
+    name = models.CharField(max_length=50); 
+    year = models.IntegerField();
+    brand = models.ForeignKey('Gw_Brand', on_delete=models.CASCADE)
+
+
+
+# @name: Gw_Vehicle
+# @description:
+# @author: Julian A. Alvarez Payares
+# @email: alvarez.julian@correounivalle.edu.co
+class Gw_Vehicle(models.Model):
+    plate = models.CharField(primary_key=True, max_length=10);
+    name = models.CharField(max_length=50); 
+    made_year = models.IntegerField(); 
+    base_price = models.FloatField();
+    guarantee_end_date = models.DateField();
+    model_id = models.ForeignKey('Gw_Vehicle_Model', on_delete=models.CASCADE);
+
+
+
+# @name: Gw_Headquarter
+# @description: Represents the company's headquarters
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Headquarter(models.Model):
+    name = models.CharField(max_length=50);
+    city = models.CharField(max_length=50);
+    address = models.CharField(max_length=100);
+
+
+
+# @name: Gw_Concessionaire
+# @description: Representst the concessionaires
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Concessionaire(models.Model):
+    headquarter_id = models.ForeignKey('Gw_Headquarter', on_delete=models.CASCADE);
+
+
+
+# @name: Gw_Workshop
+# @description: Represents the workshops
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Workshop(models.Model):
+    workshop_id = models.ForeignKey('Gw_Headquarter', on_delete=models.CASCADE);
+
+
+
+# @name: Gw_Vehicle_Inventory
+# @description: Indicates how many instances of a vehicle model are available
+# in a concessionaire.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+
+class Gw_Vehicle_Inventory(models.Model):
+    model_id = models.ForeignKey('Gw_Vehicle_Model', on_delete=models.CASCADE);
+    concessionaire_id = models.ForeignKey('Gw_Concessionaire', on_delete=models.CASCADE);
+    quantity = models.IntegerField();
+
+
+
+# @name: Gw_Replacement_Part
+# @description: Represents the replacement parts that the company manages.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Replacement_Part(models.Model):
+    name = models.CharField(max_length=50);
+    description = models.CharField(max_length=100); 
+    model_id = models.ForeignKey('Gw_Vehicle_Model', on_delete=models.CASCADE);
+
+
+
+# @name: Gw_Replacement_Inventory
+# @description: Indicates how many instances of a repplacement part are
+# available in a workshop.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Replacement_Inventory(models.Model):
+    replacement_id = models.ForeignKey('Gw_Replacement_Part', on_delete=models.CASCADE);
+    workshop_id = models.ForeignKey('Gw_Workshop', on_delete=models.CASCADE); 
+    quantity = models.IntegerField();
+
+
+
+ # @name: Gw_Service
+ # @description: Represents the services that the company offers.
+ # @author: Paul Rodrigo Rojas G.
+ # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+ 
+class Gw_Service(models.Model):
+    vehicle_plate = models.ForeignKey('Gw_Vehicle', on_delete=models.CASCADE);
+    client_id = models.ForeignKey('Gw_Client', on_delete=models.CASCADE);
+
+
+
+# @name: Gw_Negotation
+# @description: Represents the negotations instances (Cotizaciones).
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Negotation(models.Model):
+
+    CHOICES = [
+        (1, 'cash'),
+        (2, 'credit_cart'),
+    ]
+
+    last_modification_date = models.DateField();
+    final_sale_price = models.FloatField();
+    pay_method = models.SmallIntegerField(default=1, choices=CHOICES);
+    description = models.CharField(max_length=100);
+
+
+
+# @name: Gw_Service_Sell_Vehicle
+# @description: Represents the selling vehicles service
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Service_Sell_Vehicle(Gw_Service):
+    negotation_id = models.ForeignKey('Gw_Negotation', on_delete=models.CASCADE);
+    concessionaire_id = models.ForeignKey('Gw_Concessionaire', on_delete=models.CASCADE);
+
+
+
+# @name: Gw_Diagnosis
+# @description: Represents the diagnosis instances
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Diagnosis(models.Model):
+    description = models.CharField(max_length=100);
+    date = models.DateField();
+    price = models.FloatField();
+    mechanic_id = models.IntegerField();
+    mechanic_id = models.CharField(max_length=100);
+
+
+
+
+# @name: Gw_Service_Repair_Vehicle
+# @description: Represents the repairing vehicles service
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Service_Repair_Vehicle(models.Model):
+    mechanic_id = models.IntegerField();
+    mechanic_id = models.CharField(max_length=100);
+    diagnosis_id = models.ForeignKey('Gw_Diagnosis', on_delete=models.CASCADE);
+    workshop_id = models.ForeignKey('Gw_Workshop', on_delete=models.CASCADE);
+
+
+
+# @name: Gw_Needed_Replacemnt_Part
+# @description: Represents the relation among diagnosis and its needed replacement
+# parts
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Needed_Replacemnt_Part(models.Model):
+    diagnosis_id = models.ForeignKey('Gw_Diagnosis', on_delete=models.CASCADE);
+    replacement_id = models.ForeignKey('Gw_Replacement_Part', on_delete=models.CASCADE);
+    approved = models.BooleanField();
+
+
+# @name: Gw_Request_Process
+# @description: Represents the services requests
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+
+
+class Gw_Request_Process(models.Model):
+    requested_date = models.DateField();
+    attended = models.BooleanField();
+    service_id = models.ForeignKey('Gw_Service', on_delete=models.CASCADE);
+
+
+
+# @name: Gw_Attended_Process
+# @description: Represents the process of services that have been attended
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Attended_Process(models.Model):
+    employee_id = models.ForeignKey('Gw_Employee', on_delete=models.CASCADE);
+    attended_date = models.DateField();
+    finished_date = models.DateField();
+    service_id = models.ForeignKey('Gw_Service', on_delete=models.CASCADE);
