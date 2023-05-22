@@ -1,7 +1,7 @@
 # GREEN WHEELS
 
 This software is for an university project. Its objective it's to serve as 
-a resources manager for a electric car seller company.
+a resources manager for an electric car seller company.
 
 ## Initializing backend application.
 
