@@ -7,5 +7,6 @@ from restapp import views
 
 urlpatterns = [
     path('', include('restapp.urls')),
+    path('app/', include('green_wheels_app.urls')),
     path('admin/', admin.site.urls),
 ]
