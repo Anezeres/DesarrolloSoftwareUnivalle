@@ -1,11 +1,11 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import {CarsListPage} from './pages/CarsListPage';
+import { PersonListPage } from './pages/PersonListPage';
 
 const App = () => {
   return (
     <BrowserRouter>
         <Routes>
-          <Route path="/" element={<CarsListPage/>}/>
+          <Route path="/" element={<PersonListPage/>}/>
         </Routes>
       </BrowserRouter>
   );
