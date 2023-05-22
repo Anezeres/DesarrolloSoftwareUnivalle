@@ -3,6 +3,7 @@ from django.urls import path
 from green_wheels_app.views import *
 
 urlpatterns = [
+    path('', index_render, name = 'index'), # This is just a test.
     path('get_persons_list/', get_persons_list, name='get_persons_list'),
     path('get_person/<int:id>/', get_person, name = 'get_person'),
     path('get_clients_list/', get_clients_list, name='get_clients_list'),

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from green_wheels_app.models import *
 from django.http import HttpResponse, JsonResponse
 
+
 # @name: get_person_data
 # @description: This function extract the data from p person object and retrieve it a dictionary.
 # @author: Paul Rodrigo Rojas G.
@@ -114,3 +115,7 @@ def get_client(request, id):
 
     else: 
         return HttpResponse('Unsupported method', status=405);
+
+# This endpoint is just for testing.
+def index_render(request):
+    return HttpResponse("Welcome to Greeen Wheels!");

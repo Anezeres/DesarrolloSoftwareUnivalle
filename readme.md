@@ -52,7 +52,7 @@ Keep in mind that, by default, the application will run in: http://localhost:800
 python manage.py runserver
 ```
 
-8. To open django restframework interface, go to http://localhost:8000/api/
+8. To open django application in web browser, go to http://localhost:8000/
 
 &nbsp;
 
@@ -65,6 +65,10 @@ npm install
 ```
 
 2. Start the react application
+
 ```
 npm start
 ```
+
+3. To open react application in web browser, go to http://localhost:3000/
+
