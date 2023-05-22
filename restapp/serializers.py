@@ -12,3 +12,4 @@ class CarSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Car;
         fields = ['plate', 'model_name', 'price'];
+    
