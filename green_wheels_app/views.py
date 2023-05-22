@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from green_wheels_app.models import *
 from django.http import HttpResponse, JsonResponse
-
+from rest_framework import viewsets
+from green_wheels_app.serializers import *
 
 # @name: get_person_data
 # @description: This function extract the data from p person object and retrieve it a dictionary.
@@ -115,6 +116,183 @@ def get_client(request, id):
 
     else: 
         return HttpResponse('Unsupported method', status=405);
+
+
+
+# @name: get_employees_list
+# @description: Get the data from all the employee objects
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+def get_employees_list(request):
+    if request.method == 'GET':
+        employee_queryset = Gw_Employee.objects.all();
+        
+        employee_dict = [];
+
+        for c in employee_queryset:
+            employee_obj = get_person_data(c.person_id);
+            employee_obj['employee_id'] = c.employee_id;
+            employee_dict.append(
+                employee_obj,
+            )
+
+        return JsonResponse(employee_dict, safe=False);
+    else:
+        return HttpResponse('Unsupported method', status=405)
+    
+
+
+# @name: get_employee
+# @description: Get employee data given a employee id
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+def get_employee(request, id):
+    if request.method == 'GET':
+        try:
+            c = Gw_Employee.objects.get(employee_id=id);
+        except Gw_Employee.DoesNotExist:
+            return HttpResponse("Sorry, it does not exist a employee with " + str(id) + " id", 
+                                status=404);
+
+        data = get_person_data(c.person_id);
+
+        data['employee_id'] = c.employee_id;
+
+        return JsonResponse(data);
+
+    else: 
+        return HttpResponse('Unsupported method', status=405);
+
+
+
+# @name: get_managers_list
+# @description: Get the data from all the employee objects
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+def get_managers_list(request):
+    if request.method == 'GET':
+        manager_queryset = Gw_Manager.objects.all();
+        
+        manager_dict = [];
+
+        for c in manager_queryset:
+            manager_obj = get_person_data(c.person_id);
+            manager_obj['manager_id'] = c.manager_id;
+            manager_dict.append(
+                manager_obj,
+            )
+
+        return JsonResponse(manager_dict, safe=False);
+    else:
+        return HttpResponse('Unsupported method', status=405)
+
+
+
+# @name: get_manager
+# @description: Get manager data given a manager id
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+def get_manager(request, id):
+    if request.method == 'GET':
+        try:
+            m = Gw_Manager.objects.get(manager_id=id);
+        except Gw_Manager.DoesNotExist:
+            return HttpResponse("Sorry, it does not exist a manager with " + str(id) + " id", 
+                                status=404);
+
+        data = get_person_data(m.person_id);
+
+        data['manager_id'] = m.manager_id;
+
+        return JsonResponse(data);
+
+    else: 
+        return HttpResponse('Unsupported method', status=405);
+
+
+# @name: get_admins_list
+# @description: Get the data from all the employee objects
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+def get_admins_list(request):
+    if request.method == 'GET':
+        admin_queryset = Gw_Admin.objects.all();
+        
+        admin_dict = [];
+
+        for c in admin_queryset:
+            admin_obj = get_person_data(c.person_id);
+            admin_obj['admin_id'] = c.admin_id;
+            admin_dict.append(
+                admin_obj,
+            )
+
+        return JsonResponse(admin_dict, safe=False);
+    else:
+        return HttpResponse('Unsupported method', status=405)
+
+
+
+# @name: get_admin
+# @description: Get admin data given a admin id
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+def get_admin(request, id):
+    if request.method == 'GET':
+        try:
+            a = Gw_Admin.objects.get(admin_id=id);
+        except Gw_Admin.DoesNotExist:
+            return HttpResponse("Sorry, it does not exist a admin with " + str(id) + " id", 
+                                status=404);
+
+        data = get_person_data(a.person_id);
+
+        data['admin_id'] = a.admin_id;
+
+        return JsonResponse(data);
+
+    else: 
+        return HttpResponse('Unsupported method', status=405);
+
+
+
+# @name: Gw_Brand_Viewset
+# @description: Viewset for brand model
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Brand_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Brand.objects.all();
+    serializer_class = Gw_Brand_Serializer;
+
+
+
+# @name: Gw_Vehicle_Model_Viewset
+# @description: Viewset for vehicles models
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Vehicle_Model_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Vehicle_Model.objects.all();
+    serializer_class = Gw_Vehicle_Model_Serializer;
+
+
+
+# @name: Gw_Vehicle_Viewset
+# @description: Viewset for vehicles
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Vehicle_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Vehicle.objects.all();
+    serializer_class = Gw_Vehicle_Serializer;
+
 
 # This endpoint is just for testing.
 def index_render(request):

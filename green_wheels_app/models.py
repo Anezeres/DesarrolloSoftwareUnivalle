@@ -129,6 +129,8 @@ class Gw_Brand(models.Model):
     name = models.CharField(max_length=50); 
     country = models.CharField(max_length=50); 
 
+    def __str__(self):
+        return self.name
 
 
 # @name: Gw_Vehicle
@@ -141,6 +143,8 @@ class Gw_Vehicle_Model(models.Model):
     year = models.IntegerField();
     brand = models.ForeignKey('Gw_Brand', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name;
 
 
 # @name: Gw_Vehicle
@@ -149,13 +153,13 @@ class Gw_Vehicle_Model(models.Model):
 # @email: alvarez.julian@correounivalle.edu.co
 class Gw_Vehicle(models.Model):
     plate = models.CharField(primary_key=True, max_length=10);
-    name = models.CharField(max_length=50); 
     made_year = models.IntegerField(); 
     base_price = models.FloatField();
     guarantee_end_date = models.DateField();
     model_id = models.ForeignKey('Gw_Vehicle_Model', on_delete=models.CASCADE);
 
-
+    def __str__(self):
+        return self.plate;
 
 # @name: Gw_Headquarter
 # @description: Represents the company's headquarters
