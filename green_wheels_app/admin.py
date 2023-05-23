@@ -14,3 +14,4 @@ admin.site.register(Gw_Person, Gw_UserAdmin);
 admin.site.register(Gw_Brand);
 admin.site.register(Gw_Vehicle_Model);
 admin.site.register(Gw_Vehicle);
+#admin.site.register(MyCustomGroup);

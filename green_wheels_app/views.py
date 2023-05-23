@@ -4,6 +4,74 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework import viewsets
 from green_wheels_app.serializers import *
 
+
+from django.contrib.auth.models import Group
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+
+# @name: Add_Person_To_Clients
+# @desc: This function associates the person instance to the group Clients when a
+# client is created using the person's id.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+@receiver(post_save, sender=Gw_Client)
+def Add_Person_To_Clients(sender, instance, created, **kwargs):
+    if created:
+        person = instance.person_id;
+        group, _ = Group.objects.get_or_create(name='Clients');
+        person.groups.add(group);
+
+
+
+# @name: Add_Person_To_Employees
+# @desc: This function associates the person instance to a group related with the
+# employees group when an Employees is created using the person's id.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+@receiver(post_save, sender=Gw_Employee)
+def Add_Person_To_Employees(sender, instance, created, **kwargs):
+    if created:
+        person = instance.person_id
+        if instance.position == 1: # It's a seller
+            group_name = 'Sellers';
+        elif instance.position == 2: # It's a workshop boss
+            group_name = 'WorkshopBoss';
+        group, _ = Group.objects.get_or_create(name=group_name);
+        person.groups.add(group);
+
+
+
+# @name: Add_Person_To_Managers
+# @desc: This function associates the person instance to the group Managers when a
+# manager is created using the person's id.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+@receiver(post_save, sender=Gw_Manager)
+def Add_Person_To_Managers(sender, instance, created, **kwargs):
+    if created:
+        person = instance.person_id;
+        group, _ = Group.objects.get_or_create(name='Managers');
+        person.groups.add(group);
+
+
+
+# @name: Add_Person_To_Admins
+# @desc: This function associates the person instance to the group AppAdmin when an
+# admin is created using the person's id.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+@receiver(post_save, sender=Gw_Admin)
+def Add_Person_To_Admins(sender, instance, created, **kwargs):
+    if created:
+        person = instance.person_id;
+        group, _ = Group.objects.get_or_create(name='AppAdmin');
+        person.groups.add(group);
+
 # @name: get_person_data
 # @description: This function extract the data from p person object and retrieve it a dictionary.
 # @author: Paul Rodrigo Rojas G.
@@ -297,3 +365,4 @@ class Gw_Vehicle_Viewset(viewsets.ModelViewSet):
 # This endpoint is just for testing.
 def index_render(request):
     return HttpResponse("Welcome to Greeen Wheels!");
+
