@@ -10,67 +10,69 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-# @name: Add_Person_To_Clients
-# @desc: This function associates the person instance to the group Clients when a
-# client is created using the person's id.
-# @author: Paul Rodrigo Rojas G.
-# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+# # @name: Add_Person_To_Clients
+# # @desc: This function associates the person instance to the group Clients when a
+# # client is created using the person's id.
+# # @author: Paul Rodrigo Rojas G.
+# # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
-@receiver(post_save, sender=Gw_Client)
-def Add_Person_To_Clients(sender, instance, created, **kwargs):
-    if created:
-        person = instance.person_id;
-        group, _ = Group.objects.get_or_create(name='Clients');
-        person.groups.add(group);
-
-
-
-# @name: Add_Person_To_Employees
-# @desc: This function associates the person instance to a group related with the
-# employees group when an Employees is created using the person's id.
-# @author: Paul Rodrigo Rojas G.
-# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
-
-@receiver(post_save, sender=Gw_Employee)
-def Add_Person_To_Employees(sender, instance, created, **kwargs):
-    if created:
-        person = instance.person_id
-        if instance.position == 1: # It's a seller
-            group_name = 'Sellers';
-        elif instance.position == 2: # It's a workshop boss
-            group_name = 'WorkshopBoss';
-        group, _ = Group.objects.get_or_create(name=group_name);
-        person.groups.add(group);
+# @receiver(post_save, sender=Gw_Client)
+# def Add_Person_To_Clients(sender, instance, created, **kwargs):
+#     if created:
+#         person = instance.person_id;
+#         group, _ = Group.objects.get_or_create(name='Clients');
+#         person.groups.add(group);
 
 
 
-# @name: Add_Person_To_Managers
-# @desc: This function associates the person instance to the group Managers when a
-# manager is created using the person's id.
-# @author: Paul Rodrigo Rojas G.
-# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+# # @name: Add_Person_To_Employees
+# # @desc: This function associates the person instance to a group related with the
+# # employees group when an Employees is created using the person's id.
+# # @author: Paul Rodrigo Rojas G.
+# # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
-@receiver(post_save, sender=Gw_Manager)
-def Add_Person_To_Managers(sender, instance, created, **kwargs):
-    if created:
-        person = instance.person_id;
-        group, _ = Group.objects.get_or_create(name='Managers');
-        person.groups.add(group);
+# @receiver(post_save, sender=Gw_Employee)
+# def Add_Person_To_Employees(sender, instance, created, **kwargs):
+#     if created:
+#         person = instance.person_id
+#         if instance.position == 1: # It's a seller
+#             group_name = 'Sellers';
+#         elif instance.position == 2: # It's a workshop boss
+#             group_name = 'WorkshopBoss';
+#         group, _ = Group.objects.get_or_create(name=group_name);
+#         person.groups.add(group);
 
 
 
-# @name: Add_Person_To_Admins
-# @desc: This function associates the person instance to the group AppAdmin when an
-# admin is created using the person's id.
-# @author: Paul Rodrigo Rojas G.
-# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+# # @name: Add_Person_To_Managers
+# # @desc: This function associates the person instance to the group Managers when a
+# # manager is created using the person's id.
+# # @author: Paul Rodrigo Rojas G.
+# # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
-@receiver(post_save, sender=Gw_Admin)
-def Add_Person_To_Admins(sender, instance, created, **kwargs):
-    if created:
-        person = instance.person_id;
-        group, _ = Group.objects.get_or_create(name='AppAdmin');
-        person.groups.add(group);
+# @receiver(post_save, sender=Gw_Manager)
+# def Add_Person_To_Managers(sender, instance, created, **kwargs):
+#     if created:
+#         person = instance.person_id;
+#         group, _ = Group.objects.get_or_create(name='Managers');
+#         person.groups.add(group);
+
+
+
+# # @name: Add_Person_To_Admins
+# # @desc: This function associates the person instance to the group AppAdmin when an
+# # admin is created using the person's id.
+# # @author: Paul Rodrigo Rojas G.
+# # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+# @receiver(post_save, sender=Gw_Admin)
+# def Add_Person_To_Admins(sender, instance, created, **kwargs):
+#     if created:
+#         person = instance.person_id;
+#         group, _ = Group.objects.get_or_create(name='AppAdmin');
+#         person.groups.add(group);
+
+
 
 # @name: get_person_data
 # @description: This function extract the data from p person object and retrieve it a dictionary.
@@ -89,7 +91,7 @@ def get_person_data(p):
             'phone2':p.phone2,
             'email':p.email,
         }
-    
+
     return data;
 
 
@@ -105,14 +107,14 @@ def get_person(request, id):
         try:
             p = Gw_Person.objects.get(person_id=id);
         except Gw_Person.DoesNotExist:
-            return HttpResponse("Sorry, it does not exist a person with " + str(id) + " id", 
+            return HttpResponse("Sorry, it does not exist a person with " + str(id) + " id",
                                 status=404);
-    
+
         data = get_person_data(p);
 
         return JsonResponse(data);
 
-    else: 
+    else:
         return HttpResponse('Unsupported method', status=405);
 
 
@@ -125,7 +127,7 @@ def get_person(request, id):
 def get_persons_list(request):
     if request.method == 'GET':
         person_queryset = Gw_Person.objects.all();
-        
+
         person_dict = [];
 
         for p in person_queryset:
@@ -136,7 +138,7 @@ def get_persons_list(request):
         return JsonResponse(person_dict, safe=False);
     else:
         return HttpResponse('Unsupported method', status=405)
-    
+
 
 
 # @name: get_clients_list
@@ -147,7 +149,7 @@ def get_persons_list(request):
 def get_clients_list(request):
     if request.method == 'GET':
         client_queryset = Gw_Client.objects.all();
-        
+
         client_dict = [];
 
         for c in client_queryset:
@@ -160,7 +162,7 @@ def get_clients_list(request):
         return JsonResponse(client_dict, safe=False);
     else:
         return HttpResponse('Unsupported method', status=405)
-    
+
 
 
 # @name: get_client
@@ -173,7 +175,7 @@ def get_client(request, id):
         try:
             c = Gw_Client.objects.get(client_id=id);
         except Gw_Client.DoesNotExist:
-            return HttpResponse("Sorry, it does not exist a client with " + str(id) + " id", 
+            return HttpResponse("Sorry, it does not exist a client with " + str(id) + " id",
                                 status=404);
 
         data = get_person_data(c.person_id);
@@ -182,7 +184,7 @@ def get_client(request, id):
 
         return JsonResponse(data);
 
-    else: 
+    else:
         return HttpResponse('Unsupported method', status=405);
 
 
@@ -195,7 +197,7 @@ def get_client(request, id):
 def get_employees_list(request):
     if request.method == 'GET':
         employee_queryset = Gw_Employee.objects.all();
-        
+
         employee_dict = [];
 
         for c in employee_queryset:
@@ -208,7 +210,7 @@ def get_employees_list(request):
         return JsonResponse(employee_dict, safe=False);
     else:
         return HttpResponse('Unsupported method', status=405)
-    
+
 
 
 # @name: get_employee
@@ -221,7 +223,7 @@ def get_employee(request, id):
         try:
             c = Gw_Employee.objects.get(employee_id=id);
         except Gw_Employee.DoesNotExist:
-            return HttpResponse("Sorry, it does not exist a employee with " + str(id) + " id", 
+            return HttpResponse("Sorry, it does not exist a employee with " + str(id) + " id",
                                 status=404);
 
         data = get_person_data(c.person_id);
@@ -230,7 +232,7 @@ def get_employee(request, id):
 
         return JsonResponse(data);
 
-    else: 
+    else:
         return HttpResponse('Unsupported method', status=405);
 
 
@@ -243,7 +245,7 @@ def get_employee(request, id):
 def get_managers_list(request):
     if request.method == 'GET':
         manager_queryset = Gw_Manager.objects.all();
-        
+
         manager_dict = [];
 
         for c in manager_queryset:
@@ -269,7 +271,7 @@ def get_manager(request, id):
         try:
             m = Gw_Manager.objects.get(manager_id=id);
         except Gw_Manager.DoesNotExist:
-            return HttpResponse("Sorry, it does not exist a manager with " + str(id) + " id", 
+            return HttpResponse("Sorry, it does not exist a manager with " + str(id) + " id",
                                 status=404);
 
         data = get_person_data(m.person_id);
@@ -278,7 +280,7 @@ def get_manager(request, id):
 
         return JsonResponse(data);
 
-    else: 
+    else:
         return HttpResponse('Unsupported method', status=405);
 
 
@@ -290,7 +292,7 @@ def get_manager(request, id):
 def get_admins_list(request):
     if request.method == 'GET':
         admin_queryset = Gw_Admin.objects.all();
-        
+
         admin_dict = [];
 
         for c in admin_queryset:
@@ -316,7 +318,7 @@ def get_admin(request, id):
         try:
             a = Gw_Admin.objects.get(admin_id=id);
         except Gw_Admin.DoesNotExist:
-            return HttpResponse("Sorry, it does not exist a admin with " + str(id) + " id", 
+            return HttpResponse("Sorry, it does not exist a admin with " + str(id) + " id",
                                 status=404);
 
         data = get_person_data(a.person_id);
@@ -325,7 +327,7 @@ def get_admin(request, id):
 
         return JsonResponse(data);
 
-    else: 
+    else:
         return HttpResponse('Unsupported method', status=405);
 
 

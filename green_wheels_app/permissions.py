@@ -7,6 +7,6 @@ from rest_framework.permissions import BasePermission
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
 
-class IsClient(BasePermission):
-    def has_permission(self, request, view):
-        return request.user.groups.filter(name='Clients').exists();
+# class IsClient(BasePermission):
+#     def has_permission(self, request, view):
+#         return request.user.groups.filter(name='Clients').exists();

@@ -4,13 +4,11 @@ from django.contrib.auth.base_user import BaseUserManager
 
 
 # Creating Users Groups
-Clients_Group, created = Group.objects.get_or_create(name='Clients');
-Seller_Group, created = Group.objects.get_or_create(name='Sellers');
-WorkshopBoss_Group, created = Group.objects.get_or_create(name='WorkshopBoss');
-Manager_Group, created = Group.objects.get_or_create(name='Manager');
-Admin_Group, created = Group.objects.get_or_create(name='AppAdmin');
-
-
+# Clients_Group, created = Group.objects.get_or_create(name='Clients');
+# Seller_Group, created = Group.objects.get_or_create(name='Sellers');
+# WorkshopBoss_Group, created = Group.objects.get_or_create(name='WorkshopBoss');
+# Manager_Group, created = Group.objects.get_or_create(name='Manager');
+# Admin_Group, created = Group.objects.get_or_create(name='AppAdmin');
 
 # @name: CustomUserManager
 # @description: Manager that sets the settings to create an user in the custom model.
@@ -134,8 +132,8 @@ class Gw_Admin(models.Model):
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
 class Gw_Brand(models.Model):
-    name = models.CharField(max_length=50); 
-    country = models.CharField(max_length=50); 
+    name = models.CharField(max_length=50);
+    country = models.CharField(max_length=50);
 
     def __str__(self):
         return self.name
@@ -147,7 +145,7 @@ class Gw_Brand(models.Model):
 # @email: alvarez.julian@correounivalle.edu.co
 
 class Gw_Vehicle_Model(models.Model):
-    name = models.CharField(max_length=50); 
+    name = models.CharField(max_length=50);
     year = models.IntegerField();
     brand = models.ForeignKey('Gw_Brand', on_delete=models.CASCADE)
 
@@ -161,7 +159,7 @@ class Gw_Vehicle_Model(models.Model):
 # @email: alvarez.julian@correounivalle.edu.co
 class Gw_Vehicle(models.Model):
     plate = models.CharField(primary_key=True, max_length=10);
-    made_year = models.IntegerField(); 
+    made_year = models.IntegerField();
     base_price = models.FloatField();
     guarantee_end_date = models.DateField();
     model_id = models.ForeignKey('Gw_Vehicle_Model', on_delete=models.CASCADE);
@@ -222,7 +220,7 @@ class Gw_Vehicle_Inventory(models.Model):
 
 class Gw_Replacement_Part(models.Model):
     name = models.CharField(max_length=50);
-    description = models.CharField(max_length=100); 
+    description = models.CharField(max_length=100);
     model_id = models.ForeignKey('Gw_Vehicle_Model', on_delete=models.CASCADE);
 
 
@@ -235,7 +233,7 @@ class Gw_Replacement_Part(models.Model):
 
 class Gw_Replacement_Inventory(models.Model):
     replacement_id = models.ForeignKey('Gw_Replacement_Part', on_delete=models.CASCADE);
-    workshop_id = models.ForeignKey('Gw_Workshop', on_delete=models.CASCADE); 
+    workshop_id = models.ForeignKey('Gw_Workshop', on_delete=models.CASCADE);
     quantity = models.IntegerField();
 
 
@@ -244,7 +242,7 @@ class Gw_Replacement_Inventory(models.Model):
  # @description: Represents the services that the company offers.
  # @author: Paul Rodrigo Rojas G.
  # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
- 
+
 class Gw_Service(models.Model):
     vehicle_plate = models.ForeignKey('Gw_Vehicle', on_delete=models.CASCADE);
     client_id = models.ForeignKey('Gw_Client', on_delete=models.CASCADE);
