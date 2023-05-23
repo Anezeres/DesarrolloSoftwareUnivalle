@@ -1,6 +1,15 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, Group
 from django.contrib.auth.base_user import BaseUserManager
+
+
+# Creating Users Groups
+Clients_Group, created = Group.objects.get_or_create(name='Clients');
+Seller_Group, created = Group.objects.get_or_create(name='Sellers');
+WorkshopBoss_Group, created = Group.objects.get_or_create(name='WorkshopBoss');
+Manager_Group, created = Group.objects.get_or_create(name='Manager');
+Admin_Group, created = Group.objects.get_or_create(name='AppAdmin');
+
 
 
 # @name: CustomUserManager
@@ -77,7 +86,6 @@ class Gw_Person(AbstractBaseUser, PermissionsMixin):
 class Gw_Client(models.Model):
     client_id = models.AutoField(primary_key=True);
     person_id = models.ForeignKey('Gw_Person', related_name='person', on_delete=models.CASCADE);
-
 
 
 # @name: Gw_Employee
@@ -301,13 +309,13 @@ class Gw_Service_Repair_Vehicle(models.Model):
 
 
 
-# @name: Gw_Needed_Replacemnt_Part
+# @name: Gw_Needed_Replacement_Part
 # @description: Represents the relation among diagnosis and its needed replacement
 # parts
 # @author: Paul Rodrigo Rojas G.
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
-class Gw_Needed_Replacemnt_Part(models.Model):
+class Gw_Needed_Replacement_Part(models.Model):
     diagnosis_id = models.ForeignKey('Gw_Diagnosis', on_delete=models.CASCADE);
     replacement_id = models.ForeignKey('Gw_Replacement_Part', on_delete=models.CASCADE);
     approved = models.BooleanField();
