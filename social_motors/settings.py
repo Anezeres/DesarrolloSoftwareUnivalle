@@ -83,6 +83,10 @@ WSGI_APPLICATION = 'social_motors.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
+# @description: Represents the connection with postgres
+# @author: Nicol Valeria Ortiz R
+# @email: nicol.ortiz@correounivalle.edu.co
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',

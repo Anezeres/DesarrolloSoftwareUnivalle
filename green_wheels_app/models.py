@@ -287,7 +287,7 @@ class Gw_Diagnosis(models.Model):
     description = models.CharField(max_length=200);
     date = models.CharField(max_length=30);
     price = models.CharField(null=False, blank=False);
-    mechanic_id = models.IntegerField(null=False, blank=False, max_length=100);
+    mechanic_id = models.IntegerField(null=False, blank=False);
     mechanic_name = models.CharField(max_length=40, default='');
 
     def __str__(self):
