@@ -25,4 +25,8 @@ urlpatterns = [
     path('get_manager/<int:id>/', get_manager, name = 'get_manager'),
     path('get_admins_list/', get_admins_list, name='get_admins_list'),
     path('get_admin/<int:id>/', get_admin, name = 'get_admin'),
+    # Rutas de prueba para probar registro y login
+    path("register/", register, name="register"),
+    path('accounts/', include("django.contrib.auth.urls")),
+
 ]

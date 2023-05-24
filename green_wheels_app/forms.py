@@ -21,3 +21,13 @@ class PersonForm(forms.ModelForm):
         if commit:
             instance.save();
         return instance;
+
+# Para probar login y registro.
+
+from django.contrib.auth.forms import UserCreationForm
+
+class CustomUserCreationForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        fields = UserCreationForm.Meta.fields + ("email",)
+
+        

@@ -1,13 +1,18 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from green_wheels_app.models import *
 from django.http import HttpResponse, JsonResponse
 from rest_framework import viewsets
 from green_wheels_app.serializers import *
 
-
 from django.contrib.auth.models import Group
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
+#Prueba
+from green_wheels_app.forms import CustomUserCreationForm
+from django.urls import reverse
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 
 
 # # @name: Add_Person_To_Clients
@@ -366,5 +371,20 @@ class Gw_Vehicle_Viewset(viewsets.ModelViewSet):
 
 # This endpoint is just for testing.
 def index_render(request):
-    return HttpResponse("Welcome to Greeen Wheels!");
+    #return HttpResponse("Welcome to Greeen Wheels!");
+    return render(request, "app/index.html");
 
+# Para probar login y registro:
+
+def register(request):
+    if request.method == "GET":
+        return render(
+            request, "app/register.html",
+            {"form": CustomUserCreationForm}
+        )
+    elif request.method == "POST":
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect(reverse("index"))

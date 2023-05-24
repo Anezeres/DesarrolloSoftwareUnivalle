@@ -1,4 +1,6 @@
 import { PersonList } from "../components/PersonList";
+import {Navbar} from '../layouts/Navbar';
+
 
 /**
 * @name: CarsPersontPage
@@ -11,6 +13,7 @@ export const PersonListPage = () =>
 {
     return (
     <div>
+        <Navbar/>
         <PersonList/>
     </div>);
 }
