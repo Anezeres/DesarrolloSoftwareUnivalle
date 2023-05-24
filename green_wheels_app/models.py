@@ -266,8 +266,6 @@ class Gw_Negotation(models.Model):
     pay_method = models.SmallIntegerField(default=1, choices=CHOICES);
     description = models.CharField(max_length=100);
 
-
-
 # @name: Gw_Service_Sell_Vehicle
 # @description: Represents the selling vehicles service
 # @author: Paul Rodrigo Rojas G.
@@ -281,18 +279,19 @@ class Gw_Service_Sell_Vehicle(Gw_Service):
 
 # @name: Gw_Diagnosis
 # @description: Represents the diagnosis instances
-# @author: Paul Rodrigo Rojas G.
-# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+# @author: Paul Rodrigo Rojas G. and Nicol Valeria Ortiz R
+# @email: paul.rojas@correounivalle.edu.co, nicol.ortiz@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
 class Gw_Diagnosis(models.Model):
-    description = models.CharField(max_length=100);
-    date = models.DateField();
-    price = models.FloatField();
-    mechanic_id = models.IntegerField();
-    mechanic_id = models.CharField(max_length=100);
+    id = models.AutoField(primary_key=True)
+    description = models.CharField(max_length=200);
+    date = models.CharField(max_length=30);
+    price = models.CharField(null=False, blank=False);
+    mechanic_id = models.IntegerField(null=False, blank=False, max_length=100);
+    mechanic_name = models.CharField(max_length=40);
 
-
-
+    def __str__(self):
+        return self.id + ' - ' + self.price
 
 # @name: Gw_Service_Repair_Vehicle
 # @description: Represents the repairing vehicles service
