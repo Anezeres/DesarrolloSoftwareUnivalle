@@ -288,7 +288,7 @@ class Gw_Diagnosis(models.Model):
     date = models.CharField(max_length=30);
     price = models.CharField(null=False, blank=False);
     mechanic_id = models.IntegerField(null=False, blank=False, max_length=100);
-    mechanic_name = models.CharField(max_length=40);
+    mechanic_name = models.CharField(max_length=40, default='');
 
     def __str__(self):
         return self.id + ' - ' + self.price
