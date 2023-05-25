@@ -13,7 +13,6 @@ export const PersonListPage = () =>
 {
     return (
     <div>
-        <Navbar/>
         <PersonList/>
     </div>);
 }
