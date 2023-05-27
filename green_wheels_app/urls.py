@@ -25,4 +25,5 @@ urlpatterns = [
     path('get_manager/<int:id>/', get_manager, name = 'get_manager'),
     path('get_admins_list/', get_admins_list, name='get_admins_list'),
     path('get_admin/<int:id>/', get_admin, name = 'get_admin'),
+    #path('create_diagnosis/', get_admin, name = 'create_diagnosis'),
 ]
