@@ -414,6 +414,13 @@ class Gw_Vehicle_Viewset(viewsets.ModelViewSet):
     queryset = Gw_Vehicle.objects.all();
     serializer_class = Gw_Vehicle_Serializer;
 
+# @name: insert_diagnosis
+# @description: insert data gotten from frontend
+# @author: Nicol Valeria Ortiz R.
+# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com
+
+#def create_diagnosis(request, id):
+
 
 # This endpoint is just for testing.
 def index_render(request):
