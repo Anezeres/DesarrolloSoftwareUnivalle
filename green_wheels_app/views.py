@@ -1,76 +1,97 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from green_wheels_app.models import *
 from django.http import HttpResponse, JsonResponse
 from rest_framework import viewsets
 from green_wheels_app.serializers import *
 
-
 from django.contrib.auth.models import Group
-from django.db.models.signals import post_save
+from django.db.models.signals import post_migrate, post_save
 from django.dispatch import receiver
 
+#Prueba
+from green_wheels_app.forms import CustomUserCreationForm
+from django.urls import reverse
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 
-# # @name: Add_Person_To_Clients
-# # @desc: This function associates the person instance to the group Clients when a
-# # client is created using the person's id.
-# # @author: Paul Rodrigo Rojas G.
-# # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+from django.contrib.auth.models import Group
 
-# @receiver(post_save, sender=Gw_Client)
-# def Add_Person_To_Clients(sender, instance, created, **kwargs):
-#     if created:
-#         person = instance.person_id;
-#         group, _ = Group.objects.get_or_create(name='Clients');
-#         person.groups.add(group);
+# @name: create_users_groups
+# @description: This function is executed when a migration is performed. It
+# creates the user groups.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
-
-
-# # @name: Add_Person_To_Employees
-# # @desc: This function associates the person instance to a group related with the
-# # employees group when an Employees is created using the person's id.
-# # @author: Paul Rodrigo Rojas G.
-# # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
-
-# @receiver(post_save, sender=Gw_Employee)
-# def Add_Person_To_Employees(sender, instance, created, **kwargs):
-#     if created:
-#         person = instance.person_id
-#         if instance.position == 1: # It's a seller
-#             group_name = 'Sellers';
-#         elif instance.position == 2: # It's a workshop boss
-#             group_name = 'WorkshopBoss';
-#         group, _ = Group.objects.get_or_create(name=group_name);
-#         person.groups.add(group);
+@receiver(post_migrate)
+def create_users_groups(sender, **kwargs):
+    Group.objects.get_or_create(name='Clients');
+    Group.objects.get_or_create(name='Sellers');
+    Group.objects.get_or_create(name='WorkshopBoss');
+    Group.objects.get_or_create(name='Manager');
+    Group.objects.get_or_create(name='AppAdmin');
 
 
+# @name: Add_Person_To_Clients
+# @desc: This function associates the person instance to the group Clients when a
+# client is created using the person's id.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
-# # @name: Add_Person_To_Managers
-# # @desc: This function associates the person instance to the group Managers when a
-# # manager is created using the person's id.
-# # @author: Paul Rodrigo Rojas G.
-# # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
-
-# @receiver(post_save, sender=Gw_Manager)
-# def Add_Person_To_Managers(sender, instance, created, **kwargs):
-#     if created:
-#         person = instance.person_id;
-#         group, _ = Group.objects.get_or_create(name='Managers');
-#         person.groups.add(group);
+@receiver(post_save, sender=Gw_Client)
+def Add_Person_To_Clients(sender, instance, created, **kwargs):
+    if created:
+        person = instance.person_id;
+        group, _ = Group.objects.get_or_create(name='Clients');
+        person.groups.add(group);
 
 
 
-# # @name: Add_Person_To_Admins
-# # @desc: This function associates the person instance to the group AppAdmin when an
-# # admin is created using the person's id.
-# # @author: Paul Rodrigo Rojas G.
-# # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+# @name: Add_Person_To_Employees
+# @desc: This function associates the person instance to a group related with the
+# employees group when an Employees is created using the person's id.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
-# @receiver(post_save, sender=Gw_Admin)
-# def Add_Person_To_Admins(sender, instance, created, **kwargs):
-#     if created:
-#         person = instance.person_id;
-#         group, _ = Group.objects.get_or_create(name='AppAdmin');
-#         person.groups.add(group);
+@receiver(post_save, sender=Gw_Employee)
+def Add_Person_To_Employees(sender, instance, created, **kwargs):
+    if created:
+        person = instance.person_id
+        if instance.position == 1: # It's a seller
+            group_name = 'Sellers';
+        elif instance.position == 2: # It's a workshop boss
+            group_name = 'WorkshopBoss';
+        group, _ = Group.objects.get_or_create(name=group_name);
+        person.groups.add(group);
+
+
+
+# @name: Add_Person_To_Managers
+# @desc: This function associates the person instance to the group Managers when a
+# manager is created using the person's id.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+@receiver(post_save, sender=Gw_Manager)
+def Add_Person_To_Managers(sender, instance, created, **kwargs):
+    if created:
+        person = instance.person_id;
+        group, _ = Group.objects.get_or_create(name='Managers');
+        person.groups.add(group);
+
+
+
+# @name: Add_Person_To_Admins
+# @desc: This function associates the person instance to the group AppAdmin when an
+# admin is created using the person's id.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+@receiver(post_save, sender=Gw_Admin)
+def Add_Person_To_Admins(sender, instance, created, **kwargs):
+    if created:
+        person = instance.person_id;
+        group, _ = Group.objects.get_or_create(name='AppAdmin');
+        person.groups.add(group);
 
 
 
@@ -331,6 +352,36 @@ def get_admin(request, id):
         return HttpResponse('Unsupported method', status=405);
 
 
+def get_user_groups(request, id):
+    if request.method == 'GET':
+        try:
+            p = Gw_Person.objects.get(person_id=id);
+        except Gw_Person.DoesNotExist:
+            return HttpResponse("Sorry, it does not exist a person with " + str(id) + " id",
+                                    status=404);
+
+        groups = p.groups.values();
+
+        print(groups)
+
+        groups_list = [];
+
+        for g in groups:
+            groups_list.append(g['name']);
+
+        # print(groups_list);
+
+        data = {
+            'groups':groups_list#groups_list
+        };
+
+        return JsonResponse(data);#JsonResponse(data);
+
+    else:
+        return HttpResponse('Unsupported method', status=405);
+
+    
+
 
 # @name: Gw_Brand_Viewset
 # @description: Viewset for brand model
@@ -374,4 +425,3 @@ class Gw_Vehicle_Viewset(viewsets.ModelViewSet):
 # This endpoint is just for testing.
 def index_render(request):
     return HttpResponse("Welcome to Greeen Wheels!");
-

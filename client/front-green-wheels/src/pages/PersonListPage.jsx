@@ -1,5 +1,6 @@
 import { PersonList } from "../components/PersonList";
 
+
 /**
 * @name: CarsPersontPage
 * @description: Page component for showing the full full list of persons

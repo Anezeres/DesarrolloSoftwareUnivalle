@@ -8,8 +8,35 @@ import axios from 'axios';
 * @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 */
 
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+axios.defaults.withCredentials = true;
+
 const gw_api = axios.create({
     baseURL: "http://localhost:8000/",
 });
 
-export const getAllPersons = () => gw_api('get_persons_list/');
+const credentials = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    withCredentials: true,
+  }
+
+// GET
+export const getAllPersons = () => gw_api('get_persons_list');
+
+export const getLoggedUser = () => gw_api('user');
+
+export const getUserGroups = (id) => gw_api('get_user_groups/' + id);
+
+// POST
+
+export const postLoginForm = (data) => gw_api.post('login', data, credentials);
+
+export const postLogout = () => gw_api.post('logout');
+
+export const postRegisterForm = (data) => gw_api.post('register', data);
+
+
+
