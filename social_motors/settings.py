@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
+CORS_ALLOW_CREDENTIALS = True;
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -56,6 +58,25 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:80",
     "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+}
+
+CORS_ALLOW_METHODS = [
+'DELETE',
+'GET',
+'OPTIONS',
+'PATCH',
+'POST',
+'PUT',
 ]
 
 ROOT_URLCONF = 'social_motors.urls'
@@ -140,9 +161,3 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'green_wheels_app.Gw_Person'
-
-# Pruebas
-
-LOGIN_REDIRECT_URL = "index"
-
-LOGOUT_REDIRECT_URL = "index"

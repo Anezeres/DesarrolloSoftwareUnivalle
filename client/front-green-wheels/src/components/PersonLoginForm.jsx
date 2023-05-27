@@ -1,7 +1,10 @@
 import { postLoginForm } from '../api/green_wheels.api';
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 export const PersonLoginForm = () => {
+
+    const Navigate = useNavigate();
 
     const [id, setId] = useState('');  
     const [password, setPassword] = useState('');
@@ -14,16 +17,19 @@ export const PersonLoginForm = () => {
                         password: password
                 });
 
-                
                 if (response.status===200)
                 {
-                        console.log("La operación fue un exito");
+                    console.log("La operación fue un exito");
+                    Navigate('/');
                 } else {
-                        console.log("La operación fue un exito");
+                    
+                    console.log("La operación fracasó");
                 }
         }
         catch (error) {
-                console.error(error);
+            setId('');
+            setPassword('');
+            console.log("La operación fracaso");
         }
    }
 

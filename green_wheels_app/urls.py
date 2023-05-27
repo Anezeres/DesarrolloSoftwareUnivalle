@@ -5,7 +5,6 @@ from rest_framework import routers
 from green_wheels_app.views import *
 from green_wheels_app.auth_views import *
 
-
 router = routers.DefaultRouter();
 
 router.register(r'brands', Gw_Brand_Viewset);
@@ -26,7 +25,7 @@ urlpatterns = [
     path('get_manager/<int:id>/', get_manager, name = 'get_manager'),
     path('get_admins_list/', get_admins_list, name='get_admins_list'),
     path('get_admin/<int:id>/', get_admin, name = 'get_admin'),
-    # Rutas de prueba para probar registro y login
+    path('get_user_groups/<int:id>/', get_user_groups, name = 'get_user_groups'),
     path('register', UserRegister.as_view(), name='register'),
 	path('login', UserLogin.as_view(), name='login'),
 	path('logout', UserLogout.as_view(), name='logout'),

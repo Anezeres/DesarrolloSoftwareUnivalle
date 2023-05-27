@@ -2,13 +2,17 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, Group
 from django.contrib.auth.base_user import BaseUserManager
 
+from django.contrib.auth.models import Group
+from django.db.models.signals import post_migrate
+from django.dispatch import receiver
 
-# Creating Users Groups
-# Clients_Group, created = Group.objects.get_or_create(name='Clients');
-# Seller_Group, created = Group.objects.get_or_create(name='Sellers');
-# WorkshopBoss_Group, created = Group.objects.get_or_create(name='WorkshopBoss');
-# Manager_Group, created = Group.objects.get_or_create(name='Manager');
-# Admin_Group, created = Group.objects.get_or_create(name='AppAdmin');
+@receiver(post_migrate)
+def create_users_groups(sender, **kwargs):
+    Clients_Group, created = Group.objects.get_or_create(name='Clients');
+    Seller_Group, created = Group.objects.get_or_create(name='Sellers');
+    WorkshopBoss_Group, created = Group.objects.get_or_create(name='WorkshopBoss');
+    Manager_Group, created = Group.objects.get_or_create(name='Manager');
+    Admin_Group, created = Group.objects.get_or_create(name='AppAdmin');
 
 # @name: CustomUserManager
 # @description: Manager that sets the settings to create an user in the custom model.
@@ -18,12 +22,11 @@ from django.contrib.auth.base_user import BaseUserManager
 
 class CustomUserManager(BaseUserManager):
 
-    def create_user(self, person_id, email, password, **extra_fields):
+    def create_user(self, person_id, names, email, password, **extra_fields):
         if not person_id:
             raise ValueError("Users must have a person id!")
         email = self.normalize_email(email)
-        user = self.model(person_id=person_id, email=email, id_type=1,**extra_fields)
-        print(user);
+        user = self.model(person_id=person_id, email=email, names=names, id_type=1, **extra_fields)
         user.set_password(password)
         user.save()
         return user
@@ -37,7 +40,10 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('Superuser must have is_staff=True.')
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
-        return self.create_user(person_id, email, password, **extra_fields)
+        
+        names = 'Admin'
+
+        return self.create_user(person_id, names, email, password, **extra_fields)
 
 
 # @name: Gw_Person
@@ -163,6 +169,7 @@ class Gw_Vehicle(models.Model):
     base_price = models.FloatField();
     guarantee_end_date = models.DateField();
     model_id = models.ForeignKey('Gw_Vehicle_Model', on_delete=models.CASCADE);
+    selled = models.BooleanField(default=False);
 
     def __str__(self):
         return self.plate;
@@ -196,6 +203,17 @@ class Gw_Concessionaire(models.Model):
 
 class Gw_Workshop(models.Model):
     workshop_id = models.ForeignKey('Gw_Headquarter', on_delete=models.CASCADE);
+
+
+
+# @name: Gw_Associate_Headquarter
+# @description: It sets a relation among Persons and Headquarters.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Associate_Headquarter(models.Model):
+    person_id = models.ForeignKey('Gw_Person', on_delete=models.CASCADE);
+    headquarter_id = models.ForeignKey('Gw_Headquarter', on_delete=models.CASCADE);
 
 
 
@@ -248,7 +266,6 @@ class Gw_Service(models.Model):
     client_id = models.ForeignKey('Gw_Client', on_delete=models.CASCADE);
 
 
-
 # @name: Gw_Negotation
 # @description: Represents the negotations instances (Cotizaciones).
 # @author: Paul Rodrigo Rojas G.
@@ -266,6 +283,7 @@ class Gw_Negotation(models.Model):
     pay_method = models.SmallIntegerField(default=1, choices=CHOICES);
     description = models.CharField(max_length=100);
 
+
 # @name: Gw_Service_Sell_Vehicle
 # @description: Represents the selling vehicles service
 # @author: Paul Rodrigo Rojas G.
@@ -276,14 +294,12 @@ class Gw_Service_Sell_Vehicle(Gw_Service):
     concessionaire_id = models.ForeignKey('Gw_Concessionaire', on_delete=models.CASCADE);
 
 
-
-# @name: Gw_Diagnosis
+# @name: Gw_Service_Diagnosis_Vehicle
 # @description: Represents the diagnosis instances
 # @author: Paul Rodrigo Rojas G. and Nicol Valeria Ortiz R
 # @email: paul.rojas@correounivalle.edu.co, nicol.ortiz@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
-class Gw_Diagnosis(models.Model):
-    id = models.AutoField(primary_key=True)
+class Gw_Service_Diagnosis_Vehicle(Gw_Service):
     description = models.CharField(max_length=200);
     date = models.CharField(max_length=30);
     price = models.CharField(null=False, blank=False);
@@ -293,15 +309,15 @@ class Gw_Diagnosis(models.Model):
     def __str__(self):
         return self.id + ' - ' + self.price
 
-# @name: Gw_Service_Repair_Vehicle
+# @name: Gw_Repair_Vehicle
 # @description: Represents the repairing vehicles service
 # @author: Paul Rodrigo Rojas G.
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
-class Gw_Service_Repair_Vehicle(models.Model):
+class Gw_Repair_Vehicle(models.Model):
     mechanic_id = models.IntegerField();
     mechanic_id = models.CharField(max_length=100);
-    diagnosis_id = models.ForeignKey('Gw_Diagnosis', on_delete=models.CASCADE);
+    diagnosis_id = models.ForeignKey('Gw_Service_Diagnosis_Vehicle', on_delete=models.CASCADE);
     workshop_id = models.ForeignKey('Gw_Workshop', on_delete=models.CASCADE);
 
 
@@ -313,7 +329,7 @@ class Gw_Service_Repair_Vehicle(models.Model):
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
 class Gw_Needed_Replacement_Part(models.Model):
-    diagnosis_id = models.ForeignKey('Gw_Diagnosis', on_delete=models.CASCADE);
+    diagnosis_id = models.ForeignKey('Gw_Service_Diagnosis_Vehicle', on_delete=models.CASCADE);
     replacement_id = models.ForeignKey('Gw_Replacement_Part', on_delete=models.CASCADE);
     approved = models.BooleanField();
 

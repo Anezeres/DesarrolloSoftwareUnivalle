@@ -6,7 +6,7 @@ admin.site.register(Gw_Manager);
 admin.site.register(Gw_Client);
 admin.site.register(Gw_Employee);
 admin.site.register(Gw_Admin);
-admin.site.register(Gw_Diagnosis);
+admin.site.register(Gw_Service_Diagnosis_Vehicle);
 
 class Gw_UserAdmin(admin.ModelAdmin):
     form = PersonForm;

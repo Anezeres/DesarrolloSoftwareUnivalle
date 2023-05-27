@@ -39,7 +39,7 @@ class Gw_Vehicle_Serializer(serializers.ModelSerializer):
 
 
 
-# Auth
+# Here are the serializers that are used for users authentication
 UserModel = get_user_model()
 
 class UserRegisterSerializer(serializers.ModelSerializer):

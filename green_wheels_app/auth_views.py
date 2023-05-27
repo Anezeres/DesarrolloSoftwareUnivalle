@@ -8,6 +8,7 @@ from rest_framework import permissions, status
 from .validations import custom_validation, validate_id, validate_password
 from django.http import HttpResponse
 
+# @desc: Here are the views definitions that handles users authentication.
 
 class UserRegister(APIView):
 	permission_classes = (permissions.AllowAny,)
