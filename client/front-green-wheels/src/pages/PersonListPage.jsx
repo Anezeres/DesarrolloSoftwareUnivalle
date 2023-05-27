@@ -1,5 +1,4 @@
 import { PersonList } from "../components/PersonList";
-import {Navbar} from '../layouts/Navbar';
 
 
 /**

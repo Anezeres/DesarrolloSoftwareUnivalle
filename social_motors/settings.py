@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'green_wheels_app',
     'rest_framework',
-    'restapp',
     'corsheaders',
 ]
 
@@ -92,9 +91,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'green_wheels',
         'USER': 'postgres',
-        'PASSWORD': 'jac08',
+        'PASSWORD': '1234',
         'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '5432',
     }
 }
 

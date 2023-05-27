@@ -1,25 +1,40 @@
-import {useForm} from 'react-hook-form';
-
+import { postLoginForm } from '../api/green_wheels.api';
+import { useState } from 'react';
 
 export const PersonLoginForm = () => {
 
-    const {register, handleSubmit, formState: {errors}, setValue} = useForm();
+    const [id, setId] = useState('');  
+    const [password, setPassword] = useState('');
+
+   async function submitForm(e) {
+        e.preventDefault();
+        try {
+                const response = await postLoginForm({
+                        person_id: id,
+                        password: password
+                });
+
+                
+                if (response.status===200)
+                {
+                        console.log("La operación fue un exito");
+                } else {
+                        console.log("La operación fue un exito");
+                }
+        }
+        catch (error) {
+                console.error(error);
+        }
+   }
 
     return (<div>
-        <form onSubmit="">
-        <input type="number" placeholder="ID"
-                {...register("person_id", {required: true})}/>
-        {errors.title && <span>ID is required</span>}
-        <input type="text" placeholder="Enter your names"
-                {...register("names", {required: false})}/>
-        <input type="text" placeholder="Enter your lastnames"
-                {...register("lastnames", {required: false})}/>
-        <input type="email" placeholder="Enter your email address"
-                {...register("email", {required: false})}/>
-        {errors.title && <span>Email address is required</span>}
-        <input type="password" placeholder="Enter your password"
-                {...register("password", {required: false})}/>
-        {errors.title && <span>Password is required</span>}
+        <h2>Login Form</h2>
+        <form onSubmit={submitForm}>
+        <input type="number" placeholder="ID" value={id} 
+                onChange={(e)=>setId(e.target.value)}/>
+        <input type="password" placeholder="Enter your password" value={password} 
+                onChange={(e)=>setPassword(e.target.value)}/>
+        <button type="submit">Submit</button>
         </form>
     </div>)
 }

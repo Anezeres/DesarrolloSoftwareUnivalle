@@ -3,6 +3,7 @@ from django.urls import path, include
 from green_wheels_app.views import *
 from rest_framework import routers
 from green_wheels_app.views import *
+from green_wheels_app.auth_views import *
 
 
 router = routers.DefaultRouter();
@@ -26,7 +27,8 @@ urlpatterns = [
     path('get_admins_list/', get_admins_list, name='get_admins_list'),
     path('get_admin/<int:id>/', get_admin, name = 'get_admin'),
     # Rutas de prueba para probar registro y login
-    path("register/", register, name="register"),
-    path('accounts/', include("django.contrib.auth.urls")),
-
+    path('register', UserRegister.as_view(), name='register'),
+	path('login', UserLogin.as_view(), name='login'),
+	path('logout', UserLogout.as_view(), name='logout'),
+	path('user', UserView.as_view(), name='user'),
 ]

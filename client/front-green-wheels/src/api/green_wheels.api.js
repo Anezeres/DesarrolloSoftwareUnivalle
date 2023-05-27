@@ -13,3 +13,12 @@ const gw_api = axios.create({
 });
 
 export const getAllPersons = () => gw_api('get_persons_list/');
+
+export const postLoginForm = () => gw_api.post('login/');
+
+export const postLogoutForm = () => gw_api.post('logout/');
+
+export const getLoggedUser = () => gw_api('user/');
+
+export const postRegisterForm = (data) => gw_api.post('register', data);
+
