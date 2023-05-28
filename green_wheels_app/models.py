@@ -316,7 +316,7 @@ class Gw_Service_Diagnosis_Vehicle(Gw_Service):
 
 class Gw_Repair_Vehicle(models.Model):
     mechanic_id = models.IntegerField();
-    mechanic_id = models.CharField(max_length=100);
+    mechanic_name = models.CharField(max_length=100);
     diagnosis_id = models.ForeignKey('Gw_Service_Diagnosis_Vehicle', on_delete=models.CASCADE);
     workshop_id = models.ForeignKey('Gw_Workshop', on_delete=models.CASCADE);
 
