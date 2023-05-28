@@ -3,6 +3,8 @@ import { HomePage } from './pages/HomePage';
 import { RegisterPage } from './pages/RegisterPage';
 import {LoginPage} from './pages/LoginPage'
 import {LogoutPage} from './pages/LogoutPage'
+import {ControlPanel} from './pages/ControlPanel'
+import { TestPnl } from './components/panel_components/TestPnl';
 
 const App = () => {
   return (
@@ -12,6 +14,7 @@ const App = () => {
           <Route path="/login" element={<LoginPage/>}/>
           <Route path="/register" element={<RegisterPage/>}/>
           <Route path="/logout" element={<LogoutPage/>}/>
+          <Route path="/control_panels/test_panel" element={<ControlPanel panel={<TestPnl/>}/>}/>
         </Routes>
       </BrowserRouter>
   );
