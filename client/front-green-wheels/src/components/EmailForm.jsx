@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik'
 import { postEmailForm } from '../api/green_wheels.api';
+import {BasicSchema} from '../schemas/validaciones'
+
 
 export const EmailForm = () =>{
 
@@ -16,18 +18,7 @@ export const EmailForm = () =>{
                 mensaje:''
 
             }}
-            validate={(valores)=>{
-                let errors = {}
-
-                if (valores.correo_remitente == ''){
-                    errors.correo_remitente = 'Por favor ingresa un correo válido'
-                }//Poner expresión regular e implementarlo con yup
-                if (valores.correo_destinatario == ''){
-                    errors.correo_destinatario = 'Por favor ingresa un correo válido'
-                }
-
-                return errors
-            }}
+            validationSchema={BasicSchema}
             onSubmit={ async (valores, {resetForm})=>{
                 // Logic to send data to backend
                 try{
@@ -57,7 +48,7 @@ export const EmailForm = () =>{
 
             }}
             >
-                {( {errors} ) => (
+                { () => (
                     <Form className="formulario">
                         <div>
                             <label htmlFor="correo_remitente">Correo remitente</label>
@@ -67,9 +58,7 @@ export const EmailForm = () =>{
                             name='correo_remitente' 
                             placeholder="Ingrese su correo" 
                             />
-                            <ErrorMessage name='correo_remitente' component={ ()=>(
-                                <div className='error'>{errors.correo_remitente}</div>
-                            ) }/>
+                            <ErrorMessage name='correo_remitente' component='div' className='error'/>
                         </div>
                         <div>
                             <label htmlFor="correo_destinatario">Correo destinatario</label>
@@ -80,9 +69,7 @@ export const EmailForm = () =>{
                             placeholder="Ingrese el correo a quien va dirigido" 
                             multiple
                             />
-                            <ErrorMessage name='correo_destinatario' component={ ()=>(
-                                <div className='error'>{errors.correo_destinatario}</div>
-                            ) }/>
+                            <ErrorMessage name='correo_destinatario' component='div' className='error'/>
                         </div>
                         <div>
                             <label htmlFor="asunto">Asunto</label>
@@ -97,11 +84,13 @@ export const EmailForm = () =>{
                             <label htmlFor="mensaje">Mensaje</label>
                             <Field
                             as="textarea"
+                            style={{ resize: 'none', height: '200px' }} 
                             type="text" 
                             id='mensaje' 
                             name='mensaje' 
                             placeholder="Escribe el mensaje"
                             />
+                            <ErrorMessage name='mensaje' component='div' className='error'/>
                         </div>
                         <button type="submit">Enviar</button>
                         {mensaje_exitoso && <p className='exito'>Formulario enviado con éxito!</p>}
