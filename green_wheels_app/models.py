@@ -91,6 +91,8 @@ class Gw_Client(models.Model):
     client_id = models.AutoField(primary_key=True);
     person_id = models.ForeignKey('Gw_Person', related_name='person', on_delete=models.CASCADE);
 
+    def __str__(self):
+        return ( str(self.client_id)+' - '+self.person_id.names)
 
 # @name: Gw_Employee
 # @description: Model that represents the employees and it is associated with a person instance.
@@ -339,13 +341,10 @@ class Gw_Needed_Replacement_Part(models.Model):
 # @author: Paul Rodrigo Rojas G.
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
-
-
 class Gw_Request_Process(models.Model):
     requested_date = models.DateField();
     attended = models.BooleanField();
     service_id = models.ForeignKey('Gw_Service', on_delete=models.CASCADE);
-
 
 
 # @name: Gw_Attended_Process

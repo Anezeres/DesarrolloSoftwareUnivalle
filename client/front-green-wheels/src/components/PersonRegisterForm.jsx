@@ -43,7 +43,7 @@ export const PersonRegisterForm = () => {
 
     return (<div>
         <h2>Registration Form</h2>
-        <form onSubmit={submitForm}>
+        <form className='formulario' onSubmit={submitForm}>
         <input type="number" placeholder="ID" value={id} 
                 onChange={(e)=>setId(e.target.value)}/>
         <input type="text" placeholder="Enter your Id type" value={id_type} 
