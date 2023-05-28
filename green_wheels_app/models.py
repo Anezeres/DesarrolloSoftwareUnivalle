@@ -339,13 +339,10 @@ class Gw_Needed_Replacement_Part(models.Model):
 # @author: Paul Rodrigo Rojas G.
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
-
-
 class Gw_Request_Process(models.Model):
     requested_date = models.DateField();
     attended = models.BooleanField();
     service_id = models.ForeignKey('Gw_Service', on_delete=models.CASCADE);
-
 
 
 # @name: Gw_Attended_Process

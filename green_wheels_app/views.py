@@ -45,7 +45,6 @@ def Add_Person_To_Clients(sender, instance, created, **kwargs):
         person.groups.add(group);
 
 
-
 # @name: Add_Person_To_Employees
 # @desc: This function associates the person instance to a group related with the
 # employees group when an Employees is created using the person's id.
