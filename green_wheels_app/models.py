@@ -368,7 +368,8 @@ class Gw_Attended_Process(models.Model):
 class Gw_Panel(models.Model):
     panel_name = models.CharField(max_length=50);
 
-
+    def __str__(self):
+        return self.panel_name;
 
 # @name: Gw_Allowed_Panels
 # @description: This models describes what panels are accessible by a user group.
@@ -378,3 +379,6 @@ class Gw_Panel(models.Model):
 class Gw_Allowed_Panels(models.Model):
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE);
     panel_id = models.ForeignKey('Gw_Panel', on_delete=models.CASCADE);
+
+    def __str__(self):
+        return self.panel_id.panel_name + ' - ' + self.group_id.name;

@@ -5,6 +5,7 @@ import {LoginPage} from './pages/LoginPage'
 import {LogoutPage} from './pages/LogoutPage'
 import {ControlPanel} from './pages/ControlPanel'
 import { TestPnl } from './components/panel_components/TestPnl';
+import { Prueba } from './components/panel_components/Prueba';
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
           <Route path="/register" element={<RegisterPage/>}/>
           <Route path="/logout" element={<LogoutPage/>}/>
           <Route path="/control_panels/test_panel" element={<ControlPanel panel={<TestPnl/>}/>}/>
+          <Route path="/control_panels/prueba" element={<ControlPanel panel={<Prueba/>}/>}/>
         </Routes>
       </BrowserRouter>
   );

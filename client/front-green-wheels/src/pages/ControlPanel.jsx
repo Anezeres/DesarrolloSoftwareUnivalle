@@ -1,7 +1,7 @@
 
 import { PanelNavbar } from './PanelNavbar';
 import { useState, useEffect } from 'react';
-import {getLoggedUser, getAllowedPanels } from "../api/green_wheels.api";
+import {getLoggedUser} from "../api/green_wheels.api";
 
 export const ControlPanel = ({panel}) => {
     const [isLogged, setIsLogged] = useState(false);
