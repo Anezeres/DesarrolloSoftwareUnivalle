@@ -1,7 +1,10 @@
 import { postRegisterForm } from '../api/green_wheels.api';
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 export const PersonRegisterForm = () => {
+ 
+    const Navigate = useNavigate();
 
     const [id, setId] = useState('');  
     const [names, setNames] = useState('');
@@ -10,8 +13,6 @@ export const PersonRegisterForm = () => {
     const [password, setPassword] = useState('');
     const [living_address, set_living_address] = useState('');
     const [id_type, set_id_type] = useState('');
-
-
 
    async function submitForm(e) {
         e.preventDefault();
@@ -27,9 +28,10 @@ export const PersonRegisterForm = () => {
                 });
 
                 
-                if (response.status===200)
+                if (response.status>=200 && response.status <= 299)
                 {
                         console.log("La operación fue un exito");
+                        Navigate('/');
                 } else {
                         console.log("La operación no se logró");
                 }
