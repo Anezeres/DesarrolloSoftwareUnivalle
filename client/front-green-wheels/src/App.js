@@ -13,7 +13,7 @@ const App = () => {
           <Route path="/login" element={<LoginPage/>}/>
           <Route path="/register" element={<RegisterPage/>}/>
           <Route path="/logout" element={<LogoutPage/>}/>
-          <Route path="/sendemail" element={<EmailPage/>}/>
+          <Route path="/send_email" element={<EmailPage/>}/>
         </Routes>
       </BrowserRouter>
   );

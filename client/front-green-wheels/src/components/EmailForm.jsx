@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik'
+import { postEmailForm } from '../api/green_wheels.api';
 
 export const EmailForm = () =>{
 
@@ -27,15 +28,33 @@ export const EmailForm = () =>{
 
                 return errors
             }}
-            onSubmit={(valores, {resetForm})=>{
+            onSubmit={ async (valores, {resetForm})=>{
                 // Logic to send data to backend
-                
+                try{
+                    const response = await postEmailForm({
+                        correo_remitente:valores.correo_remitente,
+                        correo_destinatario:valores.correo_destinatario,
+                        asunto: valores.asunto,
+                        mensaje:valores.mensaje
+                    })
+                    
+                    if (response.status>=200 && response.status <= 299){
+                        console.log("La operación fue un exito");
+                    } else {
+                        console.log("La operación no se logró");
+                    }
 
-                resetForm();
-                setMensaje_exitoso(true)
-                setTimeout( ()=>{
-                    setMensaje_exitoso(false)
-                }, 4000 )
+                    // logic for form
+                    resetForm();
+                    setMensaje_exitoso(true)
+                    setTimeout( ()=>{
+                        setMensaje_exitoso(false)
+                    }, 4000 )
+
+                } catch (error) {
+                    console.error(error);
+                }
+
             }}
             >
                 {( {errors} ) => (
@@ -59,6 +78,7 @@ export const EmailForm = () =>{
                             id='correo_destinatario' 
                             name='correo_destinatario' 
                             placeholder="Ingrese el correo a quien va dirigido" 
+                            multiple
                             />
                             <ErrorMessage name='correo_destinatario' component={ ()=>(
                                 <div className='error'>{errors.correo_destinatario}</div>
@@ -80,7 +100,7 @@ export const EmailForm = () =>{
                             type="text" 
                             id='mensaje' 
                             name='mensaje' 
-                            placeholder="Escribe el mensaje" 
+                            placeholder="Escribe el mensaje"
                             />
                         </div>
                         <button type="submit">Enviar</button>

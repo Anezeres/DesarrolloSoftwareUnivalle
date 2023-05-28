@@ -61,6 +61,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
 ]
 
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -166,3 +168,18 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'green_wheels_app.Gw_Person'
+
+# import os, sys
+# current_dir = os.path.dirname(os.path.abspath('../green_wheels_app/views.py'))
+# parent_dir = os.path.dirname(current_dir)
+# sys.path.append(parent_dir)
+# from green_wheels_app.views import datos
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'nicolvortizr05@gmail.com'
+EMAIL_HOST_PASSWORD ='oujsezrashrokhuf'
+# EMAIL_HOST_USER = datos['EMAIL_HOST_USER']
+# EMAIL_HOST_PASSWORD = datos['EMAIL_HOST_PASSWORD']
+EMAIL_USE_TLS = True

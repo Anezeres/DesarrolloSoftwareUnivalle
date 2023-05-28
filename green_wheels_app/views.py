@@ -9,8 +9,10 @@ from django.db.models.signals import post_migrate, post_save
 from django.dispatch import receiver
 
 #imports to send an email
+import json
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
+from django.conf import settings
 
 #Prueba
 from green_wheels_app.forms import CustomUserCreationForm
@@ -435,5 +437,46 @@ def index_render(request):
 # @author: Nicol Valeria Ortiz Rodríguez
 # @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com
 
-def send_email (request):
-    pass
+# datos = {
+#     'EMAIL_HOST_USER': '',
+#     'EMAIL_HOST_PASSWORD': ''
+# }
+
+
+def send_email(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)  # Obtener los datos enviados por POST como JSON
+        correo_remitente = data['correo_remitente']
+        correo_destinatario = data['correo_destinatario']
+        asunto = data['asunto']
+        mensaje = data['mensaje']
+
+        template = render_to_string('email_template.html', {
+            'correo_remitente': correo_remitente,
+            'correo_destinatario': correo_destinatario,
+            'asunto': asunto,
+            'mensaje': mensaje
+        })
+
+        email = EmailMessage(
+            asunto,
+            template,
+            settings.EMAIL_HOST_USER,
+            correo_destinatario.split(',')
+        )
+
+
+        # EMAIL_HOST_USER = correo_remitente
+        # EMAIL_HOST_PASSWORD = 'oujsezrashrokhuf'
+
+        # datos['EMAIL_HOST_USER'] = EMAIL_HOST_USER
+        # datos['EMAIL_HOST_PASSWORD'] = EMAIL_HOST_PASSWORD
+
+        email.fail_silently = False
+        email.send()
+
+        return JsonResponse({'message': 'Exito'})
+    
+
+
+

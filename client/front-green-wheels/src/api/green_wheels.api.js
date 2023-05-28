@@ -38,5 +38,8 @@ export const postLogout = () => gw_api.post('logout');
 
 export const postRegisterForm = (data) => gw_api.post('register', data);
 
+export const postEmailForm = (data) => gw_api.post('send_email', data);
+
+
 
 
