@@ -8,6 +8,10 @@ from django.contrib.auth.models import Group
 from django.db.models.signals import post_migrate, post_save
 from django.dispatch import receiver
 
+#imports to send an email
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+
 #Prueba
 from green_wheels_app.forms import CustomUserCreationForm
 from django.urls import reverse
@@ -418,9 +422,18 @@ class Gw_Vehicle_Viewset(viewsets.ModelViewSet):
 # @author: Nicol Valeria Ortiz R.
 # @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com
 
-#def create_diagnosis(request, id):
+
 
 
 # This endpoint is just for testing.
 def index_render(request):
     return HttpResponse("Welcome to Greeen Wheels!");
+
+
+# @name: send_email
+# @description: Receive the data from frontend and send email
+# @author: Nicol Valeria Ortiz Rodríguez
+# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com
+
+def send_email (request):
+    pass

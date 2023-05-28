@@ -91,6 +91,8 @@ class Gw_Client(models.Model):
     client_id = models.AutoField(primary_key=True);
     person_id = models.ForeignKey('Gw_Person', related_name='person', on_delete=models.CASCADE);
 
+    def __str__(self):
+        return ( str(self.client_id)+' - '+self.person_id.names)
 
 # @name: Gw_Employee
 # @description: Model that represents the employees and it is associated with a person instance.

@@ -45,6 +45,8 @@ export const HomePage = () => {
                     <a href="./login">Login</a>
                     <br></br>
                     <a href="./register">Register</a>
+                    <br></br>
+                    <a href="./sendemail">Send Email</a>
                 </>) : (<>
                 <h2>Your groups are:</h2>
                 <ul>
