@@ -6,7 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import {BasicPersonForm} from './forms/BasicPersonForm'
 
 export const PersonRegisterForm = () => {
- 
+
     const Navigate = useNavigate();
 
     const initialValues= {
@@ -42,7 +42,7 @@ export const PersonRegisterForm = () => {
                 email:values.email,
                 password:values.password
             };
-            
+
             const response = await postRegisterForm(data);
 
             if (response.status >= 200 && response.status <= 299) {
@@ -52,11 +52,11 @@ export const PersonRegisterForm = () => {
             } else {
                 console.log("An error has ocurred");
             }
-            
+
         } catch (error) {
             console.log("An error has ocurred");
         }
-        
+
     };
 
     return (

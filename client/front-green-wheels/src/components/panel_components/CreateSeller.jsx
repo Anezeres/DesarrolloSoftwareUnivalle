@@ -1,10 +1,13 @@
-import {Formik, Form, Field, ErrorMessage} from 'formik'
+import {Formik, Form} from 'formik'
 import * as Yup from 'yup';
 import 'react-datepicker/dist/react-datepicker.css';
 import { postRegisterForm } from '../../api/green_wheels.api';
 import { BasicPersonForm } from '../forms/BasicPersonForm';
+import {useState} from 'react';
 
 export const CreateSeller = () => {
+
+    const [toggleMode, setToggleMode] = useState(false);
 
     const initialValues= {
         id:'',
@@ -39,7 +42,7 @@ export const CreateSeller = () => {
                 email:values.email,
                 password:values.password
             };
-            
+
             const response = await postRegisterForm(data);
 
             if (response.status >= 200 && response.status <= 299) {
@@ -48,22 +51,45 @@ export const CreateSeller = () => {
             } else {
                 console.log("An error has ocurred");
             }
-            
+
         } catch (error) {
             console.log("An error has ocurred");
         }
-        
+
     };
-    
-    
+
+    const handleCheckboxChange = (event) => {
+        setToggleMode(event.target.checked);
+    };
+
     return (
         <div>
-            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-                <Form className='formulario'>
-                    <BasicPersonForm initialValues={initialValues} exceptFields={['id_type', 'birth_date', 'password']}/>
-                    <button type="submit">Submit</button>
-                </Form>
-            </Formik>
+            <div>
+                <label htmlFor="checkbox">Asignar persona existente al grupo de Vendedores</label>
+                <input
+                    type="checkbox"
+                    id="checkbox"
+                    checked={toggleMode}
+                    onChange={handleCheckboxChange}
+                />
+            </div>
+            {toggleMode ?
+            <>
+                <h1>Asignar Persona a Grupo de Vendedores</h1>
+                <p>Menu para asignar una persona al grupo de Vendedores</p>
+            </>
+            :
+            <>
+                <h1>Crear Nueva Persona</h1>
+                <p>La persona creada se registrará automáticamente al grupo de Vendedores</p>
+                <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+                    <Form className='formulario'>
+                        <BasicPersonForm initialValues={initialValues} exceptFields={['id_type', 'birth_date', 'password']}/>
+                        <button type="submit">Submit</button>
+                    </Form>
+                </Formik>
+            </>
+            }
         </div>
     );
 }

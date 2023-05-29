@@ -19,6 +19,7 @@ const App = () => {
           <Route path="/testing" element={<CreateSeller/>}/>
           <Route path="/control_panels/test_panel" element={<ControlPanel panel={<TestPnl/>}/>}/>
           <Route path="/control_panels/prueba" element={<ControlPanel panel={<Prueba/>}/>}/>
+          <Route path="/control_panels/create_seller" element={<ControlPanel panel={<CreateSeller/>}/>}/>
         </Routes>
       </BrowserRouter>
   );
