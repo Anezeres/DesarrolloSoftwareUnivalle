@@ -26,7 +26,7 @@ class CustomUserManager(BaseUserManager):
         if not person_id:
             raise ValueError("Users must have a person id!")
         email = self.normalize_email(email)
-        user = self.model(person_id=person_id, email=email, names=names, id_type=1, **extra_fields)
+        user = self.model(person_id=person_id, email=email, **extra_fields)
         user.set_password(password)
         user.save()
         return user
@@ -43,7 +43,7 @@ class CustomUserManager(BaseUserManager):
         
         names = 'Admin'
 
-        return self.create_user(person_id, names, email, password, **extra_fields)
+        return self.create_user(person_id, email, password, **extra_fields)
 
 
 # @name: Gw_Person
@@ -66,7 +66,7 @@ class Gw_Person(AbstractBaseUser, PermissionsMixin):
     birth_date = models.DateField(null=True);
     phone1 = models.IntegerField(null=True);
     phone2 = models.IntegerField(null=True);
-    email = models.EmailField(null=True);
+    email = models.EmailField();
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

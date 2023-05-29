@@ -1,8 +1,8 @@
 import {Formik, Form, Field, ErrorMessage} from 'formik'
 import * as Yup from 'yup';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { postRegisterForm } from '../../api/green_wheels.api';
+import { BasicPersonForm } from '../forms/BasicPersonForm';
 
 export const CreateSeller = () => {
 
@@ -12,7 +12,7 @@ export const CreateSeller = () => {
         names:'',
         last_names:'',
         living_address:'',
-        birth_date:'',
+        birth_date: '2023-05-02',
         phone1:'',
         phone2:'',
         email:'',
@@ -43,7 +43,7 @@ export const CreateSeller = () => {
             const response = await postRegisterForm(data);
 
             if (response.status >= 200 && response.status <= 299) {
-                console.log('Succeful registration');
+                console.log('Successful registration');
                 resetForm();
             } else {
                 console.log("An error has ocurred");
@@ -54,51 +54,13 @@ export const CreateSeller = () => {
         }
         
     };
-
-    const generateFormFields = (except_list) => {
-        return Object.entries(initialValues).map(([fieldName, fieldValue]) => (
-            !except_list.includes(fieldName) ? (
-                <div key={fieldName}>
-                <label htmlFor={fieldName}>{fieldName}</label>
-                <Field type="text" id={fieldName} name={fieldName} />
-                <ErrorMessage name={fieldName} component="div" className="error" />
-                </div>) : null  
-          
-        ));
-      };
     
     
     return (
         <div>
             <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
                 <Form className='formulario'>
-                    {generateFormFields(/*Ignored fields: */['id_type', 'birth_date', 'password'])} 
-                    <div>
-                        <label htmlFor="id_type">Select an option:</label>
-                        <Field as="select" id="id_type" name="id_type">
-                            <option value="1">National ID</option>
-                            <option value="2">International ID</option>            
-                        </Field>
-                        <ErrorMessage name="id_type" component="div" className="error" />
-                    </div>
-                    <div>
-                        <label htmlFor="birth_date">birth_date</label>
-                        <Field name="birth_date">
-                            {({ form, field }) => (
-                                <DatePicker
-                                id="date"
-                                selected={field.value}
-                                onChange={(value) => form.setFieldValue(field.name, value)}
-                                />
-                            )}
-                        </Field>
-                        <ErrorMessage name="birth_date" component="div" className="error" />
-                    </div>
-                    <div>
-                        <label htmlFor="password">password</label>
-                        <Field type="password" id="password" name="password" />
-                        <ErrorMessage name="password" component="div" className="error" />
-                    </div>
+                    <BasicPersonForm initialValues={initialValues} exceptFields={['id_type', 'birth_date', 'password']}/>
                     <button type="submit">Submit</button>
                 </Form>
             </Formik>
