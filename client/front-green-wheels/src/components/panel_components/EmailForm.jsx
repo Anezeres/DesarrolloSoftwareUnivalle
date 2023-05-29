@@ -2,12 +2,13 @@ import React, {useState} from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik'
 import { postEmailForm } from '../../api/green_wheels.api';
 import {BasicSchema} from '../../schemas/validaciones'
-import {Button, data} from '../../components/Boton'
+import {Button} from '../../components/Boton'
 
 export const EmailForm = () =>{
 
     const [mensaje_exitoso, setMensaje_exitoso] = useState(false)
-
+    // const [correosDestinatarios, setCorreosDestinatarios] = useState([]);
+    
     return (
         <>
             <Formik
