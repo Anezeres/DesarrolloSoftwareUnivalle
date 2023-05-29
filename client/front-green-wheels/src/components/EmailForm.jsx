@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik'
-import { postEmailForm } from '../api/green_wheels.api';
-import {BasicSchema} from '../schemas/validaciones'
+import { postEmailForm } from '../../api/green_wheels.api';
+import {BasicSchema} from '../../schemas/validaciones'
 
 
 export const EmailForm = () =>{
@@ -12,7 +12,6 @@ export const EmailForm = () =>{
         <>
             <Formik
             initialValues={{
-                correo_remitente:'',
                 correo_destinatario: '',
                 asunto: '',
                 mensaje:''
@@ -23,7 +22,6 @@ export const EmailForm = () =>{
                 // Logic to send data to backend
                 try{
                     const response = await postEmailForm({
-                        correo_remitente:valores.correo_remitente,
                         correo_destinatario:valores.correo_destinatario,
                         asunto: valores.asunto,
                         mensaje:valores.mensaje
@@ -51,16 +49,6 @@ export const EmailForm = () =>{
                 { () => (
                     <Form className="formulario">
                         <div>
-                            <label htmlFor="correo_remitente">Correo remitente</label>
-                            <Field 
-                            type="email" 
-                            id='correo_remitente' 
-                            name='correo_remitente' 
-                            placeholder="Ingrese su correo" 
-                            />
-                            <ErrorMessage name='correo_remitente' component='div' className='error'/>
-                        </div>
-                        <div>
                             <label htmlFor="correo_destinatario">Correo destinatario</label>
                             <Field 
                             type="email" 
@@ -84,7 +72,7 @@ export const EmailForm = () =>{
                             <label htmlFor="mensaje">Mensaje</label>
                             <Field
                             as="textarea"
-                            style={{ resize: 'none', height: '200px' }} 
+                            style={{ resize: 'none', height: '150px' }} 
                             type="text" 
                             id='mensaje' 
                             name='mensaje' 
