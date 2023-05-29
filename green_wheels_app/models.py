@@ -121,6 +121,8 @@ class Gw_Manager(models.Model):
     manager_id = models.AutoField(primary_key=True);
     person_id = models.ForeignKey('Gw_Person', on_delete=models.CASCADE);
 
+    def __str__(self):
+        return str(self.person_id) +' - '+ self.person_id.names
 
 
 # @name: Gw_Admin
