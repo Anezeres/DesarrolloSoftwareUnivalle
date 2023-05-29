@@ -119,7 +119,6 @@ def get_person_data(p):
 # @author: Paul Rodrigo Rojas G.
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
-
 def get_person(request, id):
     if request.method == 'GET':
         try:
