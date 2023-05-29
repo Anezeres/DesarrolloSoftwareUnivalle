@@ -1,4 +1,3 @@
-from django.shortcuts import render, redirect
 from green_wheels_app.models import *
 from django.http import HttpResponse, JsonResponse
 from rest_framework import viewsets
@@ -7,20 +6,18 @@ from green_wheels_app.serializers import *
 from django.contrib.auth.models import Group
 from django.db.models.signals import post_migrate, post_save
 from django.dispatch import receiver
+from green_wheels_app.permissions import HavePanelAccess, panel_permission
+from rest_framework import permissions
+#from rest_framework.decorators import permission_classes
 
 #imports to send an email
+import os
 import json
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.conf import settings
-
-#Prueba
-from green_wheels_app.forms import CustomUserCreationForm
-from django.urls import reverse
-from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
-
-from django.contrib.auth.models import Group
+from green_wheels_app.auth_views import UserView
+from green_wheels_app.models import Gw_Admin, Gw_Manager
 
 # @name: create_users_groups
 # @description: This function is executed when a migration is performed. It
@@ -171,7 +168,6 @@ def get_persons_list(request):
 # @description: Get the data from all the client objects
 # @author: Paul Rodrigo Rojas G.
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
-
 def get_clients_list(request):
     if request.method == 'GET':
         client_queryset = Gw_Client.objects.all();
@@ -191,11 +187,11 @@ def get_clients_list(request):
 
 
 
+
 # @name: get_client
 # @description: Get client data given a client id
 # @author: Paul Rodrigo Rojas G.
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
-
 def get_client(request, id):
     if request.method == 'GET':
         try:
@@ -209,9 +205,9 @@ def get_client(request, id):
         data['client_id'] = c.client_id;
 
         return JsonResponse(data);
-
     else:
         return HttpResponse('Unsupported method', status=405);
+
 
 
 
@@ -367,8 +363,6 @@ def get_user_groups(request, id):
 
         groups = p.groups.values();
 
-        print(groups)
-
         groups_list = [];
 
         for g in groups:
@@ -385,7 +379,42 @@ def get_user_groups(request, id):
     else:
         return HttpResponse('Unsupported method', status=405);
 
-    
+
+# @name: get_allowed_panels
+# @description: Retrivies a list of the panels which the user has access.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+def get_allowed_panels(request, id):
+    if request.method == 'GET':
+        try:
+            person = Gw_Person.objects.get(person_id=id);
+
+            groups_id = person.groups.values('id')
+
+            groups_id_list = [];
+
+            for g in groups_id:
+                groups_id_list.append(g['id']);
+
+            panels = Gw_Allowed_Panels.objects.filter(group_id__in=groups_id_list).values('panel_id__panel_name');
+        
+            panels_list = [];
+
+            for panel in panels: 
+                panels_list.append(panel['panel_id__panel_name']);
+
+            data = {
+                'panels':panels_list
+            }
+
+            return JsonResponse(data);
+
+        except Gw_Person.DoesNotExist:
+            return HttpResponse("Sorry, it does not exist a person with " + str(id) + " id",
+                                    status=404);
+    else:
+        return HttpResponse('Unsupported method', status=405);
 
 
 # @name: Gw_Brand_Viewset
@@ -396,7 +425,8 @@ def get_user_groups(request, id):
 class Gw_Brand_Viewset(viewsets.ModelViewSet):
     queryset = Gw_Brand.objects.all();
     serializer_class = Gw_Brand_Serializer;
-
+    def get_permissions(self):
+        return [permissions.IsAuthenticated(), HavePanelAccess()]
 
 
 # @name: Gw_Vehicle_Model_Viewset
@@ -424,35 +454,28 @@ class Gw_Vehicle_Viewset(viewsets.ModelViewSet):
 # @author: Nicol Valeria Ortiz R.
 # @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com
 
-
+#def create_diagnosis(request, id):
 
 
 # This endpoint is just for testing.
 def index_render(request):
+    print(Gw_Allowed_Panels)
     return HttpResponse("Welcome to Greeen Wheels!");
-
 
 # @name: send_email
 # @description: Receive the data from frontend and send email
 # @author: Nicol Valeria Ortiz Rodríguez
 # @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com
 
-# datos = {
-#     'EMAIL_HOST_USER': '',
-#     'EMAIL_HOST_PASSWORD': ''
-# }
-
-
+@panel_permission('send_email')
 def send_email(request):
     if request.method == 'POST':
         data = json.loads(request.body)  # Obtener los datos enviados por POST como JSON
-        correo_remitente = data['correo_remitente']
         correo_destinatario = data['correo_destinatario']
         asunto = data['asunto']
         mensaje = data['mensaje']
 
         template = render_to_string('email_template.html', {
-            'correo_remitente': correo_remitente,
             'correo_destinatario': correo_destinatario,
             'asunto': asunto,
             'mensaje': mensaje
@@ -465,18 +488,7 @@ def send_email(request):
             correo_destinatario.split(',')
         )
 
-
-        # EMAIL_HOST_USER = correo_remitente
-        # EMAIL_HOST_PASSWORD = 'oujsezrashrokhuf'
-
-        # datos['EMAIL_HOST_USER'] = EMAIL_HOST_USER
-        # datos['EMAIL_HOST_PASSWORD'] = EMAIL_HOST_PASSWORD
-
         email.fail_silently = False
         email.send()
 
         return JsonResponse({'message': 'Exito'})
-    
-
-
-

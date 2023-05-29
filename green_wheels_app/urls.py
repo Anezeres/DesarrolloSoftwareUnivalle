@@ -4,6 +4,7 @@ from green_wheels_app.views import *
 from rest_framework import routers
 from green_wheels_app.views import *
 from green_wheels_app.auth_views import *
+from green_wheels_app.panel_views import *
 
 router = routers.DefaultRouter();
 
@@ -26,6 +27,10 @@ urlpatterns = [
     path('get_admins_list/', get_admins_list, name='get_admins_list'),
     path('get_admin/<int:id>/', get_admin, name = 'get_admin'),
     path('get_user_groups/<int:id>/', get_user_groups, name = 'get_user_groups'),
+    path('get_allowed_panels/<int:id>/', get_allowed_panels, name = 'get_allowed_panels'),
+    # PANELS
+    path('control_panels/', include('green_wheels_app.panel_urls')),
+    # AUTH
     path('register', UserRegister.as_view(), name='register'),
 	path('login', UserLogin.as_view(), name='login'),
 	path('logout', UserLogout.as_view(), name='logout'),

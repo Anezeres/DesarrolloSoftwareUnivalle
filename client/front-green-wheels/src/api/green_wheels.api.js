@@ -16,6 +16,10 @@ const gw_api = axios.create({
     baseURL: "http://localhost:8000/",
 });
 
+const gw_api_panels = axios.create({
+  baseURL: "http://localhost:8000/control_panels/",
+});
+
 const credentials = {
     headers: {
       'Content-Type': 'application/json',
@@ -23,12 +27,17 @@ const credentials = {
     withCredentials: true,
   }
 
+
 // GET
 export const getAllPersons = () => gw_api('get_persons_list');
 
 export const getLoggedUser = () => gw_api('user');
 
 export const getUserGroups = (id) => gw_api('get_user_groups/' + id);
+
+export const getAllowedPanels = (id) => gw_api('get_allowed_panels/' + id);
+
+export const getTestPanel = () => gw_api_panels('test_panel');
 
 // POST
 
