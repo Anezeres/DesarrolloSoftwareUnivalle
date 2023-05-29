@@ -47,7 +47,6 @@ export const PersonRegisterForm = () => {
 
             if (response.status >= 200 && response.status <= 299) {
                 console.log('Successful registration');
-                //resetForm();
                 Navigate('/');
             } else {
                 console.log("An error has ocurred");

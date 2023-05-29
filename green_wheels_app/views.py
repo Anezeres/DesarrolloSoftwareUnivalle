@@ -8,8 +8,10 @@ from django.db.models.signals import post_migrate, post_save
 from django.dispatch import receiver
 from green_wheels_app.permissions import HavePanelAccess, panel_permission
 from rest_framework import permissions
-from rest_framework.decorators import permission_classes
-
+from green_wheels_app.auth_views import UserRegister
+from green_wheels_app.serializers import UserRegisterSerializer
+from django.db.models import Q
+import json
 
 
 
@@ -203,6 +205,31 @@ def get_client(request, id):
         return HttpResponse('Unsupported method', status=405);
 
 
+# @name: post_create_client
+# @description: Creates Clients objects.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+def post_create_seller(request):
+    if request.method == 'POST':
+        try:
+            id = int(json.loads(request.body)['id']);
+            person_exists = Gw_Person.objects.filter(person_id=id).exists();
+            seller_exists = Gw_Employee.objects.filter(Q(person_id=id) & Q(position=1)).exists();
+            if (not person_exists):
+                return HttpResponse('Person object was not found', status=404);
+            elif (seller_exists):
+                print(id)
+                return HttpResponse('Seller already exists', status=400);
+            else:
+                person = Gw_Person.objects.get(person_id=id);
+                Gw_Employee.objects.create(person_id=person, position=1);
+                return HttpResponse('The User has been created', status=200);
+        except Exception as e:
+            print(e);
+            return HttpResponse('An error has ocurred', status=400);
+    else:
+        return HttpResponse('Unsupported method', status=405)
 
 
 # @name: get_employees_list
@@ -392,10 +419,10 @@ def get_allowed_panels(request, id):
                 groups_id_list.append(g['id']);
 
             panels = Gw_Allowed_Panels.objects.filter(group_id__in=groups_id_list).values('panel_id__panel_name');
-        
+
             panels_list = [];
 
-            for panel in panels: 
+            for panel in panels:
                 panels_list.append(panel['panel_id__panel_name']);
 
             data = {

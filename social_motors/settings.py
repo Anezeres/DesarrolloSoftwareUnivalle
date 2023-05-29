@@ -70,6 +70,8 @@ REST_FRAMEWORK = {
     ),
 }
 
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
+
 CORS_ALLOW_METHODS = [
 'DELETE',
 'GET',
@@ -120,7 +122,7 @@ DATABASES = {
     #     'HOST': 'localhost',
     #     'PORT': '5432',
     # }
-    
+
 }
 
 

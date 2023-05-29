@@ -13,13 +13,13 @@ from django.http import HttpResponse
 class UserRegister(APIView):
 	permission_classes = (permissions.AllowAny,)
 	def post(self, request):
-		clean_data = custom_validation(request.data)
-		serializer = UserRegisterSerializer(data=clean_data)
+		clean_data = custom_validation(request.data);
+		serializer = UserRegisterSerializer(data=clean_data);
 		if serializer.is_valid(raise_exception=True):
-			user = serializer.create(clean_data)
+			user = serializer.create(clean_data);
 			if user:
-				return Response(serializer.data, status=status.HTTP_201_CREATED)
-		return Response(status=status.HTTP_400_BAD_REQUEST)
+				return Response(serializer.data, status=status.HTTP_201_CREATED);
+		return Response(status=status.HTTP_400_BAD_REQUEST);
 
 
 class UserLogin(APIView):

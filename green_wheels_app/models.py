@@ -22,28 +22,28 @@ def create_users_groups(sender, **kwargs):
 
 class CustomUserManager(BaseUserManager):
 
-    def create_user(self, person_id, names, email, password, **extra_fields):
+    def create_user(self, person_id, email, password, id_type=1, **extra_fields):
         if not person_id:
             raise ValueError("Users must have a person id!")
         email = self.normalize_email(email)
-        user = self.model(person_id=person_id, email=email, **extra_fields)
-        user.set_password(password)
-        user.save()
-        return user
+        user = self.model(person_id=person_id, email=email, id_type=id_type, **extra_fields);
+        user.set_password(password);
+        user.save();
+        return user;
 
     def create_superuser(self, person_id, email, password, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('is_active', True)
+        extra_fields.setdefault('is_staff', True);
+        extra_fields.setdefault('is_superuser', True);
+        extra_fields.setdefault('is_active', True);
 
         if extra_fields.get('is_staff') is not True:
-            raise ValueError('Superuser must have is_staff=True.')
+            raise ValueError('Superuser must have is_staff=True.');
         if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Superuser must have is_superuser=True.')
-        
-        names = 'Admin'
+            raise ValueError('Superuser must have is_superuser=True.');
 
-        return self.create_user(person_id, email, password, **extra_fields)
+        names = 'Admin';
+
+        return self.create_user(person_id, email, password, **extra_fields);
 
 
 # @name: Gw_Person

@@ -22,6 +22,7 @@ urlpatterns = [
     path('get_client/<int:id>/', get_client, name = 'get_client'),
     path('get_employees_list/', get_employees_list, name='get_employees_list'),
     path('get_employee/<int:id>/', get_employee, name = 'get_employee'),
+    path('post_create_seller/', post_create_seller, name='post_create_seller'),
     path('get_managers_list/', get_managers_list, name='get_managers_list'),
     path('get_manager/<int:id>/', get_manager, name = 'get_manager'),
     path('get_admins_list/', get_admins_list, name='get_admins_list'),
