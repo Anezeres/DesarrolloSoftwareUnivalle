@@ -55,7 +55,7 @@ export const PersonRegisterForm = () => {
         <input type="email" placeholder="Enter your email address" value={email} 
                 onChange={(e)=>setEmail(e.target.value)}/>
         <input type="text" placeholder="Enter your living address" value={living_address} 
-                onChange={(e)=>set_living_address(e.target.value)}/>
+                onChange={(e)=>set_living_address(e.target.value)}/>     
         <input type="password" placeholder="Enter your password" value={password} 
                 onChange={(e)=>setPassword(e.target.value)}/>
         <button type="submit">Submit</button>
