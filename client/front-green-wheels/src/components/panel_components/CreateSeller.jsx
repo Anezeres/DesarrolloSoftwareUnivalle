@@ -61,7 +61,7 @@ export const CreateSeller = () => {
                     }
 
                 } catch (error) {
-                    console.log("An error ha ocurred")
+                    console.log("An error has ocurred")
                 }
                 resetForm();
             } else {

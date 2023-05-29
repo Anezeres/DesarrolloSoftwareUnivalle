@@ -23,11 +23,55 @@ import json
 
 @receiver(post_migrate)
 def create_users_groups(sender, **kwargs):
-    Group.objects.get_or_create(name='Clients');
-    Group.objects.get_or_create(name='Sellers');
-    Group.objects.get_or_create(name='WorkshopBoss');
-    Group.objects.get_or_create(name='Manager');
-    Group.objects.get_or_create(name='AppAdmin');
+    groups = ['Clients', 'Sellers', 'WorkshopBoss', 'Managers', 'AppAdmin'];
+    for group in groups:
+        Group.objects.get_or_create(name=group);
+
+
+
+# @name: create_default_panels
+# @description: This function is executed when a migration is performed. It
+# creates the default panels.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+@receiver(post_migrate)
+def create_default_panels(sender, **kwargs):
+    panels = ['test_panel', 'prueba', 'create_seller'];
+    for panel in panels:
+        Gw_Panel.objects.get_or_create(panel_name=panel);
+
+
+# @name: default_allowed_panels
+# @description: This function is executed when a migration is performed. It
+# creates the default relations among user groups and panels.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+# Sets users groups permission to access panels
+'''
+id|name        |
+--+------------+
+ 1|Clients     |
+ 2|Sellers     |
+ 3|WorkshopBoss|
+ 4|Manager     |
+ 5|AppAdmin    |
+'''
+# 1 -> test_panel, 2 -> prueba, 3 -> create_seller
+@receiver(post_migrate)
+def default_allowed_panels(sender, **kwargs):
+    # relation : (panel_id, group_id)
+    relations = [(1, 2), (1, 4), (3, 4)];
+    for relation in relations:
+        try:
+            panel = Gw_Panel.objects.get(id=relation[0]);
+            group = Group.objects.get(id=relation[1]);
+            Gw_Allowed_Panels.objects.get_or_create(panel_id=panel, group_id=group);
+        except Exception as e:
+            print(e);
+            print('It has ocurred an error when creating default allowed panels for users groups');
+
+
 
 
 # @name: Add_Person_To_Clients
@@ -210,6 +254,7 @@ def get_client(request, id):
 # @author: Paul Rodrigo Rojas G.
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
+@panel_permission('create_seller')
 def post_create_seller(request):
     if request.method == 'POST':
         try:

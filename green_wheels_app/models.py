@@ -6,13 +6,17 @@ from django.contrib.auth.models import Group
 from django.db.models.signals import post_migrate
 from django.dispatch import receiver
 
-@receiver(post_migrate)
-def create_users_groups(sender, **kwargs):
-    Clients_Group, created = Group.objects.get_or_create(name='Clients');
-    Seller_Group, created = Group.objects.get_or_create(name='Sellers');
-    WorkshopBoss_Group, created = Group.objects.get_or_create(name='WorkshopBoss');
-    Manager_Group, created = Group.objects.get_or_create(name='Manager');
-    Admin_Group, created = Group.objects.get_or_create(name='AppAdmin');
+
+# # Create the user groups when migrating
+# @receiver(post_migrate)
+# def create_users_groups(sender, **kwargs):
+#     Clients_Group, created = Group.objects.get_or_create(name='Clients');
+#     Seller_Group, created = Group.objects.get_or_create(name='Sellers');
+#     WorkshopBoss_Group, created = Group.objects.get_or_create(name='WorkshopBoss');
+#     Manager_Group, created = Group.objects.get_or_create(name='Manager');
+#     Admin_Group, created = Group.objects.get_or_create(name='AppAdmin');
+
+
 
 # @name: CustomUserManager
 # @description: Manager that sets the settings to create an user in the custom model.
@@ -43,7 +47,7 @@ class CustomUserManager(BaseUserManager):
 
         names = 'Admin';
 
-        return self.create_user(person_id, email, password, **extra_fields);
+        return self.create_user(person_id, email, password, names=names, **extra_fields);
 
 
 # @name: Gw_Person
