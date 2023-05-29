@@ -1,7 +1,7 @@
-import {Formik, Form} from 'formik'
+import {Field, ErrorMessage, Formik, Form} from 'formik'
 import * as Yup from 'yup';
 import 'react-datepicker/dist/react-datepicker.css';
-import {postRegisterForm ,postCreateClient, postCreateSeller } from '../../api/green_wheels.api';
+import {postRegisterForm ,postCreateSeller } from '../../api/green_wheels.api';
 import { BasicPersonForm } from '../forms/BasicPersonForm';
 import {useState} from 'react';
 
@@ -28,9 +28,9 @@ export const CreateSeller = () => {
         password: Yup.string().required('Password is required'),
     });
 
-    const sellerFormInitialValues = {id:''};
+    const sellerFormInitialValues = {person_id:''};
 
-    const sellerFormValidationSchema = Yup.object({id: Yup.string().required('Id is required')});
+    const sellerFormValidationSchema = Yup.object({person_id: Yup.string().required('Id is required')});
 
     const personFormHandleSubmit = async (values, { resetForm }) => {
         try {
@@ -74,8 +74,22 @@ export const CreateSeller = () => {
 
     };
 
-    const sellerFormHandleSubmit = () => {
+    const sellerFormHandleSubmit = async (values, {resetForm}) => {
+        console.log("Hola");
+        try {
+            const personId = {id:values.person_id};
+            const resSeller = await postCreateSeller(personId);
 
+            if (resSeller.status>=200 && resSeller.status <= 299){
+                console.log("Success");
+            } else {
+                console.log("It looks like it already exists a seller with that person id");
+            }
+
+        } catch (error) {
+            console.log("An error ha ocurred")
+        }
+        resetForm();
     }
 
 
@@ -97,9 +111,16 @@ export const CreateSeller = () => {
             {toggleMode ?
             <>
                 <h1>Asignar Persona a Grupo de Vendedores</h1>
-                <Formik initialValues={{id:''}} validationSchema={personFormValidationSchema} onSubmit={sellerFormHandleSubmit}>
+                <Formik
+                    initialValues={sellerFormInitialValues}
+                    validationSchema={sellerFormValidationSchema}
+                    onSubmit={sellerFormHandleSubmit}>
                     <Form className='formulario'>
-                        <BasicPersonForm pnitialValues={personFormInitialValues} exceptFields={['id_type', 'birth_date', 'password']}/>
+                        <div>
+                            <label htmlFor="person_id">Enter the person's id </label>
+                            <Field type="txt" id="person_id" name="person_id"/>
+                            <ErrorMessage name="person_id" component="div" className="error" />
+                        </div>
                         <button type="submit">Submit</button>
                     </Form>
                 </Formik>
@@ -109,9 +130,9 @@ export const CreateSeller = () => {
                 <h1>Crear Nueva Persona</h1>
                 <p>La persona creada se registrará automáticamente al grupo de Vendedores</p>
                 <Formik
-                personFormInitialValues={{id:''}}
-                validationSchema={Yup.object({id: Yup.string().required('Id is required')})}
-                onSubmit={personFormHandleSubmit}>
+                    initialValues={personFormInitialValues}
+                    validationSchema={personFormValidationSchema}
+                    onSubmit={personFormHandleSubmit}>
                     <Form className='formulario'>
                         <BasicPersonForm initialValues={personFormInitialValues} exceptFields={['id_type', 'birth_date', 'password']}/>
                         <button type="submit">Submit</button>
