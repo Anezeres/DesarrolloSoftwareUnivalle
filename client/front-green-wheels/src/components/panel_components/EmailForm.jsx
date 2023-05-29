@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik'
 import { postEmailForm } from '../../api/green_wheels.api';
 import {BasicSchema} from '../../schemas/validaciones'
-
+import {Button, data} from '../../components/Boton'
 
 export const EmailForm = () =>{
 
@@ -142,6 +142,7 @@ export const EmailForm = () =>{
                         {mensaje_exitoso && <p className='exito'>Formulario enviado con éxito!</p>}
                     </form> 
                 )} */}
+                <Button/>
 		</>
     );
 }

@@ -110,6 +110,8 @@ class Gw_Employee(models.Model):
     position = models.SmallIntegerField(choices=CHOICES);
     person_id = models.ForeignKey('Gw_Person', on_delete=models.CASCADE);
 
+    def __str__(self):
+        return str(self.person_id) +' - '+ self.person_id.names 
 
 
 # @name: Gw_Manager
@@ -188,6 +190,8 @@ class Gw_Headquarter(models.Model):
     city = models.CharField(max_length=50);
     address = models.CharField(max_length=100);
 
+    def __str__(self):
+        return str(self.id) +' - '+ self.name;
 
 
 # @name: Gw_Concessionaire
@@ -197,6 +201,9 @@ class Gw_Headquarter(models.Model):
 
 class Gw_Concessionaire(models.Model):
     headquarter_id = models.ForeignKey('Gw_Headquarter', on_delete=models.CASCADE);
+
+    def __str__(self):
+        return str(self.id) +' - '+ self.headquarter_id.name;
 
 
 
@@ -218,6 +225,9 @@ class Gw_Workshop(models.Model):
 class Gw_Associate_Headquarter(models.Model):
     person_id = models.ForeignKey('Gw_Person', on_delete=models.CASCADE);
     headquarter_id = models.ForeignKey('Gw_Headquarter', on_delete=models.CASCADE);
+
+    def __str__(self):
+        return str(self.headquarter_id) +' - '+str(self.person_id)
 
 
 

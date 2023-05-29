@@ -36,4 +36,6 @@ urlpatterns = [
 	path('logout', UserLogout.as_view(), name='logout'),
 	path('user', UserView.as_view(), name='user'),
     path('send_email', send_email, name='send_email'),
+    path('get_employees_email', get_employees_email, name='get_employees_email'),
+    path('create_headquater', create_headquater, name='create_headquater'),
 ]

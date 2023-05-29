@@ -18,5 +18,10 @@ admin.site.register(Gw_Vehicle);
 
 admin.site.register(Gw_Panel);
 admin.site.register(Gw_Allowed_Panels);
+admin.site.register(Gw_Headquarter);
+admin.site.register(Gw_Concessionaire);
+admin.site.register(Gw_Associate_Headquarter)
 
+# class Gw_Headquater(admin.ModelAdmin):
+#     form = Gw_HeadquaterForm;
 

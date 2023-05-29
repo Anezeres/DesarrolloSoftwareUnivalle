@@ -17,7 +17,7 @@ from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.conf import settings
 from green_wheels_app.auth_views import UserView
-from green_wheels_app.models import Gw_Admin, Gw_Manager
+from green_wheels_app.models import Gw_Employee, Gw_Headquarter
 
 # @name: create_users_groups
 # @description: This function is executed when a migration is performed. It
@@ -492,3 +492,67 @@ def send_email(request):
         email.send()
 
         return JsonResponse({'message': 'Exito'})
+    
+# @name: create_headquater
+# @description: Receive the data from frontend and create a headquater
+# @author: Nicol Valeria Ortiz Rodríguez
+# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com    
+def create_headquater(request):    
+    if request.method == 'POST':
+        data = json.loads(request.body)  # Obtener los datos enviados por POST como JSON
+        name = data['name']
+        city = data['city']
+        address = data['address']
+
+        new_headquarter = Gw_Headquarter(name=name, city=city, address=address)
+
+        new_headquarter.save()
+
+        return HttpResponse('Headquarter created successfully')
+    
+    # return HttpResponseNotAllowed(['POST'])
+        
+
+
+# @name: get_employees_email
+# @description: Get all employees with same headquater as the manager
+# @author: Nicol Valeria Ortiz Rodríguez
+# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com 
+
+from .models import Gw_Associate_Headquarter
+from django.http import JsonResponse, HttpResponse
+
+def get_employees_email(request):
+    if request.method == 'GET':
+        gw_manager_id = request.user.person_id
+        gw_manager_headquarter_id = Gw_Associate_Headquarter.objects.get(person_id=gw_manager_id).headquarter_id_id
+        headquarter_list_ass = Gw_Associate_Headquarter.objects.all()
+        employee_emails = []
+
+        for headq in headquarter_list_ass:
+            if (headq.headquarter_id_id == gw_manager_headquarter_id):
+                employee_email = headq.person_id.email
+                employee_emails.append(employee_email)
+
+        return JsonResponse(employee_emails, safe=False)
+    else:
+        return HttpResponse('Unsupported method', status=405)
+
+# def get_employees_email (request):
+#     if request.method == 'GET':
+#         gw_manager_id = request.user.person_id
+#         gw_manager_headquater_id = Gw_Associate_Headquarter.objects.get(person_id=gw_manager_id).headquarter_id_id
+#         admin_queryset = Gw_Associate_Headquarter.objects.filter(headquarter_id_id=gw_manager_headquater_id).person_id_id
+
+#         admin_dict = [];
+
+#         for s in admin_queryset:
+#             employee_list = get_person_data(s.person_id);
+#             employee_list['email'] = s.email
+#             admin_dict.append(
+#                 employee_list,
+#             )
+
+#         return JsonResponse(admin_dict, safe=False);
+#     else:
+#         return HttpResponse('Unsupported method', status=405)
