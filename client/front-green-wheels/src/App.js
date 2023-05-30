@@ -7,6 +7,9 @@ import {ControlPanel} from './pages/ControlPanel'
 import { TestPnl } from './components/panel_components/TestPnl';
 import { Prueba } from './components/panel_components/Prueba';
 import { CreateSeller } from './components/panel_components/CreateSeller';
+import { CreateWorkshopBoss } from './components/panel_components/CreateWorkshopBoss';
+import { CreateManager } from './components/panel_components/CreateManager';
+
 
 const App = () => {
   return (
@@ -20,6 +23,8 @@ const App = () => {
           <Route path="/control_panels/test_panel" element={<ControlPanel panel={<TestPnl/>}/>}/>
           <Route path="/control_panels/prueba" element={<ControlPanel panel={<Prueba/>}/>}/>
           <Route path="/control_panels/create_seller" element={<ControlPanel panel={<CreateSeller/>}/>}/>
+          <Route path="/control_panels/create_workshopboss" element={<ControlPanel panel={<CreateWorkshopBoss/>}/>}/>
+          <Route path="/control_panels/create_manager" element={<ControlPanel panel={<CreateManager/>}/>}/>
         </Routes>
       </BrowserRouter>
   );

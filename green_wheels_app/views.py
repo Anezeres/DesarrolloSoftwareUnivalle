@@ -37,7 +37,7 @@ def create_users_groups(sender, **kwargs):
 
 @receiver(post_migrate)
 def create_default_panels(sender, **kwargs):
-    panels = ['test_panel', 'prueba', 'create_seller'];
+    panels = ['test_panel', 'prueba', 'create_seller', 'create_workshopboss', 'create_manager'];
     for panel in panels:
         Gw_Panel.objects.get_or_create(panel_name=panel);
 
@@ -61,12 +61,14 @@ id|name        |
 @receiver(post_migrate)
 def default_allowed_panels(sender, **kwargs):
     # relation : (panel_id, group_id)
-    relations = [(1, 2), (1, 4), (3, 4)];
+    relations = [(1, 2), (1, 4), (3, 4), (4, 4), (5, 4)];
     for relation in relations:
+        group_admin = Group.objects.get(id=5);
         try:
             panel = Gw_Panel.objects.get(id=relation[0]);
             group = Group.objects.get(id=relation[1]);
             Gw_Allowed_Panels.objects.get_or_create(panel_id=panel, group_id=group);
+            Gw_Allowed_Panels.objects.get_or_create(panel_id=panel, group_id=group_admin);
         except Exception as e:
             print(e);
             print('It has ocurred an error when creating default allowed panels for users groups');
@@ -136,6 +138,21 @@ def Add_Person_To_Admins(sender, instance, created, **kwargs):
         group, _ = Group.objects.get_or_create(name='AppAdmin');
         person.groups.add(group);
 
+
+# @name: Add_SuperUser_To_Admins
+# @description: Add superusers to AppAdmin group.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+
+@receiver(post_save, sender=Gw_Person)
+def Add_SuperUser_To_Admins(sender, instance, created, **kwargs):
+    if created:
+        is_superuser = instance.is_superuser;
+        if (is_superuser):
+            Gw_Admin.objects.create(person_id=instance);
+            group, _ = Group.objects.get_or_create(name='AppAdmin');
+            instance.groups.add(group);
 
 
 # @name: get_person_data
@@ -249,6 +266,8 @@ def get_client(request, id):
         return HttpResponse('Unsupported method', status=405);
 
 
+
+
 # @name: post_create_client
 # @description: Creates Clients objects.
 # @author: Paul Rodrigo Rojas G.
@@ -275,7 +294,62 @@ def post_create_seller(request):
             return HttpResponse('An error has ocurred', status=400);
     else:
         return HttpResponse('Unsupported method', status=405)
+    
 
+# @name: post_create_workshopboss
+# @description: Creates WorkshopBoss objects.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+@panel_permission('create_workshopboss')
+def post_create_workshopboss(request):
+    if request.method == 'POST':
+        try:
+            id = int(json.loads(request.body)['id']);
+            person_exists = Gw_Person.objects.filter(person_id=id).exists();
+            workshop_boss_exists = Gw_Employee.objects.filter(Q(person_id=id) & Q(position=2)).exists();
+            if (not person_exists):
+                return HttpResponse('Person object was not found', status=404);
+            elif (workshop_boss_exists):
+                print(id)
+                return HttpResponse('workshop_boss already exists', status=400);
+            else:
+                person = Gw_Person.objects.get(person_id=id);
+                Gw_Employee.objects.create(person_id=person, position=2);
+                return HttpResponse('The User has been created', status=200);
+        except Exception as e:
+            print(e);
+            return HttpResponse('An error has ocurred', status=400);
+    else:
+        return HttpResponse('Unsupported method', status=405)
+
+
+# @name: post_create_manager
+# @description: Creates WorkshopBoss objects.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+@panel_permission('create_manager')
+def post_create_manager(request):
+    if request.method == 'POST':
+        try:
+            id = int(json.loads(request.body)['id']);
+            person_exists = Gw_Person.objects.filter(person_id=id).exists();
+            manager_exists = Gw_Manager.objects.filter(Q(person_id=id)).exists();
+            if (not person_exists):
+                return HttpResponse('Person object was not found', status=404);
+            elif (manager_exists):
+                print(id)
+                return HttpResponse('manager already exists', status=400);
+            else:
+                person = Gw_Person.objects.get(person_id=id);
+                Gw_Manager.objects.create(person_id=person);
+                return HttpResponse('The User has been created', status=200);
+        except Exception as e:
+            print(e);
+            return HttpResponse('An error has ocurred', status=400);
+    else:
+        return HttpResponse('Unsupported method', status=405)
 
 # @name: get_employees_list
 # @description: Get the data from all the employee objects
