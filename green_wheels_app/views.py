@@ -576,7 +576,72 @@ def create_client(request):
     
     return JsonResponse({'message': 'Error'}, status=status.HTTP_400_BAD_REQUEST)
 
+# @name: get_headquarter_data
+# @description: extracts the data from h headquarter object and retrieve it a dictionary.
+# @author: Nicol Valeria Ortiz Rodríguez
+# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com 
+
+def get_headquarter_data(h):
+    data = {
+            'id': h.id,
+            'name': h.name,
+            'city': h.city,
+            'address':h.address,
+        }
+
+    return data;
+
+# @name: get_headquarters
+# @description: Get the data from all the headquarter objects.
+# @author: Nicol Valeria Ortiz Rodríguez
+# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com 
+
+def get_headquarters(request):
+    if request.method == 'GET':
+        headquarter_queryset = Gw_Headquarter.objects.all();
+        headquarter_dict = [];
+
+        for h in headquarter_queryset:
+            headquarter_dict.append(
+                get_headquarter_data(h),
+            )
+        return JsonResponse(headquarter_dict, safe=False);
+    else:
+        return HttpResponse('Unsupported method', status=405)
 
 
+# @name: get_vehicle_data
+# @description: extracts the data from vehicles object and retrieve it a dictionary.
+# @author: Nicol Valeria Ortiz Rodríguez
+# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com 
 
+def get_vehicle_data(v):
+    data = {
+            'plate': v.plate,
+            'made_year': v.made_year,
+            'base_price': v.base_price,
+            'guarantee_end_date':v.guarantee_end_date,
+            'selled':v.selled,
+            'model_id_id':v.model_id_id,
+        }
+
+    return data;
+
+# @name: get_vehicles
+# @description: Get the data from all the vehicles objects.
+# @author: Nicol Valeria Ortiz Rodríguez
+# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com 
+
+def get_vehicles(request):
+    if request.method == 'GET':
+        vehicle_queryset = Gw_Vehicle.objects.all();
+        vehicle_dict = [];
+
+        for h in vehicle_queryset:
+            vehicle_dict.append(
+                get_vehicle_data(h),
+            )
+        return JsonResponse(vehicle_dict, safe=False);
+    else:
+        return HttpResponse('Unsupported method', status=405)
     

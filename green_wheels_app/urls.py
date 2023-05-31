@@ -38,6 +38,7 @@ urlpatterns = [
     path('send_email', send_email, name='send_email'),
     path('get_employees_email', get_employees_email, name='get_employees_email'),
     path('create_client', create_client, name='create_client'),
-
+    path('get_headquarters', get_headquarters, name='get_headquarters'),
+    path('get_vehicles', get_vehicles, name='get_vehicles'),
     #path('create_headquater', create_headquater, name='create_headquater'),
 ]
