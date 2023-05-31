@@ -52,5 +52,8 @@ export const postRegisterClientForm = (data) => gw_api.post('create_client', dat
 export const postEmailForm = (data) => gw_api.post('send_email', data);
 
 
+export const postCreateSeller = (id) => gw_api.post('post_create_seller/', id, credentials);
 
+export const postCreateWorkshopBoss = (id) => gw_api.post('post_create_workshopboss/', id, credentials);
 
+export const postCreateManager = (id) => gw_api.post('post_create_manager/', id, credentials);

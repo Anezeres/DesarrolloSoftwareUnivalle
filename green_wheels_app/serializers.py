@@ -46,14 +46,21 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = UserModel
 		fields = '__all__'
+
 	def create(self, clean_data):
 		user_obj = UserModel.objects.create_user(
             person_id=clean_data['person_id'],
+	    	id_type=clean_data['id_type'],
 	        names=clean_data['names'],
 		    last_names=clean_data['last_names'],
 			email=clean_data['email'],
-	        password=clean_data['password'])
-		#user_obj.username = clean_data['username']
+	        password=clean_data['password'],
+			birth_date=clean_data['birth_date'],
+			phone1=clean_data['phone1'],
+			phone2=clean_data['phone2'],
+			living_address=clean_data['living_address'],
+			)
+
 		user_obj.save()
 		return user_obj
 

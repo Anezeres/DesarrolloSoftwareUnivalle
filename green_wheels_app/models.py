@@ -6,13 +6,17 @@ from django.contrib.auth.models import Group
 from django.db.models.signals import post_migrate
 from django.dispatch import receiver
 
-@receiver(post_migrate)
-def create_users_groups(sender, **kwargs):
-    Clients_Group, created = Group.objects.get_or_create(name='Clients');
-    Seller_Group, created = Group.objects.get_or_create(name='Sellers');
-    WorkshopBoss_Group, created = Group.objects.get_or_create(name='WorkshopBoss');
-    Manager_Group, created = Group.objects.get_or_create(name='Manager');
-    Admin_Group, created = Group.objects.get_or_create(name='AppAdmin');
+
+# # Create the user groups when migrating
+# @receiver(post_migrate)
+# def create_users_groups(sender, **kwargs):
+#     Clients_Group, created = Group.objects.get_or_create(name='Clients');
+#     Seller_Group, created = Group.objects.get_or_create(name='Sellers');
+#     WorkshopBoss_Group, created = Group.objects.get_or_create(name='WorkshopBoss');
+#     Manager_Group, created = Group.objects.get_or_create(name='Manager');
+#     Admin_Group, created = Group.objects.get_or_create(name='AppAdmin');
+
+
 
 # @name: CustomUserManager
 # @description: Manager that sets the settings to create an user in the custom model.
@@ -22,28 +26,28 @@ def create_users_groups(sender, **kwargs):
 
 class CustomUserManager(BaseUserManager):
 
-    def create_user(self, person_id, names, email, password, **extra_fields):
+    def create_user(self, person_id, email, password, id_type=1, **extra_fields):
         if not person_id:
             raise ValueError("Users must have a person id!")
         email = self.normalize_email(email)
-        user = self.model(person_id=person_id, email=email, names=names, id_type=1, **extra_fields)
-        user.set_password(password)
-        user.save()
-        return user
+        user = self.model(person_id=person_id, email=email, id_type=id_type, **extra_fields);
+        user.set_password(password);
+        user.save();
+        return user;
 
     def create_superuser(self, person_id, email, password, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('is_active', True)
+        extra_fields.setdefault('is_staff', True);
+        extra_fields.setdefault('is_superuser', True);
+        extra_fields.setdefault('is_active', True);
 
         if extra_fields.get('is_staff') is not True:
-            raise ValueError('Superuser must have is_staff=True.')
+            raise ValueError('Superuser must have is_staff=True.');
         if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Superuser must have is_superuser=True.')
-        
-        names = 'Admin'
+            raise ValueError('Superuser must have is_superuser=True.');
 
-        return self.create_user(person_id, names, email, password, **extra_fields)
+        names = 'Admin';
+
+        return self.create_user(person_id, email, password, names=names, **extra_fields);
 
 
 # @name: Gw_Person
@@ -66,7 +70,7 @@ class Gw_Person(AbstractBaseUser, PermissionsMixin):
     birth_date = models.DateField(null=True);
     phone1 = models.IntegerField(null=True);
     phone2 = models.IntegerField(null=True);
-    email = models.EmailField(null=True);
+    email = models.EmailField();
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
