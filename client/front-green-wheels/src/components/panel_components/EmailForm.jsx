@@ -92,7 +92,7 @@ export const EmailForm = () =>{
                             id='correo_destinatario' 
                             name='correo_destinatario' 
                             placeholder="Ingrese el correo a quien va dirigido" 
-                            value={correos_destinatarios2}
+                            // value={correos_destinatarios2}
                             multiple
                             />
                             <ErrorMessage name='correo_destinatario' component='div' className='error'/>
