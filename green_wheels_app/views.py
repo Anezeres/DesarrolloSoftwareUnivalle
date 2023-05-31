@@ -8,16 +8,21 @@ from django.db.models.signals import post_migrate, post_save
 from django.dispatch import receiver
 from green_wheels_app.permissions import HavePanelAccess, panel_permission
 from rest_framework import permissions
+from green_wheels_app.auth_views import UserRegister
 #from rest_framework.decorators import permission_classes
 
 #imports to send an email
-import os
 import json
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.conf import settings
-from green_wheels_app.auth_views import UserView
-from green_wheels_app.models import Gw_Employee, Gw_Headquarter
+from green_wheels_app.models import Gw_Employee, Gw_Associate_Headquarter 
+
+#imports to create a client from frontend
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework import status
+from rest_framework.renderers import JSONRenderer
 
 # @name: create_users_groups
 # @description: This function is executed when a migration is performed. It
@@ -520,9 +525,6 @@ def send_email(request):
 # @author: Nicol Valeria Ortiz Rodríguez
 # @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com 
 
-from .models import Gw_Associate_Headquarter
-from django.http import JsonResponse, HttpResponse
-
 def get_employees_email(request):
     if request.method == 'GET':
         gw_manager_id = request.user.person_id
@@ -533,10 +535,48 @@ def get_employees_email(request):
         for headq in headquarter_list_ass:
             if (headq.headquarter_id_id == gw_manager_headquarter_id):
                 employee_email = headq.person_id.email
-                employee_emails.append(employee_email)
+                person = Gw_Person.objects.get(person_id=headq.person_id.person_id);
+                if (person.person_id != gw_manager_id):
+                    groups = person.groups.values();
+                    id_groups = []
+                    for g in groups:
+                        id_groups.append(g['id']) 
+                    employee_emails.append((employee_email,id_groups))
 
         return JsonResponse(employee_emails, safe=False)
     else:
         return HttpResponse('Unsupported method', status=405)
 
+# @name: create_client
+# @description: Get the data send by the frontend and store object client
+# @author: Nicol Valeria Ortiz Rodríguez
+# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com 
 
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def create_client(request):
+    user_register = UserRegister()
+    response = user_register.post(request)
+    
+    if response.status_code == status.HTTP_201_CREATED:
+        response.accepted_renderer = JSONRenderer()  # Establecer el renderizador aceptado como JSONRenderer
+        response.accepted_media_type = 'application/json'  # Establecer el tipo de medio aceptado
+        response.renderer_context = {}  # Establecer el contexto del renderizador como un diccionario vacío
+        response.render()  # Renderizar la respuesta antes de acceder a su contenido
+        
+        data = json.loads(response.content)
+        person_id = data.get('person_id')
+        
+        if person_id:
+            gw_person = Gw_Person.objects.get(person_id=person_id)  # Obtener la instancia de Gw_Person correcta
+            client = Gw_Client.objects.create(person_id=gw_person)
+            client.save()
+            print('esta es:', gw_person)
+            return JsonResponse({'message': 'Éxito'})
+    
+    return JsonResponse({'message': 'Error'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+    

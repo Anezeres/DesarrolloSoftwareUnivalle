@@ -16,11 +16,9 @@ const App = () => {
           <Route path="/login" element={<LoginPage/>}/>
           <Route path="/register" element={<RegisterPage/>}/>
           <Route path="/logout" element={<LogoutPage/>}/>
-          {/* <Route path="/send_email" element={<EmailPage/>}/> */}
           <Route path="/control_panels/test_panel" element={<ControlPanel panel={<TestPnl/>}/>}/>
           <Route path="/control_panels/prueba" element={<ControlPanel panel={<Prueba/>}/>}/>
           <Route path="/control_panels/send_email" element={<ControlPanel panel={<EmailPage/>}/>}/>
-
         </Routes>
       </BrowserRouter>
   );

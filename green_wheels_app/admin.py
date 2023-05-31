@@ -22,6 +22,7 @@ admin.site.register(Gw_Headquarter);
 admin.site.register(Gw_Concessionaire);
 admin.site.register(Gw_Associate_Headquarter)
 
+
 # class Gw_Headquater(admin.ModelAdmin):
 #     form = Gw_HeadquaterForm;
 

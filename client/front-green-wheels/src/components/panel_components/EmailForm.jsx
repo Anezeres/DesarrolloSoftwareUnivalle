@@ -2,32 +2,65 @@ import React, {useState} from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik'
 import { postEmailForm } from '../../api/green_wheels.api';
 import {BasicSchema} from '../../schemas/validaciones'
-import {Button} from '../../components/Boton'
+import { CButton } from '@coreui/react';
+import '@coreui/coreui/dist/css/coreui.min.css';
+import axios from 'axios';
 
 export const EmailForm = () =>{
 
     const [mensaje_exitoso, setMensaje_exitoso] = useState(false)
-    // const [correosDestinatarios, setCorreosDestinatarios] = useState([]);
-    
+    const [correos_destinatarios2, setCorreosDestinatarios] = useState('');
+
+    const enviarTodos = (url) => {
+        axios.get(url)
+          .then(response => {
+            const correosDestinatarios = [];
+            response.data.forEach(item => {
+                const correo = item[0];
+                correosDestinatarios.push(correo);
+              });
+              setCorreosDestinatarios(correosDestinatarios.join(', '));
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      };
+
+        const enviarEmpleadoEspecifico = (url,grupo) => {
+            axios.get(url)
+            .then(response => {
+                const correosDestinatarios = [];
+                response.data.forEach(item => {
+                    const correo = item[0];
+                    const grupos = item[1];
+                    if (grupos.includes(grupo)) {
+                    correosDestinatarios.push(correo);
+                    }
+                });
+                setCorreosDestinatarios(correosDestinatarios.join(', '));
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        };
+
     return (
-        <>
-            <Formik
+        <div className='d-flex justify-content-end'>
+            <Formik 
             initialValues={{
                 correo_destinatario: '',
                 asunto: '',
                 mensaje:''
-
             }}
             validationSchema={BasicSchema}
             onSubmit={ async (valores, {resetForm})=>{
-                // Logic to send data to backend
                 try{
                     const response = await postEmailForm({
                         correo_destinatario:valores.correo_destinatario,
                         asunto: valores.asunto,
                         mensaje:valores.mensaje
                     })
-                    
+                    console.log(response)
                     if (response.status>=200 && response.status <= 299){
                         console.log("La operación fue un exito");
                     } else {
@@ -46,6 +79,9 @@ export const EmailForm = () =>{
                 }
 
             }}
+            // handleChange = { (values)=>{
+                
+            // } }
             >
                 { () => (
                     <Form className="formulario">
@@ -56,6 +92,7 @@ export const EmailForm = () =>{
                             id='correo_destinatario' 
                             name='correo_destinatario' 
                             placeholder="Ingrese el correo a quien va dirigido" 
+                            value={correos_destinatarios2}
                             multiple
                             />
                             <ErrorMessage name='correo_destinatario' component='div' className='error'/>
@@ -86,7 +123,16 @@ export const EmailForm = () =>{
                     </Form>
                 )}    
             </Formik>
-                {/* touched detecta cuando se ha tocado un input, su valor cambia a True */}
+            <div className="mx-auto">
+                <CButton color="primary" onClick={() => enviarTodos('http://localhost:8000/get_employees_email')}>Todos</CButton>
+                <CButton color="primary" onClick={() => enviarEmpleadoEspecifico('http://localhost:8000/get_employees_email',3)}>Jefes de taller</CButton> 
+                <CButton color="primary" onClick={() => enviarEmpleadoEspecifico('http://localhost:8000/get_employees_email',2)}>Vendedores</CButton> 
+            </div>            
+		</div>
+    );
+}
+
+{/* touched detecta cuando se ha tocado un input, su valor cambia a True */}
                 {/* {( {values, errors, touched, handleSubmit, handleChange, handleBlur} ) => (
                     <form className="formulario" onSubmit={handleSubmit}>
                         <div>
@@ -143,7 +189,3 @@ export const EmailForm = () =>{
                         {mensaje_exitoso && <p className='exito'>Formulario enviado con éxito!</p>}
                     </form> 
                 )} */}
-                <Button/>
-		</>
-    );
-}
