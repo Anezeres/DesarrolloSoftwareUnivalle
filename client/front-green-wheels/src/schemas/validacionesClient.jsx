@@ -11,6 +11,7 @@ export const BasicSchema = yup.object().shape({
     last_names: yup.string().required('Se debe ingresar los apellidos'),
     living_address: yup.string().required('Se debe ingresar la dirección'),
     email: yup.string().matches(emailRules, 'Porfavor ingresa un email válido').required('El campo debe ser llenado'),
+    // birth_place: yup.string(),
     password: yup.string().required('La contraseña es requerida').min(8, 'La contraseña debe tener al menos 8 caracteres').matches(passwordRules,'La contraseña debe contener al menos una letra minúscula, una letra mayúscula, un número y un carácter especial'
     ),
 })

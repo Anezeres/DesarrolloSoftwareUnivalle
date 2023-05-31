@@ -23,6 +23,9 @@ export const ClientForm = () =>{
                 last_names: '',
                 email: '',
                 living_address: '',
+                phone1:'',
+                phone2:'',
+                birth_date:'2023-05-02',
                 password: ''
             }}
             validationSchema={BasicSchema}
@@ -35,6 +38,9 @@ export const ClientForm = () =>{
                         last_names: valores.last_names,
                         email: valores.email,
                         living_address: valores.living_address,
+                        phone1:valores.phone1,
+                        phone2:valores.phone2,
+                        birth_date: valores.birth_date,
                         password: valores.password,
                     })
                     console.log(response)
@@ -116,6 +122,17 @@ export const ClientForm = () =>{
                             <ErrorMessage name='email' component='div' className='error'/>
                         </div>
                         <div>
+                            <label htmlFor="phone1">Phone 1</label>
+                            <Field type="txt" id="phone1" name="phone1"/>
+                            <ErrorMessage name="id_type" component="div" className="error" />
+                        </div>
+                        
+                        <div>
+                            <label htmlFor="phone2">Phone 2</label>
+                            <Field type="txt" id="phone2" name="phone2"/>
+                            <ErrorMessage name="id_type" component="div" className="error" />
+                        </div>
+                        <div>
                             <label htmlFor="living_address">Dirección</label>
                             <Field  
                             type="text" 
@@ -124,6 +141,16 @@ export const ClientForm = () =>{
                             placeholder="Escribe tu dirección"
                             />
                             <ErrorMessage name='living_address' component='div' className='error'/>
+                        </div>
+                        <div>
+                            <label htmlFor="birth_date">Fecha de nacimiento</label>
+                            <Field  
+                            type="birth_date" 
+                            id='birth_date' 
+                            name='birth_date' 
+                            placeholder="Escribe tu dirección"
+                            />
+                            <ErrorMessage name='birth_date' component='div' className='error'/>
                         </div>
                         <div>
                             <label htmlFor="password">Contraseña</label>
