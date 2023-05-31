@@ -11,9 +11,6 @@ export const PersonRegisterForm = () => {
     const [names, setNames] = useState('');
     const [lastNames, setLastNames] = useState('');
     const [living_address, set_living_address] = useState('');
-    const [birth_place, set_birth_place] = useState('');
-    const [phone1, setPhone1] = useState(0);
-    const [phone2, setPhone2] = useState(0);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 

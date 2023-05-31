@@ -45,7 +45,9 @@ export const postLoginForm = (data) => gw_api.post('login', data, credentials);
 
 export const postLogout = () => gw_api.post('logout');
 
-export const postRegisterForm = (data) => gw_api.post('create_client', data);
+export const postRegisterForm = (data) => gw_api.post('register', data);
+
+export const postRegisterClientForm = (data) => gw_api.post('create_client', data);
 
 export const postEmailForm = (data) => gw_api.post('send_email', data);
 
