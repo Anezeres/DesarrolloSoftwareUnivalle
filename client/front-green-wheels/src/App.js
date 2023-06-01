@@ -11,7 +11,9 @@ import { CreateWorkshopBoss } from './components/panel_components/CreateWorkshop
 import { CreateManager } from './components/panel_components/CreateManager';
 
 
-const App = () => {
+
+
+export const App = () => {
   return (
     <BrowserRouter>
         <Routes>

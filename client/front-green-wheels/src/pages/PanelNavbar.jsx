@@ -1,6 +1,7 @@
 import {getAllowedPanels} from "../api/green_wheels.api";
 import {useState, useEffect} from 'react';
 
+
 export const PanelNavbar = ({person_id}) => {
     const [allowedPanels, setAllowedPanels] = useState([]);
 
@@ -22,6 +23,7 @@ export const PanelNavbar = ({person_id}) => {
     
 
     return (<div>
+        
         <p><a href="../">HOME</a></p>
         <hr></hr>
         {allowedPanels.map((panel, id)=> <p key={id}><a href={panel}>{panel}</a></p>)}

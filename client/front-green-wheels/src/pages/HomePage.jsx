@@ -1,5 +1,7 @@
-import { useEffect, useState} from "react";
-import { getLoggedUser, getUserGroups, getAllowedPanels} from "../api/green_wheels.api";
+import { useEffect, useState } from "react";
+import { getLoggedUser, getUserGroups, getAllowedPanels } from "../api/green_wheels.api";
+import Navbar from "../components/Navs/navbar"
+
 
 
 export const HomePage = () => {
@@ -11,11 +13,11 @@ export const HomePage = () => {
     const [logoutLabel, setLogoutLabel] = useState('');
 
 
-    useEffect(()=>{
-        async function getUserRequest () {
+    useEffect(() => {
+        async function getUserRequest() {
             try {
                 const res = await getLoggedUser();
-                if (res.status === 200)  {
+                if (res.status === 200) {
                     setIsLogged(true);
                     setUserName(res.data.user.names);
 
@@ -43,30 +45,38 @@ export const HomePage = () => {
 
 
 
-    return (<div>
-                <h1>Welcome to Green Wheels, {userName}</h1>
-                {!isLogged ? (   ///Este es el
+    return (
+        <div>
+            <Navbar />
+            {/*<Navbar/>*/}
+
+            <div className="contenedorGeneral">
+            {!isLogged ? (   ///Este es el
                 <>
                     <a href="./login">Login</a>
                     <br></br>
                     <a href="./register">Register</a>
                 </>) : (<> {/* Este es si es en caso contrario */}
-                <h2>Your groups are:</h2>
-                <ul>
-                    {userGroups.map((group, index) =>
-                      (<li key={index}>{group}</li>)
-                    )}
-                </ul>
-                <hr></hr>
-                <h2>You have access to the following panels</h2>
-                <ul>
-                    {allowedPanels.map((panel, index) =>
-                      (<li key={index}><a href={"control_panels/"+panel}>{panel}</a></li>)
-                    )}
-                </ul>
-                <a href="./logout">{logoutLabel}</a>
+                    <h2>Your groups are:</h2>
+                    <ul>
+                        {userGroups.map((group, index) =>
+                            (<li key={index}>{group}</li>)
+                        )}
+                    </ul>
+                    <hr></hr>
+                    <h2>You have access to the following panels</h2>
+                    <ul>
+                        {allowedPanels.map((panel, index) =>
+                            (<li key={index}><a href={"control_panels/" + panel}>{panel}</a></li>)
+                        )}
+                    </ul>
+                    <a href="./logout">{logoutLabel}</a>
                 </>
-                )}
-         </div>
+            )}
+
+            </div>
+
+            
+        </div>
     )
 }
