@@ -45,12 +45,12 @@ export const HomePage = () => {
 
     return (<div>
                 <h1>Welcome to Green Wheels, {userName}</h1>
-                {!isLogged ? (
+                {!isLogged ? (   ///Este es el
                 <>
                     <a href="./login">Login</a>
                     <br></br>
                     <a href="./register">Register</a>
-                </>) : (<>
+                </>) : (<> {/* Este es si es en caso contrario */}
                 <h2>Your groups are:</h2>
                 <ul>
                     {userGroups.map((group, index) =>
