@@ -4,6 +4,9 @@ import App from './App';
 import './CSS/form.css';
 import './CSS/navbar.css';
 import './CSS/body.css';
+import './CSS/footer.css';
+import './CSS/bootstrap.min.css';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

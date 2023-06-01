@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { getLoggedUser, getUserGroups, getAllowedPanels } from "../api/green_wheels.api";
 import Navbar from "../components/Navs/navbar"
+import Footer from "../components/content/footer"
+
 
 
 
@@ -76,7 +78,7 @@ export const HomePage = () => {
 
             </div>
 
-            
+            <Footer />
         </div>
     )
 }
