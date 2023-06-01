@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getLoggedUser, getUserGroups, getAllowedPanels } from "../api/green_wheels.api";
 import Navbar from "../components/Navs/navbar"
+import Sidebar from "../components/Navs/sidebar"
 import Footer from "../components/content/footer"
 
 
@@ -49,16 +50,23 @@ export const HomePage = () => {
 
     return (
         <div>
-            <Navbar />
+            
+            {/**/}
             {/*<Navbar/>*/}
 
-            <div className="contenedorGeneral">
+            
             {!isLogged ? (   ///Este es el
                 <>
+                    <Navbar />
                     <a href="./login">Login</a>
                     <br></br>
                     <a href="./register">Register</a>
+                    <Footer />
                 </>) : (<> {/* Este es si es en caso contrario */}
+                    <div className="containerPagina">
+                    <Sidebar />
+
+                    <div>
                     <h2>Your groups are:</h2>
                     <ul>
                         {userGroups.map((group, index) =>
@@ -73,12 +81,13 @@ export const HomePage = () => {
                         )}
                     </ul>
                     <a href="./logout">{logoutLabel}</a>
+                    </div>
+
+
+                    </div>
                 </>
             )}
-
-            </div>
-
-            <Footer />
+            
         </div>
     )
 }

@@ -1,0 +1,49 @@
+.sidebar {
+    width: 300px;
+    height: 100vh;
+    background-color: #2f363d;
+    color: #fff;
+  }
+  
+  .logo {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .logo h1 {
+    font-size: 24px;
+    margin-bottom: 0;
+  }
+  
+  .tabs {
+    padding-top: 20px;
+  }
+  
+  .tab {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .tab:hover {
+    background-color: #424a52;
+  }
+  
+  .tab.active {
+    background-color: #1c2025;
+  }
+  
+  .icon {
+    margin-right: 10px;
+  }
+  
+  .content {
+    padding: 20px;
+  }
+  
+  .content h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  

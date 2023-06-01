@@ -2,3 +2,24 @@
     margin-top: 75px;
     margin-bottom: 418px;
 }
+
+.contenedorSideBar{
+    margin-left: 216px;
+    margin-right: 0px;
+    display: flex;
+}
+
+.containerPagina {
+    display: flex;
+  }
+  
+  .sidebar-menu {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .contentidoSidebar {
+    flex: 1;
+    /* Agrega otros estilos deseados para el contenido */
+  }
+  
