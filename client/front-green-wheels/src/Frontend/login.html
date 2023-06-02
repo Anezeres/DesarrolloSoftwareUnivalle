@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang = "es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv = "X-UA-Compatible" content = "IE=edge">
+        <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
+        <tittle>  </tittle>
+        <link rel = "stylesheet" href = "login.css">
+    </head>
+    <body>
+        <main>
+            <div class="box">
+                <div class="inner-box">
+                    <div class = "forms-wrap">
+                        <form action="login.html" autocomplete="off" class = "sign-in-form">
+                            <div class = "logo">
+                                <img src = "/client/front-green-wheels/src/Frontend/Media/logog.png" alt = "GreenWheels">
+                                <h4>GreenWheels</h4>
+                            </div>
+
+                            <div class = "heading">
+                                <h2>¡Inicia sesión!</h2>
+                                <h6> ¿No tienes cuenta?</h6>
+                                <a href="#" class="toggle">Regístrate aquí</a>
+                            </div>
+
+                            <div class = "actual-form">
+
+                                <div class = "input-wrap">
+                                    <input 
+                                        type="text" 
+                                        minlength="4" 
+                                        class="input-field" 
+                                        autocomplete="off" 
+                                        required
+                                    />
+                                    <label>Email o usuario</label>
+                                </div>
+
+                                <div class="input-wrap">
+                                    <input
+                                        type="contraseña"
+                                        minlength="4"
+                                        class="input-field"
+                                        autocomplete="off"
+                                        required
+                                    />
+                                    <label>Contraseña</label>
+                                </div>
+
+
+                                <input type = "submit" value = "Iniciar Sesión" class="sign-btn" />
+                                <p class = "text">
+                                    ¿Olvidaste tu contraseña o usuario?
+                                    <a href = "#">Da clic aquí</a>
+                                </p>
+                            </div>
+                        </form>
+                        
+                        <form action="login.html" autocomplete="off" class = "sign-up-form">
+                            <div class = "logo">
+                                <img src = "/client/front-green-wheels/src/Frontend/Media/logog.png" alt = "GreenWheels">
+                                <h4>GreenWheels</h4>
+                            </div>
+
+                            <div class = "heading">
+                                <h2>¡Regístrate!</h2>
+                                <h6>¿Ya tienes una cuenta?</h6>
+                                <a href="#" class="toggle">Inicia sesión</a>
+                            </div>
+
+                            <div class = "actual-form">
+
+                                <div class = "input-wrap">
+                                    <input 
+                                        type="text" 
+                                        minlength="4" 
+                                        class="input-field" 
+                                        autocomplete="off" 
+                                        required
+                                    />
+                                    <label>Usuario</label>
+                                </div>
+
+                                <div class = "input-wrap">
+                                    <input 
+                                        type="email"
+                                        class="input-field" 
+                                        autocomplete="off" 
+                                        required
+                                    />
+                                    <label>Email</label>
+                                </div>
+
+                                <div class="input-wrap">
+                                    <input
+                                        type="contraseña"
+                                        minlength="4"
+                                        class="input-field"
+                                        autocomplete="off"
+                                        required
+                                    />
+                                    <label>Contraseña</label>
+                                </div>
+
+
+                                <input type = "submit" value = "Regístrate" class="sign-btn" />
+                                <p class = "text">
+                                    Autorizo el uso de mis datos de acuerdo a la 
+                                    <a href = "#"> declaración de privacidad </a>y acepto los 
+                                    <a href = "#">terminos y condiciones.</a>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                    <div class = "carrousel"></div>
+                </div>
+            </div>
+        </main>
+        <!-- Javascript file-->
+        <script src  = "login.js"> </script>
+
+    </body>
+</html>
