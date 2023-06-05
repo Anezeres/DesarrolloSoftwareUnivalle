@@ -48,7 +48,7 @@ def create_users_groups(sender, **kwargs):
 
 @receiver(post_migrate)
 def create_default_panels(sender, **kwargs):
-    panels = ['test_panel', 'prueba', 'create_seller', 'create_workshopboss', 'create_manager'];
+    panels = ['test_panel', 'prueba', 'create_seller', 'create_workshopboss', 'create_manager', 'create_vehicle_components'];
     for panel in panels:
         Gw_Panel.objects.get_or_create(panel_name=panel);
 
@@ -72,7 +72,7 @@ id|name        |
 @receiver(post_migrate)
 def default_allowed_panels(sender, **kwargs):
     # relation : (panel_id, group_id)
-    relations = [(1, 2), (1, 4), (3, 4), (4, 4), (5, 4)];
+    relations = [(1, 2), (1, 4), (3, 4), (4, 4), (5, 4), (6, 4)];
     for relation in relations:
         group_admin = Group.objects.get(id=5);
         try:
@@ -576,8 +576,8 @@ class Gw_Brand_Viewset(viewsets.ModelViewSet):
     queryset = Gw_Brand.objects.all();
     serializer_class = Gw_Brand_Serializer;
     def get_permissions(self):
-        return [permissions.IsAuthenticated(), HavePanelAccess()]
-
+        return [permissions.IsAuthenticated(), HavePanelAccess('create_vehicle_components')];
+    
 
 # @name: Gw_Vehicle_Model_Viewset
 # @description: Viewset for vehicles models
@@ -587,6 +587,8 @@ class Gw_Brand_Viewset(viewsets.ModelViewSet):
 class Gw_Vehicle_Model_Viewset(viewsets.ModelViewSet):
     queryset = Gw_Vehicle_Model.objects.all();
     serializer_class = Gw_Vehicle_Model_Serializer;
+    def get_permissions(self):
+        return [permissions.IsAuthenticated(), HavePanelAccess('create_vehicle_components')];
 
 
 
@@ -598,6 +600,9 @@ class Gw_Vehicle_Model_Viewset(viewsets.ModelViewSet):
 class Gw_Vehicle_Viewset(viewsets.ModelViewSet):
     queryset = Gw_Vehicle.objects.all();
     serializer_class = Gw_Vehicle_Serializer;
+    def get_permissions(self):
+        return [permissions.IsAuthenticated(), HavePanelAccess('create_vehicle_components')];
+
 
 # @name: insert_diagnosis
 # @description: insert data gotten from frontend
