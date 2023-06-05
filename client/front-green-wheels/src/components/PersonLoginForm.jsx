@@ -1,6 +1,6 @@
 import intervalToDuration from "date-fns/intervalToDuration/index.js";
 import { postLoginForm } from "../api/green_wheels.api";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import myImage from '../Frontend/Media/img.png';
 import Navbar from "../components/Navs/navbar";
@@ -32,6 +32,29 @@ export const PersonLoginForm = () => {
     }
   }
 
+
+  useEffect(() => {
+    const inputs = document.querySelectorAll(".input-field");
+    const toggle_btn = document.querySelectorAll(".toggle");
+    const main = document.querySelector("main");
+
+    inputs.forEach((inp) => {
+      inp.addEventListener("focus", () => {
+        inp.classList.add("active");
+      });
+      inp.addEventListener("blur", () => {
+        if (inp.value !== "") return;
+        inp.classList.remove("active");
+      });
+    });
+
+    toggle_btn.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        main.classList.toggle("sign-up-mode");
+      });
+    });
+  }, []);
+
   return (
     <div>
       <Navbar />
@@ -47,31 +70,117 @@ export const PersonLoginForm = () => {
 
       <div>
         <div className="contenedorGeneral">
-          <div className="containerlog">
-            <form action="" className="form" onSubmit={submitForm}>
-              <h1>Inicia Sesión</h1>
-              <input
-                type="number"
-                placeholder="ID"
-                className="box"
-                value={id}
-                onChange={(e) => setId(e.target.value)}
-              />
-              <input
-                type="password"
-                name="password"
-                className="box"
-                placeholder="Contraseña"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              ></input>
-              <input type="submit" values="Iniciar Sesión" id="submit"></input>
-              <a href="#"> ¿Olvidaste tu contraseña?</a>
-            </form>
-            <div class="side">
-              <img src={myImage} alt=""></img>
+          <main>
+          <div className="box">
+                <div className="inner-box">
+                    <div className = "forms-wrap">
+                        <form action="login.html" autocomplete="off" className = "sign-in-form">
+                            <div className = "logo">
+                                <img src = "/client/front-green-wheels/src/Frontend/Media/logog.png" alt = "GreenWheels"></img>
+                                <h4>GreenWheels</h4>
+                            </div>
+
+                            <div className = "heading">
+                                <h2>¡Inicia sesión!</h2>
+                                <h6> ¿No tienes cuenta?</h6>
+                                <a href="#" className="toggle">Regístrate aquí</a>
+                            </div>
+
+                            <div className = "actual-form">
+
+                                <div className = "input-wrap">
+                                    <input 
+                                        type="text" 
+                                        minlength="4" 
+                                        className="input-field" 
+                                        autocomplete="off" 
+                                        required
+                                    />
+                                    <label>Email o usuario</label>
+                                </div>
+
+                                <div className="input-wrap">
+                                    <input
+                                        type="contraseña"
+                                        minlength="4"
+                                        className="input-field"
+                                        autocomplete="off"
+                                        required
+                                    />
+                                    <label>Contraseña</label>
+                                </div>
+
+
+                                <input type = "submit" value = "Iniciar Sesión" className="sign-btn" />
+                                <p className = "text">
+                                    ¿Olvidaste tu contraseña o usuario?
+                                    <a href = "#">Da clic aquí</a>
+                                </p>
+                            </div>
+                        </form>
+                        
+                        <form action="login.html" autocomplete="off" className = "sign-up-form">
+                            <div className = "logo">
+                                <img src = "/client/front-green-wheels/src/Frontend/Media/logog.png" alt = "GreenWheels"></img>
+                                <h4>GreenWheels</h4>
+                            </div>
+
+                            <div className = "heading">
+                                <h2>¡Regístrate!</h2>
+                                <h6>¿Ya tienes una cuenta?</h6>
+                                <a href="#" className="toggle">Inicia sesión</a>
+                            </div>
+
+                            <div className = "actual-form">
+
+                                <div className = "input-wrap">
+                                    <input 
+                                        type="text" 
+                                        minlength="4" 
+                                        className="input-field" 
+                                        autocomplete="off" 
+                                        required
+                                    />
+                                    <label>Usuario</label>
+                                </div>
+
+                                <div className = "input-wrap">
+                                    <input 
+                                        type="email"
+                                        className="input-field" 
+                                        autocomplete="off" 
+                                        required
+                                    />
+                                    <label>Email</label>
+                                </div>
+
+                                <div className="input-wrap">
+                                    <input
+                                        type="contraseña"
+                                        minlength="4"
+                                        className="input-field"
+                                        autocomplete="off"
+                                        required
+                                    />
+                                    <label>Contraseña</label>
+                                </div>
+
+
+                                <input type = "submit" value = "Regístrate" className="sign-btn" />
+                                <p className = "text">
+                                    Autorizo el uso de mis datos de acuerdo a la 
+                                    <a href = "#"> declaración de privacidad </a>y acepto los 
+                                    <a href = "#">terminos y condiciones.</a>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                    <div className = "carrousel"></div>
+                </div>
             </div>
-          </div>
+
+
+          </main>   
         </div>
       </div>
     </div>

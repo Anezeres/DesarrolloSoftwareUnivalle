@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import './CSS/form.css';
+import './CSS/login.css';
 import './CSS/navbar.css';
 import './CSS/body.css';
 import './CSS/footer.css';
