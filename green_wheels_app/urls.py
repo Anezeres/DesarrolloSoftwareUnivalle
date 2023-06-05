@@ -11,6 +11,12 @@ router = routers.DefaultRouter();
 router.register(r'brands', Gw_Brand_Viewset);
 router.register(r'vehicle_models', Gw_Vehicle_Model_Viewset);
 router.register(r'vehicles', Gw_Vehicle_Viewset);
+router.register(r'service_sell_vehicles', Gw_Service_Sell_Vehicle_Viewset);
+router.register(r'negotations', Gw_Negotations_Viewset);
+router.register(r'headquarters', Gw_Headquarter_Viewset);
+router.register(r'concessionaires', Gw_Concessionaire_Viewset);
+router.register(r'request_process', Gw_Request_Process_Viewset);
+router.register(r'attended_process', Gw_Attended_Process_Viewset);
 
 
 urlpatterns = [

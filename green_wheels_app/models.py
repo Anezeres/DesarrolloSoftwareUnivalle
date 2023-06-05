@@ -293,7 +293,7 @@ class Gw_Negotation(models.Model):
 
     CHOICES = [
         (1, 'cash'),
-        (2, 'credit_cart'),
+        (2, 'credit_card'),
     ]
 
     last_modification_date = models.DateField();
@@ -350,6 +350,7 @@ class Gw_Needed_Replacement_Part(models.Model):
     diagnosis_id = models.ForeignKey('Gw_Service_Diagnosis_Vehicle', on_delete=models.CASCADE);
     replacement_id = models.ForeignKey('Gw_Replacement_Part', on_delete=models.CASCADE);
     approved = models.BooleanField();
+
 
 
 # @name: Gw_Request_Process

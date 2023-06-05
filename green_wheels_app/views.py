@@ -361,6 +361,7 @@ def post_create_manager(request):
     else:
         return HttpResponse('Unsupported method', status=405)
 
+
 # @name: get_employees_list
 # @description: Get the data from all the employee objects
 # @author: Paul Rodrigo Rojas G.
@@ -602,6 +603,68 @@ class Gw_Vehicle_Viewset(viewsets.ModelViewSet):
     serializer_class = Gw_Vehicle_Serializer;
     def get_permissions(self):
         return [permissions.IsAuthenticated(), HavePanelAccess('create_vehicle_components')];
+
+
+# @name: Gw_Service_Sell_Vehicle_Viewset
+# @description: Viewset for service sell vehicles model
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Service_Sell_Vehicle_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Service_Sell_Vehicle.objects.all();
+    serializer_class = Gw_Service_Sell_Vehicle_Serializer;
+
+
+# @name: Gw_Negotation_Viewset
+# @description: Viewset for negotations.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Negotations_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Negotation.objects.all();
+    serializer_class = Gw_Negotations_Serializer;
+
+
+
+# @name: Gw_Headquarter_Viewset
+# @description: Viewset for Headquarters
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Headquarter_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Headquarter.objects.all();
+    serializer_class = Gw_Headquarter_Serializer;
+
+
+# @name: Gw_Concessionaire_Viewset
+# @description: Viewset for Concessionaires
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Concessionaire_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Concessionaire.objects.all();
+    serializer_class = Gw_Concessionaire_Serializer;
+
+
+# @name: Gw_Request_Process_Viewset
+# @description: Viewset for request process models
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Request_Process_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Request_Process.objects.all();
+    serializer_class = Gw_Request_Process_Serializer;
+
+
+# @name: Gw_Attended_Process_Viewset
+# @description: Viewset for attended process model.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+
+class Gw_Attended_Process_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Attended_Process.objects.all();
+    serializer_class = Gw_Attended_Process_Serializer;
 
 
 # @name: insert_diagnosis

@@ -38,6 +38,71 @@ class Gw_Vehicle_Serializer(serializers.ModelSerializer):
         fields = '__all__';
 
 
+# @name: Gw_Service_Sell_Vehicle_Serializer
+# @description: Serializer for service sell vehicles model
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Service_Sell_Vehicle_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Gw_Service_Sell_Vehicle;
+        fields = '__all__';
+
+# @name: Gw_Negotations_Serializer
+# @description: Serializer for negotations.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Negotations_Serializer(serializers.ModelSerializer):
+      class Meta:
+        model = Gw_Negotation;
+        fields = '__all__';
+
+
+# @name: Gw_Headquarter_Serializer
+# @description: Serializer for headquarter
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Headquarter_Serializer(serializers.ModelSerializer):
+		class Meta:
+			model = Gw_Headquarter;
+			fields = '__all__';
+
+
+# @name: Gw_Concessionaire_Serializer
+# @description: Serializer for concessionaires
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Concessionaire_Serializer(serializers.ModelSerializer):
+	class Meta:
+		model = Gw_Concessionaire;
+		fields = '__all__';
+
+
+
+# @name: Gw_Request_Process_Serializer
+# @description: Serializer for request process serializer model
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Request_Process_Serializer(serializers.ModelSerializer):
+	class Meta:
+		model = Gw_Request_Process;
+		fields = '__all__';
+
+
+# @name: Gw_Attended_Process
+# @description: Serializerfor attended process model
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Attended_Process_Serializer(serializers.ModelSerializer):
+	class Meta:
+		model = Gw_Attended_Process;
+		fields = '__all__';
+
 
 # Here are the serializers that are used for users authentication
 UserModel = get_user_model()
