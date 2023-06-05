@@ -319,7 +319,7 @@ class Gw_Service_Sell_Vehicle(Gw_Service):
 
 class Gw_Service_Diagnosis_Vehicle(Gw_Service):
     description = models.CharField(max_length=200);
-    date = models.CharField(max_length=30);
+    date = models.DateField();
     price = models.FloatField(null=True);
     mechanic_id = models.IntegerField(null=True);
     mechanic_name = models.CharField(max_length=40, default='');
