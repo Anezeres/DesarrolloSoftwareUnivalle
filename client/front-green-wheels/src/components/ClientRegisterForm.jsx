@@ -145,7 +145,7 @@ export const ClientForm = () =>{
                         <div>
                             <label htmlFor="birth_date">Fecha de nacimiento</label>
                             <Field  
-                            type="birth_date" 
+                            type="date" 
                             id='birth_date' 
                             name='birth_date' 
                             placeholder="Escribe tu dirección"
