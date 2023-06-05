@@ -667,12 +667,27 @@ class Gw_Attended_Process_Viewset(viewsets.ModelViewSet):
     serializer_class = Gw_Attended_Process_Serializer;
 
 
-# @name: insert_diagnosis
-# @description: insert data gotten from frontend
+# @name: Gw_Diagnosis_Viewset
+# @description: Viewset for diagnosis
 # @author: Nicol Valeria Ortiz R.
 # @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com
 
-#def create_diagnosis(request, id):
+class Gw_Diagnosis_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Service_Diagnosis_Vehicle.objects.all();
+    serializer_class = Gw_Diagnosis_Serializer;
+    def get_permissions(self):
+        return [permissions.IsAuthenticated(), HavePanelAccess('create_diagnosis_panel')];
+
+# @name: Gw_Replacement_Viewset
+# @description: Viewset for replacement part
+# @author: Nicol Valeria Ortiz R.
+# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com
+
+class Gw_Replacement_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Replacement_Part.objects.all();
+    serializer_class = Gw_Replacement_Part_Serializer;
+    def get_permissions(self):
+        return [permissions.IsAuthenticated(), HavePanelAccess('create_replacement_panel')];
 
 
 # This endpoint is just for testing.
@@ -711,27 +726,6 @@ def send_email(request):
 
         return JsonResponse({'message': 'Exito'})
     
-# @name: create_headquater
-# @description: Receive the data from frontend and create a headquater
-# @author: Nicol Valeria Ortiz Rodríguez
-# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com   
- 
-# def create_headquater(request):    
-#     if request.method == 'POST':
-#         data = json.loads(request.body)  # Obtener los datos enviados por POST como JSON
-#         name = data['name']
-#         city = data['city']
-#         address = data['address']
-
-#         new_headquarter = Gw_Headquarter(name=name, city=city, address=address)
-
-#         new_headquarter.save()
-
-#         return HttpResponse('Headquarter created successfully')
-    
-#     # return HttpResponseNotAllowed(['POST'])
-        
-
 
 # @name: get_employees_email
 # @description: Get all employees with same headquater as the manager
@@ -789,72 +783,12 @@ def create_client(request):
     
     return JsonResponse({'message': 'Error'}, status=status.HTTP_400_BAD_REQUEST)
 
-# @name: get_headquarter_data
-# @description: extracts the data from h headquarter object and retrieve it a dictionary.
-# @author: Nicol Valeria Ortiz Rodríguez
-# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com 
-
-def get_headquarter_data(h):
-    data = {
-            'id': h.id,
-            'name': h.name,
-            'city': h.city,
-            'address':h.address,
-        }
-
-    return data;
-
-# @name: get_headquarters
-# @description: Get the data from all the headquarter objects.
-# @author: Nicol Valeria Ortiz Rodríguez
-# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com 
-
-def get_headquarters(request):
-    if request.method == 'GET':
-        headquarter_queryset = Gw_Headquarter.objects.all();
-        headquarter_dict = [];
-
-        for h in headquarter_queryset:
-            headquarter_dict.append(
-                get_headquarter_data(h),
-            )
-        return JsonResponse(headquarter_dict, safe=False);
-    else:
-        return HttpResponse('Unsupported method', status=405)
 
 
-# @name: get_vehicle_data
-# @description: extracts the data from vehicles object and retrieve it a dictionary.
-# @author: Nicol Valeria Ortiz Rodríguez
-# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com 
 
-def get_vehicle_data(v):
-    data = {
-            'plate': v.plate,
-            'made_year': v.made_year,
-            'base_price': v.base_price,
-            'guarantee_end_date':v.guarantee_end_date,
-            'selled':v.selled,
-            'model_id_id':v.model_id_id,
-        }
 
-    return data;
 
-# @name: get_vehicles
-# @description: Get the data from all the vehicles objects.
-# @author: Nicol Valeria Ortiz Rodríguez
-# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com 
 
-def get_vehicles(request):
-    if request.method == 'GET':
-        vehicle_queryset = Gw_Vehicle.objects.all();
-        vehicle_dict = [];
 
-        for h in vehicle_queryset:
-            vehicle_dict.append(
-                get_vehicle_data(h),
-            )
-        return JsonResponse(vehicle_dict, safe=False);
-    else:
-        return HttpResponse('Unsupported method', status=405)
+
     

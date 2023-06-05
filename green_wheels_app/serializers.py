@@ -104,6 +104,26 @@ class Gw_Attended_Process_Serializer(serializers.ModelSerializer):
 		fields = '__all__';
 
 
+# @name: Gw_Replacement_Part_Serializer
+# @description: Viewset for replacement part
+# @author: Nicol Valeria Ortiz R.
+# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com
+
+class Gw_Replacement_Part_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Gw_Replacement_Part;
+        fields = '__all__';
+
+# @name: Gw_Diagnosis_Serializer
+# @description: Viewset for diagnosis
+# @author: Nicol Valeria Ortiz R.
+# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com
+
+class Gw_Diagnosis_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Gw_Service_Diagnosis_Vehicle;
+        fields = '__all__';
+
 # Here are the serializers that are used for users authentication
 UserModel = get_user_model()
 
