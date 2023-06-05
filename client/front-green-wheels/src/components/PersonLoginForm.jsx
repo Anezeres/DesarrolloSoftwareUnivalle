@@ -2,7 +2,7 @@ import intervalToDuration from "date-fns/intervalToDuration/index.js";
 import { postLoginForm } from "../api/green_wheels.api";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import myImage from "../pages/Media/img.png";
+import myImage from '../Frontend/Media/img.png';
 import Navbar from "../components/Navs/navbar";
 
 export const PersonLoginForm = () => {

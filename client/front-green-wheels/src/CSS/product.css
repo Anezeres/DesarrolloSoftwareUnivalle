@@ -1,0 +1,59 @@
+.product {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 70%;
+  }
+
+  .product-image img {
+    width: 600px;
+    height: auto;
+    max-width: 700px;
+    object-fit: contain;
+    margin-right: 10px;
+    background-color: #666;
+    padding: 20px;
+    border-radius: 10px;
+
+  }
+  
+  .product-details h2 {
+    font-size: 50px;
+    margin-bottom: 10px;
+  }
+  
+  .product-details p {
+    color: #666;
+    margin-bottom: 10px;
+  }
+  
+  .product-details .price {
+    font-weight: bold;
+    font-size: 20px;
+  }
+  
+
+  .CarDetails {
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .CarDetails h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .CarDetails p {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .CarDetails .price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ff5500;
+  }

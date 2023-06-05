@@ -10,7 +10,7 @@ import { BasicPersonForm } from './forms/BasicPersonForm'
 import Navbar from "../components/Navs/navbar"
 import Footer from "../components/content/footer"
 
-import myImage from "../pages/Media/img.png";
+import myImage from '../Frontend/Media/img.png';
 
 export const PersonRegisterForm = () => {
 
