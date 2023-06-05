@@ -623,6 +623,8 @@ class Gw_Service_Sell_Vehicle_Viewset(viewsets.ModelViewSet):
 class Gw_Negotations_Viewset(viewsets.ModelViewSet):
     queryset = Gw_Negotation.objects.all();
     serializer_class = Gw_Negotations_Serializer;
+    def get_permissions(self):
+        return [permissions.IsAuthenticated(), HavePanelAccess('create_negotiation_panel')];
 
 
 
