@@ -587,6 +587,32 @@ def get_seller_assigned_negotations(request, id):
         return HttpResponse('Unsupported method', status=405);
 
 
+def get_vehicles_components_headquarter(request, id):
+    if request.method == 'GET':
+        query_vehicles = Gw_Vehicle_Inventory.objects.filter(concessionaire_id__headquarter_id=id).values('model_id__name',
+                                                                                                          'quantity');
+        query_replacements = Gw_Replacement_Inventory.objects.filter(workshop_id__headquarter_id=id).values('replacement_id__name',
+                                                                                                           'quantity');
+
+        data = [];
+
+        data_vehicles = [];
+
+        data_replacements = [];
+
+        for v in query_vehicles:
+            data_vehicles.append({'model':v['model_id__name'], 'quantity':v['quantity']});
+
+        for r in query_replacements:
+            data_replacements.append({'replacement':r['replacement_id__name'], 'quantity':v['quantity']});
+
+        data.append({'vehicles_inventory':data_vehicles});
+        data.append({'replacement_inventory':data_replacements});
+
+        return JsonResponse(data, safe=False);
+    else:
+        return HttpResponse('Unsupported method', status=405);
+
 # @name: Gw_Brand_Viewset
 # @description: Viewset for brand model
 # @author: Paul Rodrigo Rojas G.
@@ -667,6 +693,28 @@ class Gw_Concessionaire_Viewset(viewsets.ModelViewSet):
     serializer_class = Gw_Concessionaire_Serializer;
 
 
+# @name: Gw_Workshop_Viewset
+# @description: Viewset for workshop model
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+
+class Gw_Workshop_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Workshop.objects.all();
+    serializer_class = Gw_Workshop_Serializer;
+
+
+
+# @name: Gw_Replacement_Inventory_Viewset
+# @description: Viewset for replacements inventory model.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Replacement_Inventory_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Replacement_Inventory.objects.all();
+    serializer_class = Gw_Replacement_Inventory_Serializer;
+
+
 # @name: Gw_Request_Process_Viewset
 # @description: Viewset for request process models
 # @author: Paul Rodrigo Rojas G.
@@ -709,6 +757,19 @@ class Gw_Replacement_Viewset(viewsets.ModelViewSet):
     serializer_class = Gw_Replacement_Part_Serializer;
     def get_permissions(self):
         return [permissions.IsAuthenticated(), HavePanelAccess('create_replacement_panel')];
+
+
+
+# @name: Gw_Vehicle_Inventory_Viewset
+# @description: Viewset for vehicle inventory viewset
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Vehicles_Inventory_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Vehicle_Inventory.objects.all();
+    serializer_class = Gw_Vehicle_Inventory_Serializer;
+
+
 
 
 # This endpoint is just for testing.

@@ -12,7 +12,8 @@ import { CreateSeller } from './components/panel_components/CreateSeller';
 import { CreateWorkshopBoss } from './components/panel_components/CreateWorkshopBoss';
 import { CreateManager } from './components/panel_components/CreateManager';
 import { CreateVehicleComponents} from './components/panel_components/CreateVehicleComponents';
-import { CheckNegotations } from './components/CheckNegotations';
+import { CheckNegotations } from './components/panel_components/CheckNegotations';
+import { CheckInventory } from './components/panel_components/CheckInventory';
 
 
 const App = () => {
@@ -23,7 +24,6 @@ const App = () => {
           <Route path="/login" element={<LoginPage/>}/>
           <Route path="/register" element={<RegisterPage/>}/>
           <Route path="/logout" element={<LogoutPage/>}/>
-          <Route path="/prueba" element={<CheckNegotations/>}/>
 
           <Route path="/create_client" element={<ClientForm/>}/>
           <Route path="/control_panels/send_email" element={<ControlPanel panel={<EmailPage/>}/>}/>
@@ -32,6 +32,8 @@ const App = () => {
           <Route path="/control_panels/create_seller" element={<ControlPanel panel={<CreateSeller/>}/>}/>
           <Route path="/control_panels/create_workshopboss" element={<ControlPanel panel={<CreateWorkshopBoss/>}/>}/>
           <Route path="/control_panels/create_manager" element={<ControlPanel panel={<CreateManager/>}/>}/>
+          <Route path="/control_panels/check_negotations" element={<CheckNegotations/>}/>
+          <Route path="/control_panels/check_inventory" element={<CheckInventory/>}/>
           <Route path="/control_panels/create_vehicle_components" element={<ControlPanel panel={<CreateVehicleComponents/>}/>}/>
 
         </Routes>

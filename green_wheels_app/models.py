@@ -217,7 +217,7 @@ class Gw_Concessionaire(models.Model):
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
 class Gw_Workshop(models.Model):
-    workshop_id = models.ForeignKey('Gw_Headquarter', on_delete=models.CASCADE);
+    headquarter_id = models.ForeignKey('Gw_Headquarter', on_delete=models.CASCADE);
 
 
 

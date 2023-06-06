@@ -52,6 +52,8 @@ export const getVehicles = () => gw_api_viewset('vehicles');
 
 export const getNegotations = (id) => gw_api('get_seller_assigned_negotations/' + id);
 
+export const getHeadquarterInventory = (id) => gw_api('get_headquarter_inventory/' + id);
+
 // POST
 
 export const postLoginForm = (data) => gw_api.post('login', data, credentials);

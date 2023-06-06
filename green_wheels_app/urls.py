@@ -15,10 +15,14 @@ router.register(r'service_sell_vehicles', Gw_Service_Sell_Vehicle_Viewset);
 router.register(r'negotations', Gw_Negotations_Viewset);
 router.register(r'headquarters', Gw_Headquarter_Viewset);
 router.register(r'concessionaires', Gw_Concessionaire_Viewset);
+router.register(r'workshops', Gw_Workshop_Viewset);
 router.register(r'request_process', Gw_Request_Process_Viewset);
 router.register(r'attended_process', Gw_Attended_Process_Viewset);
 router.register(r'replacement', Gw_Replacement_Viewset);
 router.register(r'diagnosis', Gw_Diagnosis_Viewset);
+router.register(r'vehicles_inventory', Gw_Vehicles_Inventory_Viewset);
+router.register(r'replacements_inventory', Gw_Replacement_Inventory_Viewset);
+
 
 
 urlpatterns = [
@@ -40,6 +44,7 @@ urlpatterns = [
     path('get_user_groups/<int:id>/', get_user_groups, name = 'get_user_groups'),
     path('get_allowed_panels/<int:id>/', get_allowed_panels, name = 'get_allowed_panels'),
     path('get_seller_assigned_negotations/<int:id>/', get_seller_assigned_negotations, name='get_seller_assigned_negotations'),
+    path('get_headquarter_inventory/<int:id>/', get_vehicles_components_headquarter, name = 'get_vehicles_components_headquarter'),
     # PANELS
     path('control_panels/', include('green_wheels_app.panel_urls')),
     # AUTH

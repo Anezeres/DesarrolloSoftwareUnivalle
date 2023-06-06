@@ -1,4 +1,4 @@
-import { getNegotations } from "../api/green_wheels.api";
+import { getNegotations } from "../../api/green_wheels.api";
 import {useState, useEffect} from 'react';
 
 

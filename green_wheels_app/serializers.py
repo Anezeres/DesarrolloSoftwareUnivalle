@@ -124,6 +124,39 @@ class Gw_Diagnosis_Serializer(serializers.ModelSerializer):
         model = Gw_Service_Diagnosis_Vehicle;
         fields = '__all__';
 
+
+# @name: Gw_Vehicles_Inventory_Serializer
+# @description: Serializer for vehicle inventory model
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Vehicle_Inventory_Serializer(serializers.ModelSerializer):
+	class Meta:
+		model = Gw_Vehicle_Inventory;
+		fiels = '__all__';
+
+
+# @name: Gw_Workshop_Serializer
+# @description: Serializer for workshops
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Workshop_Serializer(serializers.ModelSerializer):
+	class Meta:
+		model = Gw_Workshop;
+		fields = '__all__';
+
+# @name: Gw_Replacements_Inventory_Serializer
+# @description: Serializer for replacements inventory
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Replacement_Inventory_Serializer(serializers.ModelSerializer):
+	class Meta:
+		model = Gw_Replacement_Inventory;
+		fields = '__all__';
+
+
 # Here are the serializers that are used for users authentication
 UserModel = get_user_model()
 
