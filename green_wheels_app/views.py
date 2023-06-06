@@ -18,7 +18,7 @@ import json
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.conf import settings
-from green_wheels_app.models import Gw_Employee, Gw_Associate_Headquarter 
+from green_wheels_app.models import Gw_Employee, Gw_Associate_Headquarter
 
 #imports to create a client from frontend
 from rest_framework.decorators import api_view, permission_classes
@@ -304,7 +304,7 @@ def post_create_seller(request):
             return HttpResponse('An error has ocurred', status=400);
     else:
         return HttpResponse('Unsupported method', status=405)
-    
+
 
 # @name: post_create_workshopboss
 # @description: Creates WorkshopBoss objects.
@@ -568,6 +568,25 @@ def get_allowed_panels(request, id):
         return HttpResponse('Unsupported method', status=405);
 
 
+def get_seller_assigned_negotations(request, id):
+    if request.method == 'GET':
+        query = Gw_Attended_Process.objects.filter(employee_id=id).values('employee_id',
+                                                                          'attended_date',
+                                                                          'finished_date','service_id');
+
+        data = [];
+
+        for elem in query:
+            data.append({'employee_id':elem['employee_id'],
+                               'attended_date':elem['attended_date'],
+                               'finished_date':elem['finished_date'],
+                               'service_id':elem['service_id']});
+
+        return JsonResponse(data, safe=False);
+    else:
+        return HttpResponse('Unsupported method', status=405);
+
+
 # @name: Gw_Brand_Viewset
 # @description: Viewset for brand model
 # @author: Paul Rodrigo Rojas G.
@@ -578,7 +597,7 @@ class Gw_Brand_Viewset(viewsets.ModelViewSet):
     serializer_class = Gw_Brand_Serializer;
     def get_permissions(self):
         return [permissions.IsAuthenticated(), HavePanelAccess('create_vehicle_components')];
-    
+
 
 # @name: Gw_Vehicle_Model_Viewset
 # @description: Viewset for vehicles models
@@ -623,8 +642,8 @@ class Gw_Service_Sell_Vehicle_Viewset(viewsets.ModelViewSet):
 class Gw_Negotations_Viewset(viewsets.ModelViewSet):
     queryset = Gw_Negotation.objects.all();
     serializer_class = Gw_Negotations_Serializer;
-    def get_permissions(self):
-        return [permissions.IsAuthenticated(), HavePanelAccess('create_negotiation_panel')];
+    # def get_permissions(self):
+    #     return [permissions.IsAuthenticated(), HavePanelAccess('create_negotiation_panel')];
 
 
 
@@ -727,12 +746,12 @@ def send_email(request):
         email.send()
 
         return JsonResponse({'message': 'Exito'})
-    
+
 
 # @name: get_employees_email
 # @description: Get all employees with same headquater as the manager
 # @author: Nicol Valeria Ortiz Rodríguez
-# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com 
+# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com
 
 def get_employees_email(request):
     if request.method == 'GET':
@@ -749,7 +768,7 @@ def get_employees_email(request):
                     groups = person.groups.values();
                     id_groups = []
                     for g in groups:
-                        id_groups.append(g['id']) 
+                        id_groups.append(g['id'])
                     employee_emails.append((employee_email,id_groups))
 
         return JsonResponse(employee_emails, safe=False)
@@ -759,30 +778,30 @@ def get_employees_email(request):
 # @name: create_client
 # @description: Get the data send by the frontend and store object client
 # @author: Nicol Valeria Ortiz Rodríguez
-# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com 
+# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def create_client(request):
     user_register = UserRegister()
     response = user_register.post(request)
-    
+
     if response.status_code == status.HTTP_201_CREATED:
         response.accepted_renderer = JSONRenderer()  # Establecer el renderizador aceptado como JSONRenderer
         response.accepted_media_type = 'application/json'  # Establecer el tipo de medio aceptado
         response.renderer_context = {}  # Establecer el contexto del renderizador como un diccionario vacío
         response.render()  # Renderizar la respuesta antes de acceder a su contenido
-        
+
         data = json.loads(response.content)
         person_id = data.get('person_id')
-        
+
         if person_id:
             gw_person = Gw_Person.objects.get(person_id=person_id)  # Obtener la instancia de Gw_Person correcta
             client = Gw_Client.objects.create(person_id=gw_person)
             client.save()
             print('esta es:', gw_person)
             return JsonResponse({'message': 'Éxito'})
-    
+
     return JsonResponse({'message': 'Error'}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -793,4 +812,4 @@ def create_client(request):
 
 
 
-    
+

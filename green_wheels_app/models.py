@@ -115,7 +115,7 @@ class Gw_Employee(models.Model):
     person_id = models.ForeignKey('Gw_Person', on_delete=models.CASCADE);
 
     def __str__(self):
-        return str(self.person_id) +' - '+ self.person_id.names 
+        return str(self.person_id) +' - '+ self.person_id.names
 
 
 # @name: Gw_Manager
@@ -310,6 +310,9 @@ class Gw_Negotation(models.Model):
 class Gw_Service_Sell_Vehicle(Gw_Service):
     negotation_id = models.ForeignKey('Gw_Negotation', on_delete=models.CASCADE);
     concessionaire_id = models.ForeignKey('Gw_Concessionaire', on_delete=models.CASCADE);
+
+    def __str__(self):
+        return self.negotation_id;
 
 
 # @name: Gw_Service_Diagnosis_Vehicle

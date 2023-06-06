@@ -39,6 +39,7 @@ urlpatterns = [
     path('get_admin/<int:id>/', get_admin, name = 'get_admin'),
     path('get_user_groups/<int:id>/', get_user_groups, name = 'get_user_groups'),
     path('get_allowed_panels/<int:id>/', get_allowed_panels, name = 'get_allowed_panels'),
+    path('get_seller_assigned_negotations/<int:id>/', get_seller_assigned_negotations, name='get_seller_assigned_negotations'),
     # PANELS
     path('control_panels/', include('green_wheels_app.panel_urls')),
     # AUTH

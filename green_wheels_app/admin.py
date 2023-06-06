@@ -23,6 +23,14 @@ admin.site.register(Gw_Concessionaire);
 admin.site.register(Gw_Associate_Headquarter)
 
 
+admin.site.register(Gw_Service);
+admin.site.register(Gw_Service_Sell_Vehicle);
+admin.site.register(Gw_Request_Process);
+admin.site.register(Gw_Attended_Process);
+admin.site.register(Gw_Negotation);
+
+
+
 # class Gw_Headquater(admin.ModelAdmin):
 #     form = Gw_HeadquaterForm;
 
