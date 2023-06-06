@@ -27,7 +27,7 @@ def validate_email(data):
 def validate_id(data):
     person_id = data['person_id'].strip()
     if not person_id:
-        raise ValidationError('choose another id')
+        raise ValidationError('an id is needed')
     return True
 
 def validate_password(data):

@@ -18,7 +18,7 @@ export const HomePage = () => {
                 if (res.status === 200)  {
                     setIsLogged(true);
                     setUserName(res.data.user.names);
-                    
+
                     try {
                         const groupsResponse = await getUserGroups(res.data.user.person_id);
                         setUserGroups(groupsResponse.data.groups);
@@ -27,7 +27,7 @@ export const HomePage = () => {
                     } catch (error) {
                         console.log("The user is not related with any user group...")
                     }
-                
+
                     setLogoutLabel('Logout');
                 } else {
                     setLogoutLabel('Logout');
@@ -44,25 +44,27 @@ export const HomePage = () => {
 
 
     return (<div>
-                <h1>Welcome to Green Wheels, {userName}</h1> 
+                <h1>Welcome to Green Wheels, {userName}</h1>
                 {!isLogged ? (
                 <>
                     <a href="./login">Login</a>
                     <br></br>
-                    <a href="./register">Register</a>
+                    <a href="./register">Register persons</a>
+                    <br></br>
+                    <a href="./create_client">Register Clients</a>
                 </>) : (<>
                 <h2>Your groups are:</h2>
                 <ul>
-                    {userGroups.map((group, index) => 
+                    {userGroups.map((group, index) =>
                       (<li key={index}>{group}</li>)
-                    )} 
+                    )}
                 </ul>
                 <hr></hr>
                 <h2>You have access to the following panels</h2>
                 <ul>
-                    {allowedPanels.map((panel, index) => 
+                    {allowedPanels.map((panel, index) =>
                       (<li key={index}><a href={"control_panels/"+panel}>{panel}</a></li>)
-                    )} 
+                    )}
                 </ul>
                 <a href="./logout">{logoutLabel}</a>
                 </>
