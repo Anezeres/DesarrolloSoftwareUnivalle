@@ -33,10 +33,10 @@ export const PersonLoginForm = () => {
         }
    }
 
-    return (<div class="heading">
-        <h2>¡Inicia sesión!</h2>   
-        <form className='formulario' onSubmit={submitForm}>
-        <input type="number" placeholder="Email o Usuario" value={id} 
+    return (<div>
+        <h2>Login Form</h2>
+        <form onSubmit={submitForm}>
+        <input type="number" placeholder="ID" value={id} 
                 onChange={(e)=>setId(e.target.value)}/>
         <input type="password" placeholder="Contraseña" value={password} 
                 onChange={(e)=>setPassword(e.target.value)}/>
