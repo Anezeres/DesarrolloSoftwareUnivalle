@@ -35,7 +35,6 @@ const App = () => {
           <Route path="/control_panels/check_negotations" element={<CheckNegotations/>}/>
           <Route path="/control_panels/check_inventory" element={<CheckInventory/>}/>
           <Route path="/control_panels/create_vehicle_components" element={<ControlPanel panel={<CreateVehicleComponents/>}/>}/>
-
         </Routes>
       </BrowserRouter>
   );

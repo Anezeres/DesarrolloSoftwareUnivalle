@@ -182,6 +182,36 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 		user_obj.save()
 		return user_obj
 
+
+
+
+
+# class UserEditSerializer(serializers.ModelSerializer):
+# 	class Meta:
+# 		model = UserModel;
+# 		fields = '__all__';
+
+# 	def edit(self, clean_data):
+# 		try:
+# 			user = UserModel.objects.get(person_id=clean_data['person_id']);
+# 			user.id_type=clean_data['id_type'];
+# 			user.names=clean_data['names'];
+# 			user.last_names=clean_data['last_names'];
+# 			user.email=clean_data['email'];
+# 			user.password=clean_data['password'];
+# 			user.birth_date=clean_data['birth_date'];
+# 			user.phone1=clean_data['phone1'];
+# 			user.phone2=clean_data['phone2'];
+# 			user.living_address=clean_data['living_address'];
+		
+# 			user.save();
+		
+# 			return user;
+# 		except Exception:
+# 			print("Ha ocurrido un error");
+
+		
+
 class UserLoginSerializer(serializers.Serializer):
 	person_id = serializers.IntegerField()
 	password = serializers.CharField()
