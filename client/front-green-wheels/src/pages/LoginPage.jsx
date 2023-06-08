@@ -1,5 +1,9 @@
 import { PersonLoginForm } from "../components/PersonLoginForm";
 
 export const LoginPage = () => {
-    return <PersonLoginForm/>
+    return (
+    <div className="box">
+    <PersonLoginForm/>
+    </div>
+    )
 }

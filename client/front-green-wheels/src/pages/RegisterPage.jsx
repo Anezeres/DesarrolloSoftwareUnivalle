@@ -1,5 +1,10 @@
 import { PersonRegisterForm } from "../components/PersonRegisterForm";
 
 export const RegisterPage = () => {
-    return <PersonRegisterForm/>
+    
+    return (
+    <div className="boxregistro">
+    <PersonRegisterForm/>
+    </div>
+    )
 }
