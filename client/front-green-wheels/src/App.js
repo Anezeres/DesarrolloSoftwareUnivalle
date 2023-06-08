@@ -14,7 +14,7 @@ import { CreateManager } from './components/panel_components/CreateManager';
 import { CreateVehicleComponents} from './components/panel_components/CreateVehicleComponents';
 import { CheckNegotations } from './components/panel_components/CheckNegotations';
 import { CheckInventory } from './components/panel_components/CheckInventory';
-
+import { ManageUsersPanel } from './components/panel_components/ManageUsersPanel';
 
 const App = () => {
   return (
@@ -35,6 +35,7 @@ const App = () => {
           <Route path="/control_panels/check_negotations" element={<CheckNegotations/>}/>
           <Route path="/control_panels/check_inventory" element={<CheckInventory/>}/>
           <Route path="/control_panels/create_vehicle_components" element={<ControlPanel panel={<CreateVehicleComponents/>}/>}/>
+          <Route path="/control_panels/manage_users" element={<ControlPanel panel={<ManageUsersPanel/>}/>}/>
         </Routes>
       </BrowserRouter>
   );

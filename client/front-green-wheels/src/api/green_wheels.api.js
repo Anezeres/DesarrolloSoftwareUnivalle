@@ -80,6 +80,8 @@ export const postCreateVehicle = (data) => gw_api_viewset.post('vehicles/', data
 
 // PUT
 
+export const putEditPerson = (data) => gw_api.put('edit', data, credentials);
+
 export const putEditBrand = (id, data) => gw_api_viewset.put('brands/' + id + "/", data, credentials);
 
 export const putEditVehicleModel = (id, data) => gw_api_viewset.put('vehicle_models/' + id + "/", data, credentials);

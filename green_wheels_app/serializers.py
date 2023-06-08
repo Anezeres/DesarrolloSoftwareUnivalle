@@ -184,31 +184,30 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
 
 
+class UserEditSerializer(serializers.Serializer):
+	class Meta:
+		model = UserModel;
+		fields = '__all__';
 
-
-# class UserEditSerializer(serializers.ModelSerializer):
-# 	class Meta:
-# 		model = UserModel;
-# 		fields = '__all__';
-
-# 	def edit(self, clean_data):
-# 		try:
-# 			user = UserModel.objects.get(person_id=clean_data['person_id']);
-# 			user.id_type=clean_data['id_type'];
-# 			user.names=clean_data['names'];
-# 			user.last_names=clean_data['last_names'];
-# 			user.email=clean_data['email'];
-# 			user.password=clean_data['password'];
-# 			user.birth_date=clean_data['birth_date'];
-# 			user.phone1=clean_data['phone1'];
-# 			user.phone2=clean_data['phone2'];
-# 			user.living_address=clean_data['living_address'];
+	def edit(self, data):
 		
-# 			user.save();
+		try:
+			user = UserModel.objects.get(person_id=data['person_id']);
+			fields = ['id_type', 'names', 'last_names', 'email',
+	     		'birth_date', 'phone1', 'phone2', 'living_address'];
+			
+			for f in fields:
+				if f in data:
+					setattr(user, f, data[f]);
 		
-# 			return user;
-# 		except Exception:
-# 			print("Ha ocurrido un error");
+			if 'password' in data:
+				user.set_password(data['password']);
+
+			user.save();
+		
+			return user;
+		except Exception:
+			print("Ha ocurrido un error");
 
 		
 

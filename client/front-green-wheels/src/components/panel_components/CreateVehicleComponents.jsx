@@ -1,6 +1,6 @@
 
 import { AbstractCreateEditPanel } from "./AbstractCreateEditPanel";
-import { RetrieveVehicleComponents } from "./RetrieveVehicleComponents";
+import {RetrieveVehicleComponents} from '../retrievers/RetrieveVehicleComponents';
 
 
 export const CreateVehicleComponents = () => {
