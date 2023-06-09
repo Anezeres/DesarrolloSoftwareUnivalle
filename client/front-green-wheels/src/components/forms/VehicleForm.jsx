@@ -13,5 +13,7 @@ export const VehicleForm = ({createdMode}) => {
         postItem = {postCreateVehicle}
         putItem = {putEditVehicle}
         deleteItem = {null}
+        searchBy={['plate', 'model']}
+        showResults={['plate', 'model']}
         />);
 }

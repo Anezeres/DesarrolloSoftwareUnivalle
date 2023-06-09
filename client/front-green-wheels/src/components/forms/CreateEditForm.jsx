@@ -4,7 +4,7 @@ import {useState, useEffect} from 'react';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 
 
-export const CreateEditForm = ({createdMode, attributes, getItems, postItem, putItem, deleteItem}) => {
+export const CreateEditForm = ({createdMode, attributes, getItems, postItem, putItem, deleteItem, searchBy, showResults}) => {
 
     const [items, setItems] = useState([]);
 
@@ -21,7 +21,15 @@ export const CreateEditForm = ({createdMode, attributes, getItems, postItem, put
     }
 
     const formatResult = (item) => {
-      const fields = Object.values(item).join("-");
+      const filteredObject = Object.keys(item).reduce((acc, key) => {
+        if (showResults.includes(key)) {
+          acc[key] = item[key];
+        }
+        return acc;
+      }, {});
+
+      const fields = Object.values(filteredObject).join('-');
+
       return (
         <>
           <span style={{ display: 'block', textAlign: 'left' }}>{fields}</span>
@@ -109,6 +117,7 @@ export const CreateEditForm = ({createdMode, attributes, getItems, postItem, put
             onFocus={()=>{}}
             autoFocus
             formatResult={formatResult}
+            fuseOptions={{ keys: searchBy }}
         /></>}
             </>
             ) : 

@@ -1,4 +1,5 @@
 import { CreateEditForm } from "./CreateEditForm"
+import { getAllPersons } from "../../api/green_wheels.api";
 
 export const PersonForm = ({createdMode}) => {
 
@@ -8,9 +9,11 @@ export const PersonForm = ({createdMode}) => {
     return (<CreateEditForm 
         createdMode={createdMode} 
         attributes={attributes}
-        getItems = {null}
+        getItems = {getAllPersons}
         postItem = {null}
         putItem = {null}
         deleteItem = {null}
+        searchBy={['person_id', 'names', 'last_names']}
+        showResults={['person_id', 'names', 'last_names']}
         />);
 }

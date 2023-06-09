@@ -12,6 +12,8 @@ export const BrandForm = ({createdMode}) => {
     postItem = {postCreateBrand}
     putItem = {putEditBrand}
     deleteItem = {null}
+    searchBy={['name', 'country']}
+    showResults={['name', 'country']}
     />);
 
 
