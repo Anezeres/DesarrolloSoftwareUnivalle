@@ -41,7 +41,7 @@ export function PersonLoginForm() {
         }
   }
 
-  async function registro(b) {
+  async function Registro(b) {
     b.preventDefault();
     try {
             const response = await postRegisterForm({
@@ -212,7 +212,7 @@ export function PersonLoginForm() {
             </form>
 
             {/*REGISTRO DE USUARIO*/}
-            <form action="PersonLoginForm.jsx" autoComplete="off" className="sign-up-form" onSubmit={registro}>
+            <form action="PersonLoginForm.jsx" autoComplete="off" className="sign-up-form" onSubmit={Registro}>
               <div className="logo">
                 <img src={logo2} alt="GreenWheels" />
                 <h4>GreenWheels</h4>
