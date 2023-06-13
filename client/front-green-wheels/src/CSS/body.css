@@ -11,3 +11,32 @@ body {
     overflow-y: scroll;
 }
 
+body a {
+    margin-bottom: 4px;
+    margin-top: 4px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 4px;
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+a:visited {
+    border-bottom: none;
+    color: rgb(57, 57, 57);
+}
+
+a:hover {   
+    background: rgba(192,216,96,1);
+}
+
+.lista {
+    display: inline;
+    margin-right: 10px;
+    padding-bottom: 10px;
+    align-items: center;
+    justify-content: center;
+}
+

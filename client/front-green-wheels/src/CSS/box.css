@@ -54,3 +54,36 @@
 	justify-content: center;   
 
 }
+
+.boxformularios {
+	width: 500px;
+	height: 850px;
+	padding: 1.5rem;
+    border-radius: 3.3rem;
+    background-color: #ffffff;
+	box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.27);
+    margin-left: 90px;
+    margin-top: 20px;
+	justify-content: center;   
+    transition: 0.4s;
+    align-items: center;
+
+}
+
+.boxformularios input:checked {
+    background-color: #ffffff;   
+}
+
+.boxvehiculo {
+	width: 500px;
+	height: 350px;
+	padding: 1.5rem;
+    border-radius: 3.3rem;
+    background-color: #ffffff;
+	box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.27);
+	justify-content: center;  
+    margin-left: 90px;
+    margin-top: 20px; 
+    transition: 0.4s;
+
+}

@@ -3,5 +3,10 @@ import {postCreateSeller } from '../../api/green_wheels.api';
 import { CreateUserInGroup} from '../forms/CreateUserInGroup';
 
 export const CreateSeller = () => {
-    return <CreateUserInGroup postCreateUser={postCreateSeller} groupName="Vendedores"/>
+    return ( <div className='heading'>
+    <div className='boxformularios'>
+    <CreateUserInGroup postCreateUser={postCreateSeller} groupName="Vendedores"/>
+    </div>
+    </div>
+    )
 }
