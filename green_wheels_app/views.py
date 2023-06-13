@@ -50,7 +50,8 @@ def create_users_groups(sender, **kwargs):
 
 @receiver(post_migrate)
 def create_default_panels(sender, **kwargs):
-    panels = ['test_panel', 'prueba', 'create_seller', 'create_workshopboss', 'create_manager', 'create_vehicle_components'];
+    panels = ['test_panel', 'prueba', 'create_seller', 'create_workshopboss', 'create_manager', 'create_vehicle_components',
+              'request_sell_service', 'check_inventory', 'check_negotations'];
     for panel in panels:
         Gw_Panel.objects.get_or_create(panel_name=panel);
 
@@ -74,7 +75,7 @@ id|name        |
 @receiver(post_migrate)
 def default_allowed_panels(sender, **kwargs):
     # relation : (panel_id, group_id)
-    relations = [(1, 2), (1, 4), (3, 4), (4, 4), (5, 4), (6, 4)];
+    relations = [(1, 2), (1, 4), (3, 4), (4, 4), (5, 4), (6, 4), (7, 1), (8, 4), (9, 4)];
     for relation in relations:
         group_admin = Group.objects.get(id=5);
         try:
@@ -715,8 +716,6 @@ class Gw_Service_Sell_Vehicle_Viewset(viewsets.ModelViewSet):
             negotation_serializer.save();
             negotation_id = negotation_serializer.data['id'];
 
-
-            print(request.data)
             sell_service_data = {
                 "vehicle_plate": request.data['vehicle_plate'],
                 "client_id": request.data['client_id'],
