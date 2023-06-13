@@ -54,6 +54,8 @@ export const getNegotations = (id) => gw_api('get_seller_assigned_negotations/' 
 
 export const getHeadquarterInventory = (id) => gw_api('get_headquarter_inventory/' + id);
 
+export const getGroupIdByPerson = (id, group) => gw_api('get_group_id_by_person/' + id + '/' + group);
+
 // POST
 
 export const postLoginForm = (data) => gw_api.post('login', data, credentials);
@@ -78,6 +80,10 @@ export const postCreateVehicleModel = (data) => gw_api_viewset.post('vehicle_mod
 
 export const postCreateVehicle = (data) => gw_api_viewset.post('vehicles/', data, credentials);
 
+export const postCreateNegotation = (data) => gw_api_viewset.post('negotations/', data, credentials);
+
+export const postCreateSellService = (data) => gw_api_viewset.post('service_sell_vehicles/', data, credentials);
+
 // PUT
 
 export const putEditPerson = (data) => gw_api.put('edit', data, credentials);
@@ -87,3 +93,5 @@ export const putEditBrand = (id, data) => gw_api_viewset.put('brands/' + id + "/
 export const putEditVehicleModel = (id, data) => gw_api_viewset.put('vehicle_models/' + id + "/", data, credentials);
 
 export const putEditVehicle = (id, data) => gw_api_viewset.put('vehicle/' + id + "/", data, credentials);
+
+export const putEditNegotation = (id, data) => gw_api_viewset.put('negotations/' + id + "/", data, credentials);

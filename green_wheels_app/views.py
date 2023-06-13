@@ -19,6 +19,8 @@ from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.conf import settings
 from green_wheels_app.models import Gw_Employee, Gw_Associate_Headquarter
+from rest_framework.response import Response
+
 
 #imports to create a client from frontend
 from rest_framework.decorators import api_view, permission_classes
@@ -304,6 +306,40 @@ def post_create_seller(request):
             return HttpResponse('An error has ocurred', status=400);
     else:
         return HttpResponse('Unsupported method', status=405)
+
+# @name: get_group_id_person
+# @description: Retrieves the group id for the person with the given person_id and 
+# given group id.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+def get_group_id_person(request, id, group):
+    if (request.method=='GET'):
+        user_model = None;
+        if group == 'client':
+            user_model = Gw_Client;
+        elif group == 'employee':
+            user_model = Gw_Employee;
+        elif group == 'manager':
+            user_model = Gw_Manager;
+        elif group == 'admin':
+            user_model = Gw_Admin;
+        else:
+            return HttpResponse("Sorry, the specified group does not exist", status=404);
+
+        try:
+            group_id = user_model.objects.get(person_id=id).client_id;
+            data = {
+                'id':group_id
+            };
+
+            return JsonResponse(data);
+        except Exception as e:
+            print(e);
+            return HttpResponse('Sorry, an error has ocurred', status=500);
+
+    else:
+        return HttpResponse('Unsupported method', status=405);
 
 
 # @name: post_create_workshopboss
@@ -658,6 +694,46 @@ class Gw_Vehicle_Viewset(viewsets.ModelViewSet):
 class Gw_Service_Sell_Vehicle_Viewset(viewsets.ModelViewSet):
     queryset = Gw_Service_Sell_Vehicle.objects.all();
     serializer_class = Gw_Service_Sell_Vehicle_Serializer;
+
+    # def create(self, request, *args, **kwargs):
+    #     user = request.user;
+
+    #     empty_negotation_data = {
+    #         'last_modification_date':'',
+    #         'final_sale_price':'',
+    #         'pay_method':'',
+    #         'description':''
+    #     }
+
+    #     negotation_serializer = Gw_Negotation.serializer_class(data=empty_negotation_data,
+    #                                    context={'author':user});
+        
+    #     if negotation_serializer.is_valid():
+    #         negotation_serializer.save();
+    #         negotation_id = negotation_serializer.data.id;
+
+    #         sell_service_data = {
+    #             "vehicle_plate": request.POST.get('vehicle_plate', None),
+    #             "client_id": request.POST.get('client_id', None),
+    #             "negotation_id": negotation_id,
+    #             "concessionaire_id": request.POST.get('concessionaire_id', None)
+    #             }
+            
+    #         sell_service_serializer = self.serializer_class(data=sell_service_data,
+    #                                        context={'author': user})
+            
+    #         if sell_service_serializer.is_valid():
+    #             sell_service_serializer.save()
+    #             return Response(data=sell_service_serializer.data, status=status.HTTP_201_CREATED);
+    #         else:
+    #             return Response(data=sell_service_serializer.errors, status=status.HTTP_400_BAD_REQUEST);
+
+    #     else:
+    #         return Response(data=negotation_serializer.errors, status=status.HTTP_400_BAD_REQUEST);
+
+
+        
+        
 
 
 # @name: Gw_Negotation_Viewset

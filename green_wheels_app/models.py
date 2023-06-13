@@ -296,10 +296,10 @@ class Gw_Negotation(models.Model):
         (2, 'credit_card'),
     ]
 
-    last_modification_date = models.DateField();
-    final_sale_price = models.FloatField();
-    pay_method = models.SmallIntegerField(default=1, choices=CHOICES);
-    description = models.CharField(max_length=100);
+    last_modification_date = models.DateField(null=True);
+    final_sale_price = models.FloatField(null=True);
+    pay_method = models.SmallIntegerField(default=1, choices=CHOICES, null=True);
+    description = models.CharField(max_length=100, null=True);
 
 
 # @name: Gw_Service_Sell_Vehicle
@@ -308,7 +308,15 @@ class Gw_Negotation(models.Model):
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
 class Gw_Service_Sell_Vehicle(Gw_Service):
-    negotation_id = models.ForeignKey('Gw_Negotation', on_delete=models.CASCADE);
+
+    default_negotation = Gw_Negotation.objects.create(
+        last_modification_date='2000-01-01',
+        final_sale_price=0,
+        pay_method=1,
+        description='default'
+    )
+
+    negotation_id = models.ForeignKey('Gw_Negotation', default=default_negotation, on_delete=models.CASCADE);
     concessionaire_id = models.ForeignKey('Gw_Concessionaire', on_delete=models.CASCADE);
 
 
