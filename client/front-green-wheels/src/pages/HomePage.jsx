@@ -48,11 +48,11 @@ export const HomePage = () => {
                 <h1>Welcome to Green Wheels, {userName}</h1>
                 {!isLogged ? (
                 <>
-                    <a className="submit" href="./login">Login</a>
+                    <a href="./login">Login</a>
                     <br></br>
-                    <a className="submit" href="./register">Register persons</a>
+                    <a href="./register">Register persons</a>
                     <br></br>
-                    <a className="submit" href="./create_client">Register Clients</a>
+                    <a href="./create_client">Register Clients</a>
                 </>) : (<>
                 <h2>Your groups are:</h2>
                 <ul>
