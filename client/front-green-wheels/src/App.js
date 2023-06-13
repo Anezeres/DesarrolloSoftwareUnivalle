@@ -15,6 +15,7 @@ import { CreateVehicleComponents} from './components/panel_components/CreateVehi
 import { CheckNegotations } from './components/panel_components/CheckNegotations';
 import { CheckInventory } from './components/panel_components/CheckInventory';
 import { ManageUsersPanel } from './components/panel_components/ManageUsersPanel';
+import { RequestSellService } from './components/panel_components/RequestSellService';
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/register" element={<RegisterPage/>}/>
           <Route path="/logout" element={<LogoutPage/>}/>
 
+          <Route path="/testing" element={<RequestSellService/>}/>
           <Route path="/create_client" element={<ClientForm/>}/>
           <Route path="/control_panels/send_email" element={<ControlPanel panel={<EmailPage/>}/>}/>
           <Route path="/control_panels/test_panel" element={<ControlPanel panel={<TestPnl/>}/>}/>

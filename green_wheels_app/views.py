@@ -308,7 +308,7 @@ def post_create_seller(request):
         return HttpResponse('Unsupported method', status=405)
 
 # @name: get_group_id_person
-# @description: Retrieves the group id for the person with the given person_id and 
+# @description: Retrieves the group id for the person with the given person_id and
 # given group id.
 # @author: Paul Rodrigo Rojas G.
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
@@ -695,45 +695,50 @@ class Gw_Service_Sell_Vehicle_Viewset(viewsets.ModelViewSet):
     queryset = Gw_Service_Sell_Vehicle.objects.all();
     serializer_class = Gw_Service_Sell_Vehicle_Serializer;
 
-    # def create(self, request, *args, **kwargs):
-    #     user = request.user;
+    def create(self, request, *args, **kwargs):
+        user = request.user;
 
-    #     empty_negotation_data = {
-    #         'last_modification_date':'',
-    #         'final_sale_price':'',
-    #         'pay_method':'',
-    #         'description':''
-    #     }
+        empty_negotation_data = {
+            'last_modification_date':'2000-01-01',
+            'final_sale_price':0,
+            'pay_method':1,
+            'description':'empty'
+        }
 
-    #     negotation_serializer = Gw_Negotation.serializer_class(data=empty_negotation_data,
-    #                                    context={'author':user});
-        
-    #     if negotation_serializer.is_valid():
-    #         negotation_serializer.save();
-    #         negotation_id = negotation_serializer.data.id;
-
-    #         sell_service_data = {
-    #             "vehicle_plate": request.POST.get('vehicle_plate', None),
-    #             "client_id": request.POST.get('client_id', None),
-    #             "negotation_id": negotation_id,
-    #             "concessionaire_id": request.POST.get('concessionaire_id', None)
-    #             }
-            
-    #         sell_service_serializer = self.serializer_class(data=sell_service_data,
-    #                                        context={'author': user})
-            
-    #         if sell_service_serializer.is_valid():
-    #             sell_service_serializer.save()
-    #             return Response(data=sell_service_serializer.data, status=status.HTTP_201_CREATED);
-    #         else:
-    #             return Response(data=sell_service_serializer.errors, status=status.HTTP_400_BAD_REQUEST);
-
-    #     else:
-    #         return Response(data=negotation_serializer.errors, status=status.HTTP_400_BAD_REQUEST);
+        negotation_serializer = Gw_Negotations_Viewset.serializer_class(data=empty_negotation_data,
+                                       context={'author':user});
 
 
-        
-        
+
+        if negotation_serializer.is_valid():
+
+            negotation_serializer.save();
+            negotation_id = negotation_serializer.data['id'];
+
+
+            print(request.data)
+            sell_service_data = {
+                "vehicle_plate": request.data['vehicle_plate'],
+                "client_id": request.data['client_id'],
+                "negotation_id": negotation_id,
+                "concessionaire_id": request.data['concessionaire_id']
+                }
+
+            sell_service_serializer = self.serializer_class(data=sell_service_data,
+                                           context={'author': user})
+
+            if sell_service_serializer.is_valid():
+                sell_service_serializer.save()
+                return Response(data=sell_service_serializer.data, status=status.HTTP_201_CREATED);
+            else:
+                return Response(data=sell_service_serializer.errors, status=status.HTTP_400_BAD_REQUEST);
+
+        else:
+            return Response(data=negotation_serializer.errors, status=status.HTTP_400_BAD_REQUEST);
+
+
+
+
 
 
 # @name: Gw_Negotation_Viewset

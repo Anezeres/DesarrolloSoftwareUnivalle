@@ -309,14 +309,7 @@ class Gw_Negotation(models.Model):
 
 class Gw_Service_Sell_Vehicle(Gw_Service):
 
-    default_negotation = Gw_Negotation.objects.create(
-        last_modification_date='2000-01-01',
-        final_sale_price=0,
-        pay_method=1,
-        description='default'
-    )
-
-    negotation_id = models.ForeignKey('Gw_Negotation', default=default_negotation, on_delete=models.CASCADE);
+    negotation_id = models.ForeignKey('Gw_Negotation', on_delete=models.CASCADE);
     concessionaire_id = models.ForeignKey('Gw_Concessionaire', on_delete=models.CASCADE);
 
 

@@ -54,7 +54,7 @@ export const getNegotations = (id) => gw_api('get_seller_assigned_negotations/' 
 
 export const getHeadquarterInventory = (id) => gw_api('get_headquarter_inventory/' + id);
 
-export const getGroupIdByPerson = (id, group) => gw_api('get_group_id_by_person/' + id + '/' + group);
+export const getGroupIdByPerson = (id, group) => gw_api('get_group_id_by_person/' + id + '/' + group + '/');
 
 // POST
 
