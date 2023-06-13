@@ -2,7 +2,7 @@ import { PersonLoginForm } from "../components/PersonLoginForm";
 
 export const LoginPage = () => {
     return (
-    <div className="box">
+    <div className="boxlogin">
     <PersonLoginForm/>
     </div>
     )

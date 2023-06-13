@@ -8,10 +8,23 @@ from django.db.models.signals import post_migrate, post_save
 from django.dispatch import receiver
 from green_wheels_app.permissions import HavePanelAccess, panel_permission
 from rest_framework import permissions
-from rest_framework.decorators import permission_classes
+from green_wheels_app.auth_views import UserRegister
+from green_wheels_app.serializers import UserRegisterSerializer
+from django.db.models import Q
+import json
 
+#imports to send an email
+import json
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+from django.conf import settings
+from green_wheels_app.models import Gw_Employee, Gw_Associate_Headquarter
 
-
+#imports to create a client from frontend
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework import status
+from rest_framework.renderers import JSONRenderer
 
 # @name: create_users_groups
 # @description: This function is executed when a migration is performed. It
@@ -21,11 +34,57 @@ from rest_framework.decorators import permission_classes
 
 @receiver(post_migrate)
 def create_users_groups(sender, **kwargs):
-    Group.objects.get_or_create(name='Clients');
-    Group.objects.get_or_create(name='Sellers');
-    Group.objects.get_or_create(name='WorkshopBoss');
-    Group.objects.get_or_create(name='Manager');
-    Group.objects.get_or_create(name='AppAdmin');
+    groups = ['Clients', 'Sellers', 'WorkshopBoss', 'Managers', 'AppAdmin'];
+    for group in groups:
+        Group.objects.get_or_create(name=group);
+
+
+
+# @name: create_default_panels
+# @description: This function is executed when a migration is performed. It
+# creates the default panels.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+@receiver(post_migrate)
+def create_default_panels(sender, **kwargs):
+    panels = ['test_panel', 'prueba', 'create_seller', 'create_workshopboss', 'create_manager', 'create_vehicle_components'];
+    for panel in panels:
+        Gw_Panel.objects.get_or_create(panel_name=panel);
+
+
+# @name: default_allowed_panels
+# @description: This function is executed when a migration is performed. It
+# creates the default relations among user groups and panels.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+# Sets users groups permission to access panels
+'''
+id|name        |
+--+------------+
+ 1|Clients     |
+ 2|Sellers     |
+ 3|WorkshopBoss|
+ 4|Manager     |
+ 5|AppAdmin    |
+'''
+# 1 -> test_panel, 2 -> prueba, 3 -> create_seller
+@receiver(post_migrate)
+def default_allowed_panels(sender, **kwargs):
+    # relation : (panel_id, group_id)
+    relations = [(1, 2), (1, 4), (3, 4), (4, 4), (5, 4), (6, 4)];
+    for relation in relations:
+        group_admin = Group.objects.get(id=5);
+        try:
+            panel = Gw_Panel.objects.get(id=relation[0]);
+            group = Group.objects.get(id=relation[1]);
+            Gw_Allowed_Panels.objects.get_or_create(panel_id=panel, group_id=group);
+            Gw_Allowed_Panels.objects.get_or_create(panel_id=panel, group_id=group_admin);
+        except Exception as e:
+            print(e);
+            print('It has ocurred an error when creating default allowed panels for users groups');
+
+
 
 
 # @name: Add_Person_To_Clients
@@ -40,7 +99,6 @@ def Add_Person_To_Clients(sender, instance, created, **kwargs):
         person = instance.person_id;
         group, _ = Group.objects.get_or_create(name='Clients');
         person.groups.add(group);
-
 
 
 # @name: Add_Person_To_Employees
@@ -90,6 +148,21 @@ def Add_Person_To_Admins(sender, instance, created, **kwargs):
         group, _ = Group.objects.get_or_create(name='AppAdmin');
         person.groups.add(group);
 
+
+# @name: Add_SuperUser_To_Admins
+# @description: Add superusers to AppAdmin group.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+
+@receiver(post_save, sender=Gw_Person)
+def Add_SuperUser_To_Admins(sender, instance, created, **kwargs):
+    if created:
+        is_superuser = instance.is_superuser;
+        if (is_superuser):
+            Gw_Admin.objects.create(person_id=instance);
+            group, _ = Group.objects.get_or_create(name='AppAdmin');
+            instance.groups.add(group);
 
 
 # @name: get_person_data
@@ -203,6 +276,90 @@ def get_client(request, id):
         return HttpResponse('Unsupported method', status=405);
 
 
+
+
+# @name: post_create_client
+# @description: Creates Clients objects.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+@panel_permission('create_seller')
+def post_create_seller(request):
+    if request.method == 'POST':
+        try:
+            id = int(json.loads(request.body)['id']);
+            person_exists = Gw_Person.objects.filter(person_id=id).exists();
+            seller_exists = Gw_Employee.objects.filter(Q(person_id=id) & Q(position=1)).exists();
+            if (not person_exists):
+                return HttpResponse('Person object was not found', status=404);
+            elif (seller_exists):
+                print(id)
+                return HttpResponse('Seller already exists', status=400);
+            else:
+                person = Gw_Person.objects.get(person_id=id);
+                Gw_Employee.objects.create(person_id=person, position=1);
+                return HttpResponse('The User has been created', status=200);
+        except Exception as e:
+            print(e);
+            return HttpResponse('An error has ocurred', status=400);
+    else:
+        return HttpResponse('Unsupported method', status=405)
+
+
+# @name: post_create_workshopboss
+# @description: Creates WorkshopBoss objects.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+@panel_permission('create_workshopboss')
+def post_create_workshopboss(request):
+    if request.method == 'POST':
+        try:
+            id = int(json.loads(request.body)['id']);
+            person_exists = Gw_Person.objects.filter(person_id=id).exists();
+            workshop_boss_exists = Gw_Employee.objects.filter(Q(person_id=id) & Q(position=2)).exists();
+            if (not person_exists):
+                return HttpResponse('Person object was not found', status=404);
+            elif (workshop_boss_exists):
+                print(id)
+                return HttpResponse('workshop_boss already exists', status=400);
+            else:
+                person = Gw_Person.objects.get(person_id=id);
+                Gw_Employee.objects.create(person_id=person, position=2);
+                return HttpResponse('The User has been created', status=200);
+        except Exception as e:
+            print(e);
+            return HttpResponse('An error has ocurred', status=400);
+    else:
+        return HttpResponse('Unsupported method', status=405)
+
+
+# @name: post_create_manager
+# @description: Creates WorkshopBoss objects.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+@panel_permission('create_manager')
+def post_create_manager(request):
+    if request.method == 'POST':
+        try:
+            id = int(json.loads(request.body)['id']);
+            person_exists = Gw_Person.objects.filter(person_id=id).exists();
+            manager_exists = Gw_Manager.objects.filter(Q(person_id=id)).exists();
+            if (not person_exists):
+                return HttpResponse('Person object was not found', status=404);
+            elif (manager_exists):
+                print(id)
+                return HttpResponse('manager already exists', status=400);
+            else:
+                person = Gw_Person.objects.get(person_id=id);
+                Gw_Manager.objects.create(person_id=person);
+                return HttpResponse('The User has been created', status=200);
+        except Exception as e:
+            print(e);
+            return HttpResponse('An error has ocurred', status=400);
+    else:
+        return HttpResponse('Unsupported method', status=405)
 
 
 # @name: get_employees_list
@@ -392,10 +549,10 @@ def get_allowed_panels(request, id):
                 groups_id_list.append(g['id']);
 
             panels = Gw_Allowed_Panels.objects.filter(group_id__in=groups_id_list).values('panel_id__panel_name');
-        
+
             panels_list = [];
 
-            for panel in panels: 
+            for panel in panels:
                 panels_list.append(panel['panel_id__panel_name']);
 
             data = {
@@ -411,6 +568,51 @@ def get_allowed_panels(request, id):
         return HttpResponse('Unsupported method', status=405);
 
 
+def get_seller_assigned_negotations(request, id):
+    if request.method == 'GET':
+        query = Gw_Attended_Process.objects.filter(employee_id=id).values('employee_id',
+                                                                          'attended_date',
+                                                                          'finished_date','service_id');
+
+        data = [];
+
+        for elem in query:
+            data.append({'employee_id':elem['employee_id'],
+                               'attended_date':elem['attended_date'],
+                               'finished_date':elem['finished_date'],
+                               'service_id':elem['service_id']});
+
+        return JsonResponse(data, safe=False);
+    else:
+        return HttpResponse('Unsupported method', status=405);
+
+
+def get_vehicles_components_headquarter(request, id):
+    if request.method == 'GET':
+        query_vehicles = Gw_Vehicle_Inventory.objects.filter(concessionaire_id__headquarter_id=id).values('model_id__name',
+                                                                                                          'quantity');
+        query_replacements = Gw_Replacement_Inventory.objects.filter(workshop_id__headquarter_id=id).values('replacement_id__name',
+                                                                                                           'quantity');
+
+        data = [];
+
+        data_vehicles = [];
+
+        data_replacements = [];
+
+        for v in query_vehicles:
+            data_vehicles.append({'model':v['model_id__name'], 'quantity':v['quantity']});
+
+        for r in query_replacements:
+            data_replacements.append({'replacement':r['replacement_id__name'], 'quantity':v['quantity']});
+
+        data.append({'vehicles_inventory':data_vehicles});
+        data.append({'replacement_inventory':data_replacements});
+
+        return JsonResponse(data, safe=False);
+    else:
+        return HttpResponse('Unsupported method', status=405);
+
 # @name: Gw_Brand_Viewset
 # @description: Viewset for brand model
 # @author: Paul Rodrigo Rojas G.
@@ -420,7 +622,7 @@ class Gw_Brand_Viewset(viewsets.ModelViewSet):
     queryset = Gw_Brand.objects.all();
     serializer_class = Gw_Brand_Serializer;
     def get_permissions(self):
-        return [permissions.IsAuthenticated(), HavePanelAccess()]
+        return [permissions.IsAuthenticated(), HavePanelAccess('create_vehicle_components')];
 
 
 # @name: Gw_Vehicle_Model_Viewset
@@ -431,6 +633,8 @@ class Gw_Brand_Viewset(viewsets.ModelViewSet):
 class Gw_Vehicle_Model_Viewset(viewsets.ModelViewSet):
     queryset = Gw_Vehicle_Model.objects.all();
     serializer_class = Gw_Vehicle_Model_Serializer;
+    def get_permissions(self):
+        return [permissions.IsAuthenticated(), HavePanelAccess('create_vehicle_components')];
 
 
 
@@ -442,6 +646,129 @@ class Gw_Vehicle_Model_Viewset(viewsets.ModelViewSet):
 class Gw_Vehicle_Viewset(viewsets.ModelViewSet):
     queryset = Gw_Vehicle.objects.all();
     serializer_class = Gw_Vehicle_Serializer;
+    def get_permissions(self):
+        return [permissions.IsAuthenticated(), HavePanelAccess('create_vehicle_components')];
+
+
+# @name: Gw_Service_Sell_Vehicle_Viewset
+# @description: Viewset for service sell vehicles model
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Service_Sell_Vehicle_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Service_Sell_Vehicle.objects.all();
+    serializer_class = Gw_Service_Sell_Vehicle_Serializer;
+
+
+# @name: Gw_Negotation_Viewset
+# @description: Viewset for negotations.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Negotations_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Negotation.objects.all();
+    serializer_class = Gw_Negotations_Serializer;
+    # def get_permissions(self):
+    #     return [permissions.IsAuthenticated(), HavePanelAccess('create_negotiation_panel')];
+
+
+
+# @name: Gw_Headquarter_Viewset
+# @description: Viewset for Headquarters
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Headquarter_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Headquarter.objects.all();
+    serializer_class = Gw_Headquarter_Serializer;
+
+
+# @name: Gw_Concessionaire_Viewset
+# @description: Viewset for Concessionaires
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Concessionaire_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Concessionaire.objects.all();
+    serializer_class = Gw_Concessionaire_Serializer;
+
+
+# @name: Gw_Workshop_Viewset
+# @description: Viewset for workshop model
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+
+class Gw_Workshop_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Workshop.objects.all();
+    serializer_class = Gw_Workshop_Serializer;
+
+
+
+# @name: Gw_Replacement_Inventory_Viewset
+# @description: Viewset for replacements inventory model.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Replacement_Inventory_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Replacement_Inventory.objects.all();
+    serializer_class = Gw_Replacement_Inventory_Serializer;
+
+
+# @name: Gw_Request_Process_Viewset
+# @description: Viewset for request process models
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Request_Process_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Request_Process.objects.all();
+    serializer_class = Gw_Request_Process_Serializer;
+
+
+# @name: Gw_Attended_Process_Viewset
+# @description: Viewset for attended process model.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+
+class Gw_Attended_Process_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Attended_Process.objects.all();
+    serializer_class = Gw_Attended_Process_Serializer;
+
+
+# @name: Gw_Diagnosis_Viewset
+# @description: Viewset for diagnosis
+# @author: Nicol Valeria Ortiz R.
+# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com
+
+class Gw_Diagnosis_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Service_Diagnosis_Vehicle.objects.all();
+    serializer_class = Gw_Diagnosis_Serializer;
+    def get_permissions(self):
+        return [permissions.IsAuthenticated(), HavePanelAccess('create_diagnosis_panel')];
+
+# @name: Gw_Replacement_Viewset
+# @description: Viewset for replacement part
+# @author: Nicol Valeria Ortiz R.
+# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com
+
+class Gw_Replacement_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Replacement_Part.objects.all();
+    serializer_class = Gw_Replacement_Part_Serializer;
+    def get_permissions(self):
+        return [permissions.IsAuthenticated(), HavePanelAccess('create_replacement_panel')];
+
+
+
+# @name: Gw_Vehicle_Inventory_Viewset
+# @description: Viewset for vehicle inventory viewset
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Vehicles_Inventory_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Vehicle_Inventory.objects.all();
+    serializer_class = Gw_Vehicle_Inventory_Serializer;
+
 
 
 
@@ -449,3 +776,101 @@ class Gw_Vehicle_Viewset(viewsets.ModelViewSet):
 def index_render(request):
     print(Gw_Allowed_Panels)
     return HttpResponse("Welcome to Greeen Wheels!");
+
+# @name: send_email
+# @description: Receive the data from frontend and send email
+# @author: Nicol Valeria Ortiz Rodríguez
+# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com
+
+@panel_permission('send_email')
+def send_email(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)  # Obtener los datos enviados por POST como JSON
+        correo_destinatario = data['correo_destinatario']
+        asunto = data['asunto']
+        mensaje = data['mensaje']
+
+        template = render_to_string('email_template.html', {
+            'correo_destinatario': correo_destinatario,
+            'asunto': asunto,
+            'mensaje': mensaje
+        })
+
+        email = EmailMessage(
+            asunto,
+            template,
+            settings.EMAIL_HOST_USER,
+            correo_destinatario.split(',')
+        )
+
+        email.fail_silently = False
+        email.send()
+
+        return JsonResponse({'message': 'Exito'})
+
+
+# @name: get_employees_email
+# @description: Get all employees with same headquater as the manager
+# @author: Nicol Valeria Ortiz Rodríguez
+# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com
+
+def get_employees_email(request):
+    if request.method == 'GET':
+        gw_manager_id = request.user.person_id
+        gw_manager_headquarter_id = Gw_Associate_Headquarter.objects.get(person_id=gw_manager_id).headquarter_id_id
+        headquarter_list_ass = Gw_Associate_Headquarter.objects.all()
+        employee_emails = []
+
+        for headq in headquarter_list_ass:
+            if (headq.headquarter_id_id == gw_manager_headquarter_id):
+                employee_email = headq.person_id.email
+                person = Gw_Person.objects.get(person_id=headq.person_id.person_id);
+                if (person.person_id != gw_manager_id):
+                    groups = person.groups.values();
+                    id_groups = []
+                    for g in groups:
+                        id_groups.append(g['id'])
+                    employee_emails.append((employee_email,id_groups))
+
+        return JsonResponse(employee_emails, safe=False)
+    else:
+        return HttpResponse('Unsupported method', status=405)
+
+# @name: create_client
+# @description: Get the data send by the frontend and store object client
+# @author: Nicol Valeria Ortiz Rodríguez
+# @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def create_client(request):
+    user_register = UserRegister()
+    response = user_register.post(request)
+
+    if response.status_code == status.HTTP_201_CREATED:
+        response.accepted_renderer = JSONRenderer()  # Establecer el renderizador aceptado como JSONRenderer
+        response.accepted_media_type = 'application/json'  # Establecer el tipo de medio aceptado
+        response.renderer_context = {}  # Establecer el contexto del renderizador como un diccionario vacío
+        response.render()  # Renderizar la respuesta antes de acceder a su contenido
+
+        data = json.loads(response.content)
+        person_id = data.get('person_id')
+
+        if person_id:
+            gw_person = Gw_Person.objects.get(person_id=person_id)  # Obtener la instancia de Gw_Person correcta
+            client = Gw_Client.objects.create(person_id=gw_person)
+            client.save()
+            print('esta es:', gw_person)
+            return JsonResponse({'message': 'Éxito'})
+
+    return JsonResponse({'message': 'Error'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+
+
+
+
+

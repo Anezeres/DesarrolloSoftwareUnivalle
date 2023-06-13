@@ -44,29 +44,33 @@ export const HomePage = () => {
 
 
     return (<div className="boxprincipal">
-                <h1 className="heading">Welcome to Green Wheels, {userName}</h1>
+                <div className="heading">
+                <h1>Welcome to Green Wheels, {userName}</h1>
                 {!isLogged ? (
                 <>
-                    <a className="submit" href="./login">Inicia Sesión</a>
+                    <a className="submit" href="./login">Login</a>
                     <br></br>
-                    <a className="submit" href="./register">Registrate</a>
+                    <a className="submit" href="./register">Register persons</a>
+                    <br></br>
+                    <a className="submit" href="./create_client">Register Clients</a>
                 </>) : (<>
-                <h2 className="heading">Your groups are:</h2>
+                <h2>Your groups are:</h2>
                 <ul>
                     {userGroups.map((group, index) =>
                       (<li key={index}>{group}</li>)
                     )}
                 </ul>
                 <hr></hr>
-                <h2 className="heading">You have access to the following panels</h2>
+                <h2>You have access to the following panels</h2>
                 <ul>
                     {allowedPanels.map((panel, index) =>
                       (<li key={index}><a href={"control_panels/"+panel}>{panel}</a></li>)
                     )}
                 </ul>
-                <a className="submit" href="./logout">{logoutLabel}</a>
+                <a href="./logout">{logoutLabel}</a>
                 </>
                 )}
+            </div>
          </div>
     )
 }

@@ -1,0 +1,56 @@
+* {
+	box-sizing: border-box;
+}
+
+
+.boxlogin{   
+	width: 500px;
+	padding: 1.9rem;
+	height: 350px;
+    border-radius: 3.3rem;
+    background-color: #fff;
+	box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.27);
+	justify-content: center;
+}
+
+.boxprincipal{
+	width: 700px;
+	height: 500px;
+	padding: 1.5rem;
+    border-radius: 3.3rem;
+    background-color: #ffffff;
+	box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.27);
+	justify-content: center;
+}
+
+.boxadmin{
+	width: 700px;
+	height: 500px;
+	padding: 1.5rem;
+    border-radius: 3.3rem;
+    background-color: #ffffff;
+	box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.27);
+	justify-content: center;
+}
+
+.boxregistro > div{
+	width: 500px;
+	height: 760px;
+	padding: 1.5rem;
+    border-radius: 3.3rem;
+    background-color: #ffffff;
+	box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.27);
+	justify-content: center;   
+
+}
+
+.boxregistrocliente {
+	width: 500px;
+	height: 1010px;
+	padding: 1.5rem;
+    border-radius: 3.3rem;
+    background-color: #ffffff;
+	box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.27);
+	justify-content: center;   
+
+}
