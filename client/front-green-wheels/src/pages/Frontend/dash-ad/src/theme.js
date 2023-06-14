@@ -1,6 +1,8 @@
 import { createContext, useState, useMemo } from "react";
 import { createTheme } from "@mui/material/styles";
 
+
+
 // color design tokens export
 export const tokens = (mode) => ({
   ...(mode === "dark"
@@ -129,7 +131,7 @@ export const themeSettings = (mode) => {
       ...(mode === "dark"
         ? {
             // Valores para paleta de colores - darkmode
-            primary: {
+            Primary: {
               main: colors.Primary[500],
             },
             secondary: {
@@ -146,7 +148,7 @@ export const themeSettings = (mode) => {
           }
         : {
             // palette values for light mode
-            primary: {
+            Primary: {
               main: colors.Primary[100],
             },
             secondary: {
@@ -190,6 +192,22 @@ export const themeSettings = (mode) => {
         fontSize: 14,
       },
     },
+
+    iconColors:
+     {
+        light: {
+            primary: colors.Primary[500],
+            secondary: colors.yellowAccent[500],
+            custom: "#bfff00", // Agrega tu color personalizado aquí
+          },
+          dark: {
+            primary: colors.Primary[500],
+            secondary: colors.yellowAccent[500],
+            custom: "#bfff00", // Agrega tu color personalizado aquí
+          },
+
+    },
+
   };
 };
 
@@ -211,9 +229,7 @@ export const ColorModeContext = createContext({
   
     const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
     return [theme, colorMode];
-  };
+};
 
-
- 
 
   
