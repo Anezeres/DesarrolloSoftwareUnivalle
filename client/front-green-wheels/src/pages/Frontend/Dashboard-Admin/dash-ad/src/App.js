@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import Navbar from './comoponents/navbar';
+import NavbarD from './comoponents/navbarD';
 import Sidebar from './comoponents/sidebar';
 import Home from './Pages/Home';
 import Sales from './Pages/Sales';
@@ -11,10 +11,10 @@ import './App.scss';
 function App() {
   return (
     <Router>
-      <Navbar />
       <div className='flex'>
         <Sidebar />
-        <div className='content'>
+        <div className='content w-100'>
+          <NavbarD />
           <Routes>
             <Route path='/' exact={true} Component={Home} />
             <Route path='/Sales' exact={true} Component={Sales} />
