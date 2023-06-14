@@ -1,25 +1,25 @@
-import { Link } from 'react-router-dom' 
+import { NavLink } from 'react-router-dom' 
 import * as FaIcons from 'react-icons/fa'
 
 
 const Sidebar = () => {
     return (
-        <div className="sidebar">
+        <div className="sidebar bg-light">
             <ul>
                 <li>
-                    <Link to="/" style={{ color: '#C0D860' }}> <FaIcons.FaHome className='me-2'/> Inicio </Link>
+                    < NavLink to="/" exact className="text-dark rounded py-2 w-100 d-inline-block px-2" activeClassName="active"> <FaIcons.FaHome className='me-1.5'/> Inicio </ NavLink>
                 </li>
 
                 <li>
-                    <Link to="/Sales" style={{ color: '#C0D860' }}> <FaIcons.FaRegChartBar className='me-2'/> Informes ventas </Link>
+                    < NavLink to="/Sales" exact className="text-dark rounded py-2 w-100 d-inline-block px-2" activeClassName="active"> <FaIcons.FaRegChartBar className='me-1.5'/> Informes ventas </ NavLink>
                 </li>
 
                 <li>
-                    <Link to="/Clients" style={{ color: '#C0D860' }}> <FaIcons.FaUserCircle className='me-2'/> Informes clientes </Link>
+                    < NavLink to="/Clients" exact className="text-dark rounded py-2 w-100 d-inline-block px-2" activeClassName="active"> <FaIcons.FaUserCircle className='me-1.5'/> Informes clientes </ NavLink>
                 </li>
                 
                 <li>
-                    <Link to="/Users" style={{ color: '#C0D860' }}> <FaIcons.FaUsersCog className='me-2'/> Usuarios </Link>
+                    < NavLink to="/Users" exact className="text-dark rounded py-2 w-100 d-inline-block px-2" activeClassName="active"> <FaIcons.FaUsersCog className='me-1.5'/> Usuarios </ NavLink>
                 </li>
 
             </ul>
