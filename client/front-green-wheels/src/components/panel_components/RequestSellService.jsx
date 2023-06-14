@@ -42,7 +42,7 @@ export const RequestSellService = () => {
                 'concessionaire_id':values.concessionaire_id
             }
 
-            const postSellService = await postCreateSellService(sellServiceData);
+            const postSellService = await postCreateRequestSellService(sellServiceData);//postCreateSellService(sellServiceData);
 
             if (postSellService.status >= 200 && postSellService.status <= 299) {
                 console.log("Creación Exitosa");

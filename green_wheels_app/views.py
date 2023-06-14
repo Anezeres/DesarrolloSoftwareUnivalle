@@ -12,9 +12,9 @@ from green_wheels_app.auth_views import UserRegister
 from green_wheels_app.serializers import UserRegisterSerializer
 from django.db.models import Q
 import json
+from datetime import date
 
 #imports to send an email
-import json
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.conf import settings
@@ -27,6 +27,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.renderers import JSONRenderer
+
 
 # @name: create_users_groups
 # @description: This function is executed when a migration is performed. It
@@ -659,10 +660,20 @@ def get_vehicles_components_headquarter(request, id):
 
 def create_request_sell_service(request):
     if request.method == 'POST':
-        request.data = request.body;
-        viewset_instance = Gw_Service_Sell_Vehicle_Viewset();
-        response = viewset_instance.create(request);
-        return response;
+        try:
+            data = request.body.decode('utf-8')
+            response = aux_create_sell_service_and_negotation(request.user, json.loads(data));
+            new_data = response.content.decode('utf-8');
+
+            service_instance_id = json.loads(new_data)['id']
+
+            service_instance = Gw_Service_Sell_Vehicle.objects.get(id=service_instance_id);
+
+            Gw_Request_Process.objects.create(service_id=service_instance, requested_date=date.today(), attended=False);
+        except Exception:
+            return HttpResponse('Ha ocurrido une error', status=500);
+
+        return HttpResponse('Exito', status=200);
     else:
         return HttpResponse('Unsupported method', status=405);
 
@@ -705,6 +716,52 @@ class Gw_Vehicle_Viewset(viewsets.ModelViewSet):
         return [permissions.IsAuthenticated(), HavePanelAccess('create_vehicle_components')];
 
 
+# @name: aux_create_sell_service_and_negotation
+# @description: This method creates a sell_service that is already associated with an empty negotation
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+def aux_create_sell_service_and_negotation(user, data):
+
+    user = user;
+
+    empty_negotation_data = {
+        'last_modification_date':'2000-01-01',
+        'final_sale_price':0,
+        'pay_method':1,
+        'description':'empty'
+    }
+
+    negotation_serializer = Gw_Negotations_Viewset.serializer_class(data=empty_negotation_data,
+                                    context={'author':user});
+
+
+
+    if negotation_serializer.is_valid():
+
+        negotation_serializer.save();
+        negotation_id = negotation_serializer.data['id'];
+
+        sell_service_data = {
+            "vehicle_plate": data['vehicle_plate'],
+            "client_id": data['client_id'],
+            "negotation_id": negotation_id,
+            "concessionaire_id": data['concessionaire_id']
+            }
+
+        sell_service_serializer = Gw_Service_Sell_Vehicle_Viewset.serializer_class(data=sell_service_data,
+                                        context={'author': user})
+
+        if sell_service_serializer.is_valid():
+            sell_service_serializer.save()
+            return JsonResponse(sell_service_serializer.data, status=status.HTTP_201_CREATED);
+        else:
+            return JsonResponse(sell_service_serializer.errors, status=status.HTTP_400_BAD_REQUEST);
+
+    else:
+        return JsonResponse(negotation_serializer.errors, status=status.HTTP_400_BAD_REQUEST);
+
+
 # @name: Gw_Service_Sell_Vehicle_Viewset
 # @description: Viewset for service sell vehicles model
 # @author: Paul Rodrigo Rojas G.
@@ -715,43 +772,7 @@ class Gw_Service_Sell_Vehicle_Viewset(viewsets.ModelViewSet):
     serializer_class = Gw_Service_Sell_Vehicle_Serializer;
 
     def create(self, request, *args, **kwargs):
-        user = request.user;
-
-        empty_negotation_data = {
-            'last_modification_date':'2000-01-01',
-            'final_sale_price':0,
-            'pay_method':1,
-            'description':'empty'
-        }
-
-        negotation_serializer = Gw_Negotations_Viewset.serializer_class(data=empty_negotation_data,
-                                       context={'author':user});
-
-
-
-        if negotation_serializer.is_valid():
-
-            negotation_serializer.save();
-            negotation_id = negotation_serializer.data['id'];
-
-            sell_service_data = {
-                "vehicle_plate": request.data['vehicle_plate'],
-                "client_id": request.data['client_id'],
-                "negotation_id": negotation_id,
-                "concessionaire_id": request.data['concessionaire_id']
-                }
-
-            sell_service_serializer = self.serializer_class(data=sell_service_data,
-                                           context={'author': user})
-
-            if sell_service_serializer.is_valid():
-                sell_service_serializer.save()
-                return Response(data=sell_service_serializer.data, status=status.HTTP_201_CREATED);
-            else:
-                return Response(data=sell_service_serializer.errors, status=status.HTTP_400_BAD_REQUEST);
-
-        else:
-            return Response(data=negotation_serializer.errors, status=status.HTTP_400_BAD_REQUEST);
+        return aux_create_sell_service_and_negotation(request.user, request.data);
 
 
 # @name: Gw_Negotation_Viewset
