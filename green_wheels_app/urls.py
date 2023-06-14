@@ -34,6 +34,7 @@ urlpatterns = [
     path('get_client/<int:id>/', get_client, name = 'get_client'),
     path('get_employees_list/', get_employees_list, name='get_employees_list'),
     path('get_employee/<int:id>/', get_employee, name = 'get_employee'),
+    path('get_employees_type_list/<int:position>/', get_employees_type_list, name = 'get_employees_type_list'),
     path('post_create_seller/', post_create_seller, name='post_create_seller'),
     path('post_create_workshopboss/', post_create_workshopboss, name='post_create_workshopboss'),
     path('get_managers_list/', get_managers_list, name='get_managers_list'),

@@ -36,6 +36,10 @@ const credentials = {
 // GET
 export const getAllPersons = () => gw_api('get_persons_list');
 
+export const getClients = () => gw_api('get_clients_list');
+
+export const getEmployeesTypeList = (position) => gw_api('get_employees_type_list/' + position + '/');
+
 export const getLoggedUser = () => gw_api('user');
 
 export const getUserGroups = (id) => gw_api('get_user_groups/' + id);

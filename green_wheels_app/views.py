@@ -423,6 +423,23 @@ def get_employees_list(request):
         return HttpResponse('Unsupported method', status=405)
 
 
+def get_employees_type_list(request, position):
+    if request.method == 'GET':
+        employee_queryset = Gw_Employee.objects.all();
+
+        employee_dict = [];
+
+        for c in employee_queryset:
+            employee_obj = get_person_data(c.person_id);
+            if c.position == position:
+                employee_obj['employee_id'] = c.employee_id;
+                employee_dict.append(
+                    employee_obj,
+                )
+
+        return JsonResponse(employee_dict, safe=False);
+    else:
+        return HttpResponse('Unsupported method', status=405)
 
 # @name: get_employee
 # @description: Get employee data given a employee id
