@@ -1,16 +1,13 @@
 import { Formik, Form, Field} from "formik"
-import {getLoggedUser, getGroupIdByPerson, postCreateSellService} from "../../api/green_wheels.api"
+import {getLoggedUser, getGroupIdByPerson, postCreateSellService, postCreateRequestSellService} from "../../api/green_wheels.api"
 import {useState, useEffect} from 'react';
 import { createTextFields } from "../forms/CreateTextFields";
 
 export const RequestSellService = () => {
-
-    const [personId, setPersonId] =  useState(null);
     const [clientId, setClientId] =  useState(null);
 
     const initialValues = {
         'vehicle_plate':'',
-        //'client_id':'',
         'negotation_id':'',
         'concessionaire_id':''
     }
@@ -61,14 +58,21 @@ export const RequestSellService = () => {
 
     }
 
-    return <Formik
-            initialValues={initialValues}
-            onSubmit={onSubmit}
-            >
+    return <div>
+    <h2>Realizar solicitud de cotización</h2>
+    <p>Recuerde que debe estar logueado con una cuenta de tipo cliente para el correcto funcionamiento
+        del proceso.
+    </p>
+    <Formik
+    initialValues={initialValues}
+    onSubmit={onSubmit}
+    >
 
-                <Form className='formulario'>
-                     {createTextFields(['vehicle_plate', 'concessionaire_id'])}
-                     <button type="submit">Submit</button>
-                </Form>
-            </Formik>
+            <Form className='formulario'>
+                    {createTextFields(['vehicle_plate', 'concessionaire_id'])}
+                    <button type="submit">Submit</button>
+            </Form>
+    </Formik>
+</div>
+
 }

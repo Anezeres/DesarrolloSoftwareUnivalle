@@ -650,6 +650,24 @@ def get_vehicles_components_headquarter(request, id):
     else:
         return HttpResponse('Unsupported method', status=405);
 
+
+
+# @name: create_request_sell_service
+# @description: This endpoint allows to create requested_process instances assign to sell_service instances.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+def create_request_sell_service(request):
+    if request.method == 'POST':
+        request.data = request.body;
+        viewset_instance = Gw_Service_Sell_Vehicle_Viewset();
+        response = viewset_instance.create(request);
+        return response;
+    else:
+        return HttpResponse('Unsupported method', status=405);
+
+
+
 # @name: Gw_Brand_Viewset
 # @description: Viewset for brand model
 # @author: Paul Rodrigo Rojas G.
@@ -734,10 +752,6 @@ class Gw_Service_Sell_Vehicle_Viewset(viewsets.ModelViewSet):
 
         else:
             return Response(data=negotation_serializer.errors, status=status.HTTP_400_BAD_REQUEST);
-
-
-
-
 
 
 # @name: Gw_Negotation_Viewset

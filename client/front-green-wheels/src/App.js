@@ -34,8 +34,8 @@ const App = () => {
           <Route path="/control_panels/create_seller" element={<ControlPanel panel={<CreateSeller/>}/>}/>
           <Route path="/control_panels/create_workshopboss" element={<ControlPanel panel={<CreateWorkshopBoss/>}/>}/>
           <Route path="/control_panels/create_manager" element={<ControlPanel panel={<CreateManager/>}/>}/>
-          <Route path="/control_panels/check_negotations" element={<CheckNegotations/>}/>
-          <Route path="/control_panels/check_inventory" element={<CheckInventory/>}/>
+          <Route path="/control_panels/check_negotations" element={ <ControlPanel panel={<CheckNegotations/>}/>   }/>
+          <Route path="/control_panels/check_inventory" element={<ControlPanel panel={<CheckInventory/>}/> }/>
           <Route path="/control_panels/create_vehicle_components" element={<ControlPanel panel={<CreateVehicleComponents/>}/>}/>
           <Route path="/control_panels/manage_users" element={<ControlPanel panel={<ManageUsersPanel/>}/>}/>
           <Route path="/control_panels/request_sell_service" element={<ControlPanel panel={<RequestSellService/>}/>}/>

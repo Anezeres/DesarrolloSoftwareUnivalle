@@ -27,6 +27,7 @@ export const CheckNegotations = () => {
 
 //"employee_id": 1, "attended_date": "2023-06-06", "finished_date": "2023-06-06", "service_id": 2
     return <div>
+        <h2>Lista de sus cotizaciones asignadas</h2>
         {negotations.map((e, i) => (<p key={i}>Employee id: {e.employee_id} -
         Attended date: {e.attended_date} -
         Finished date:{e.finished_date} -

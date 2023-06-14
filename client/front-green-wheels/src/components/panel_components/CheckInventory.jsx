@@ -26,6 +26,6 @@ export const CheckInventory = () => {
     }, []);
 
     return <div>
-
+        <h2>INVENTARIO (revisar consola)</h2>
     </div>
 }
