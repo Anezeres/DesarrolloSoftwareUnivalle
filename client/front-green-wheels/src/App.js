@@ -18,6 +18,7 @@ import { ManageUsersPanel } from './components/panel_components/ManageUsersPanel
 import { RequestSellService } from './components/panel_components/RequestSellService';
 import { AssignNegotation } from './components/panel_components/AssignNegotation';
 
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -40,6 +41,7 @@ const App = () => {
           <Route path="/control_panels/create_vehicle_components" element={<ControlPanel panel={<CreateVehicleComponents/>}/>}/>
           <Route path="/control_panels/manage_users" element={<ControlPanel panel={<ManageUsersPanel/>}/>}/>
           <Route path="/control_panels/request_sell_service" element={<ControlPanel panel={<RequestSellService/>}/>}/>
+          <Route path="/control_panels/assign_negotation" element={<ControlPanel panel={<AssignNegotation/>}/>}/>
         </Routes>
       </BrowserRouter>
   );

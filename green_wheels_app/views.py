@@ -52,7 +52,7 @@ def create_users_groups(sender, **kwargs):
 @receiver(post_migrate)
 def create_default_panels(sender, **kwargs):
     panels = ['test_panel', 'prueba', 'create_seller', 'create_workshopboss', 'create_manager', 'create_vehicle_components',
-              'request_sell_service', 'check_inventory', 'check_negotations'];
+              'request_sell_service', 'check_inventory', 'check_negotations', 'assign_negotation'];
     for panel in panels:
         Gw_Panel.objects.get_or_create(panel_name=panel);
 
@@ -71,12 +71,26 @@ id|name        |
  3|WorkshopBoss|
  4|Manager     |
  5|AppAdmin    |
+--------------------------------------
+id|panel_name               |
+--+-------------------------+
+ 1|test_panel               |
+ 2|prueba                   |
+ 3|create_seller            |
+ 4|create_workshopboss      |
+ 5|create_manager           |
+ 6|create_vehicle_components|
+ 7|request_sell_service     |
+ 8|check_inventory          |
+ 9|check_negotations        |
+ 10|assign_negotation        |
+
 '''
 # 1 -> test_panel, 2 -> prueba, 3 -> create_seller
 @receiver(post_migrate)
 def default_allowed_panels(sender, **kwargs):
     # relation : (panel_id, group_id)
-    relations = [(1, 2), (1, 4), (3, 4), (4, 4), (5, 4), (6, 4), (7, 1), (8, 4), (9, 4)];
+    relations = [(1, 2), (1, 4), (3, 4), (4, 4), (5, 4), (6, 4), (7, 1), (8, 4), (9, 4), (10, 4)];
     for relation in relations:
         group_admin = Group.objects.get(id=5);
         try:

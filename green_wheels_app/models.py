@@ -5,6 +5,7 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import Group
 from django.db.models.signals import post_migrate
 from django.dispatch import receiver
+import datetime
 
 
 # # Create the user groups when migrating
@@ -372,8 +373,8 @@ class Gw_Request_Process(models.Model):
 
 class Gw_Attended_Process(models.Model):
     employee_id = models.ForeignKey('Gw_Employee', on_delete=models.CASCADE);
-    attended_date = models.DateField();
-    finished_date = models.DateField();
+    attended_date = models.DateField(null=True, default=datetime.date.today);
+    finished_date = models.DateField(null=True);
     service_id = models.ForeignKey('Gw_Service', on_delete=models.CASCADE);
 
 

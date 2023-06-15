@@ -60,6 +60,8 @@ export const getHeadquarterInventory = (id) => gw_api('get_headquarter_inventory
 
 export const getGroupIdByPerson = (id, group) => gw_api('get_group_id_by_person/' + id + '/' + group + '/');
 
+export const getRequestedProcesses = () => gw_api_viewset('request_process/');
+
 // POST
 
 export const postLoginForm = (data) => gw_api.post('login', data, credentials);
@@ -89,6 +91,8 @@ export const postCreateNegotation = (data) => gw_api_viewset.post('negotations/'
 export const postCreateSellService = (data) => gw_api_viewset.post('service_sell_vehicles/', data, credentials);
 
 export const postCreateRequestSellService = (data) => gw_api.post('create_request_sell_service/', data, credentials);
+
+export const postCreateAttendedProcess = (data) => gw_api_viewset.post('attended_process/', data, credentials);
 
 // PUT
 
