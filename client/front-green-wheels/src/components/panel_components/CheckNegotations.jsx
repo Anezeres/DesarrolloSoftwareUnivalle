@@ -1,4 +1,4 @@
-import { getNegotations } from "../../api/green_wheels.api";
+import { getNegotations, getGroupIdByPerson, getLoggedUser } from "../../api/green_wheels.api";
 import {useState, useEffect} from 'react';
 
 
@@ -9,15 +9,24 @@ export const CheckNegotations = () => {
     useEffect(() => {
         async function requestNegotations () {
             try {
-                const response = await getNegotations(1);
+                const responseUser = await getLoggedUser();
 
-                if (response.status >= 200 && response.status <= 299) {
-                    console.log(response);
-                    setNegotations(response.data);
-                    console.log("Succesful request");
+                if (responseUser.status >= 200 && responseUser.status <= 299)
+                {
+                    const responseSeller = await getGroupIdByPerson(responseUser.data.user.person_id, 'employee');
+                    console.log(responseSeller);
+                    if (responseSeller.status >= 200 && responseSeller.status <= 299) {
+
+                        const responseNegotations = await getNegotations(responseSeller.data.employee_id)
+                        console.log(responseNegotations)
+                        setNegotations(responseNegotations.data);
+                    }
+
                 } else {
-                    console.log("Error while requesting");
+                    console.log("Ha ocurrido un error")
                 }
+
+
             } catch (error) {
                 console.log(error)
             }
