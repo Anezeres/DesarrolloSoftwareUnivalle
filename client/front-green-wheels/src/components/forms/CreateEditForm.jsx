@@ -80,7 +80,7 @@ export const CreateEditForm = ({createdMode, attributes, getItems, postItem, put
     }
 
     useEffect(()=> {
-        async function getBrandsRequest () {
+        async function getItemsRequest () {
             try {
                 const response = await getItems();
                 setItems(response.data);
@@ -89,7 +89,7 @@ export const CreateEditForm = ({createdMode, attributes, getItems, postItem, put
                 console.log(error);
             }  
         }
-        getBrandsRequest();
+        getItemsRequest();
     }, [getItems, setItems]);
 
     useEffect(()=>{
