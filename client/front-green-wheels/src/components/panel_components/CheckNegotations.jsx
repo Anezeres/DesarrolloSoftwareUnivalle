@@ -10,7 +10,7 @@ export const CheckNegotations = () => {
         async function requestNegotations () {
             try {
                 const responseUser = await getLoggedUser();
-
+                console.log(responseUser)
                 if (responseUser.status >= 200 && responseUser.status <= 299)
                 {
                     const responseSeller = await getGroupIdByPerson(responseUser.data.user.person_id, 'employee');

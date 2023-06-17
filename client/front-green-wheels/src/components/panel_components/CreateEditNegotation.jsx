@@ -14,13 +14,13 @@ export const CreateEditNegotation = () => {
             try {
                 const responseUser = getLoggedUser();
 
-                if (responseUser.status >= 200 && responseUser.status <= 299) {
+                if (responseUser.status >= 200 && responseUser.status <= 399) {
                     const personId = responseUser.data.user.person_id;
 
                     const sellerResponse = getGroupIdByPerson(personId, 'employee');
 
-                    if (sellerResponse.status >= 200 && sellerResponse.status <= 299) {
-                        setSellerId(sellerResponse.data.id);
+                    if (sellerResponse.status >= 200 && sellerResponse.status <= 399) {
+                        setSellerId(sellerResponse.data.employee_id);
                     } else {
                         console.log("Ha ocurrido un error");
                     }
@@ -29,10 +29,12 @@ export const CreateEditNegotation = () => {
                     console.log("Ha ocurrido un error");
                 }
             } catch (error) {
+                console.log("Hola")
                 console.log(error);
             }
         }
         getSeller();
+        console.log(sellerId);
     }, [])
 
     return <AbstractCreateEditPanel selectOptionList={['Negotation']}

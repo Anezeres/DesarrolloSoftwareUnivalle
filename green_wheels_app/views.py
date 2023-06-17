@@ -344,13 +344,15 @@ def get_group_id_person(request, id, group):
             return HttpResponse("Sorry, the specified group does not exist", status=404);
 
         try:
-            group_id = user_model.objects.get(person_id=id).client_id;
+            group_id = user_model.objects.get(person_id=id).pk;
+            print(group_id)
             data = {
                 'id':group_id
             };
 
             return JsonResponse(data);
         except Exception as e:
+            print("Hola a todos")
             print(e);
             return HttpResponse('Sorry, an error has ocurred', status=500);
 
