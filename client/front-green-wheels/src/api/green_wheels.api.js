@@ -64,6 +64,12 @@ export const getRequestedProcesses = () => gw_api_viewset('request_process/');
 
 export const getNegotationDetails = (id) => gw_api('get_negotations_details_by_seller/' + id);
 
+export const getHeadquarters = () => gw_api_viewset('headquarters');
+
+export const getConcessionaires = () => gw_api_viewset('concessionaires');
+
+export const getWorkshops = () => gw_api_viewset('workshops');
+
 // POST
 
 export const postLoginForm = (data) => gw_api.post('login', data, credentials);
@@ -96,6 +102,14 @@ export const postCreateRequestSellService = (data) => gw_api.post('create_reques
 
 export const postCreateAttendedProcess = (data) => gw_api_viewset.post('attended_process/', data, credentials);
 
+export const postCreateHeadquarter = (data) => gw_api_viewset.post('headquarters/', data, credentials);
+
+export const postCreateConcessionaire = (data) => gw_api_viewset.post('concessionaires/', data, credentials);
+
+export const postCreateWorkshop = (data) => gw_api_viewset.post('workshops/', data, credentials);
+
+export const checkAttendedRequest = (data) => gw_api.post('check_attended_sell_request/', data, credentials);
+
 // PUT
 
 export const putEditPerson = (data) => gw_api.put('edit', data, credentials);
@@ -107,3 +121,9 @@ export const putEditVehicleModel = (id, data) => gw_api_viewset.put('vehicle_mod
 export const putEditVehicle = (id, data) => gw_api_viewset.put('vehicle/' + id + "/", data, credentials);
 
 export const putEditNegotation = (id, data) => gw_api_viewset.put('negotations/' + id + "/", data, credentials);
+
+export const putEditHeadquarter = (id, data) => gw_api_viewset.post('headquarters/' + id + "/", data, credentials);
+
+export const putEditConcessionaire = (id, data) => gw_api_viewset.post('concessionaires/' + id + "/", data, credentials);
+
+export const putEditWorkshop = (id, data) => gw_api_viewset.post('workshops/' + id + "/", data, credentials);

@@ -796,6 +796,32 @@ class Gw_Vehicle_Viewset(viewsets.ModelViewSet):
         return [permissions.IsAuthenticated(), HavePanelAccess('create_vehicle_components')];
 
 
+
+# @name: check_attended_sell_request
+# @description: Marks a sell request as attended
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+def check_attended_sell_request(request):
+    if request.method == 'POST':
+        try:
+            request_id = request.POST.data.request_id;
+            
+            sell_request = Gw_Request_Process.objects.get(id=request_id);
+
+            sell_request.attended =  True;
+
+            sell_request.save();
+
+            return HttpResponse('Correcto', status=200);    
+        except Exception as e:
+            print(e);
+            return HttpResponse('Ha ocurrido un error', status=400);    
+    else:
+        return HttpResponse('Unsupported method', status=405);
+
+
+
 # @name: aux_create_sell_service_and_negotation
 # @description: This method creates a sell_service that is already associated with an empty negotation
 # @author: Paul Rodrigo Rojas G.
@@ -840,6 +866,8 @@ def aux_create_sell_service_and_negotation(user, data):
 
     else:
         return JsonResponse(negotation_serializer.errors, status=status.HTTP_400_BAD_REQUEST);
+
+
 
 
 # @name: Gw_Service_Sell_Vehicle_Viewset
@@ -919,6 +947,41 @@ class Gw_Request_Process_Viewset(viewsets.ModelViewSet):
     queryset = Gw_Request_Process.objects.all();
     serializer_class = Gw_Request_Process_Serializer;
 
+    # def create(self, request, *args, **kwargs):
+    #     user = request.user;
+
+    #     data = request.data;
+
+    #     print(data)
+
+    #     process_data = {
+    #         'employee_id':data['employee_id'],
+    #         'attended_date':data['attended_date'],
+    #         'finished_date':data['finished_date'],
+    #         'service_id':data['service_id']
+    #     }
+
+    #     process_serializer = self.serializer_class(data=process_data,
+    #                                     context={'author':user});
+
+
+    #     if process_serializer.is_valid():
+    #         process_serializer.save();
+        
+    #         was_requested = Gw_Request_Process.objects.filter(
+    #             service_id=process_data['service_id']).exists();
+
+    #         if was_requested:
+    #             requested_process = Gw_Request_Process.objects.get(service_id=process_data['service_id']);
+
+    #             requested_process.attended = True;
+
+    #             requested_process.save();
+
+    #         return JsonResponse(process_serializer.data, status=status.HTTP_201_CREATED);
+    #     else:
+    #         return JsonResponse(process_serializer.errors, status=status.HTTP_400_BAD_REQUEST);
+        
 
 # @name: Gw_Attended_Process_Viewset
 # @description: Viewset for attended process model.

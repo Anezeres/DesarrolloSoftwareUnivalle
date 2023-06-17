@@ -70,6 +70,14 @@ export const AssignNegotation = () => {
                 "employee_id":values.sell_input
             }
             const response = await postCreateAttendedProcess(data);
+
+            if (response.status >= 200 && response.status <= 200){
+                console.log("Correcto");
+                resetForm();
+            } else {
+                console.log("Ha ocurrido un error");
+            }
+
         } catch (error) {
             console.log(error);
         }

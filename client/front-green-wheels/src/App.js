@@ -18,7 +18,7 @@ import { ManageUsersPanel } from './components/panel_components/ManageUsersPanel
 import { RequestSellService } from './components/panel_components/RequestSellService';
 import { AssignNegotation } from './components/panel_components/AssignNegotation';
 import { CreateEditNegotation } from './components/panel_components/CreateEditNegotation'; 
-
+import { CreateLocations } from './components/panel_components/CreateLocations';
 
 const App = () => {
   return (
@@ -44,6 +44,7 @@ const App = () => {
           <Route path="/control_panels/request_sell_service" element={<ControlPanel panel={<RequestSellService/>}/>}/>
           <Route path="/control_panels/assign_negotation" element={<ControlPanel panel={<AssignNegotation/>}/>}/>
           <Route path="/control_panels/create_edit_negotation" element={<ControlPanel panel={<CreateEditNegotation/>}/>}/>
+          <Route path="/control_panels/create_locations" element={<ControlPanel panel={<CreateLocations/>}/>}/>
         </Routes>
       </BrowserRouter>
   );
