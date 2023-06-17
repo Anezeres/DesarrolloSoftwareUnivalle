@@ -1,4 +1,4 @@
-import { getNegotations, getGroupIdByPerson, getLoggedUser } from "../../api/green_wheels.api";
+import { getAssignedNegotations, getGroupIdByPerson, getLoggedUser } from "../../api/green_wheels.api";
 import {useState, useEffect} from 'react';
 
 
@@ -17,7 +17,7 @@ export const CheckNegotations = () => {
                     console.log(responseSeller);
                     if (responseSeller.status >= 200 && responseSeller.status <= 299) {
 
-                        const responseNegotations = await getNegotations(responseSeller.data.employee_id)
+                        const responseNegotations = await getAssignedNegotations(responseSeller.data.employee_id)
                         console.log(responseNegotations)
                         setNegotations(responseNegotations.data);
                     }

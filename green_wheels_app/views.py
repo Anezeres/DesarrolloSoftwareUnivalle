@@ -52,7 +52,7 @@ def create_users_groups(sender, **kwargs):
 @receiver(post_migrate)
 def create_default_panels(sender, **kwargs):
     panels = ['test_panel', 'prueba', 'create_seller', 'create_workshopboss', 'create_manager', 'create_vehicle_components',
-              'request_sell_service', 'check_inventory', 'check_negotations', 'assign_negotation'];
+              'request_sell_service', 'check_inventory', 'check_negotations', 'assign_negotation', 'create_edit_negotation'];
     for panel in panels:
         Gw_Panel.objects.get_or_create(panel_name=panel);
 
@@ -83,14 +83,15 @@ id|panel_name               |
  7|request_sell_service     |
  8|check_inventory          |
  9|check_negotations        |
- 10|assign_negotation        |
+ 10|assign_negotation       |
+ 11|create_edit_negotation  | 
 
 '''
 # 1 -> test_panel, 2 -> prueba, 3 -> create_seller
 @receiver(post_migrate)
 def default_allowed_panels(sender, **kwargs):
     # relation : (panel_id, group_id)
-    relations = [(1, 2), (1, 4), (3, 4), (4, 4), (5, 4), (6, 4), (7, 1), (8, 4), (9, 4), (10, 4)];
+    relations = [(1, 2), (1, 4), (3, 4), (4, 4), (5, 4), (6, 4), (7, 1), (8, 4), (9, 4), (10, 4), (11, 2)];
     for relation in relations:
         group_admin = Group.objects.get(id=5);
         try:
@@ -641,14 +642,18 @@ def get_allowed_panels(request, id):
 
 def get_seller_assigned_negotations(request, id):
     if request.method == 'GET':
-        query = Gw_Attended_Process.objects.filter(employee_id=id).values('employee_id',
+        query = Gw_Attended_Process.objects.filter(employee_id=id).values(
+                                                                          'id',
+                                                                          'employee_id',
                                                                           'attended_date',
-                                                                          'finished_date','service_id');
+                                                                          'finished_date',
+                                                                          'service_id');
 
         data = [];
 
         for elem in query:
-            data.append({'employee_id':elem['employee_id'],
+            data.append({'id':elem['id'],
+                'employee_id':elem['employee_id'],
                                'attended_date':elem['attended_date'],
                                'finished_date':elem['finished_date'],
                                'service_id':elem['service_id']});
@@ -711,6 +716,48 @@ def create_request_sell_service(request):
         return HttpResponse('Unsupported method', status=405);
 
 
+# @name: get_negotation_details_by_seller
+# @description: This endpoint retrieves in a list the data of the negotations that are assigned to an user
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+def get_negotation_details_by_seller(request, id):
+    if request.method == 'GET':
+        try:
+            employee_id = Gw_Employee.objects.get(person_id=id).employee_id;
+
+            list_services_id = Gw_Attended_Process.objects.filter(employee_id=employee_id).values('service_id__id');
+
+            negotations_queryset = Gw_Service_Sell_Vehicle.objects.filter(Q(id__in=list_services_id)).values(
+                'negotation_id__id',
+                'negotation_id__final_sale_price',
+                'negotation_id__last_modification_date',
+                'negotation_id__pay_method',
+                'negotation_id__description'
+            );
+
+            data = [];
+
+            for e in negotations_queryset:
+                data.append({
+                    'id':e['negotation_id__id'],
+                    'last_modification_date':e['negotation_id__last_modification_date'],
+                    'final_sale_price':e['negotation_id__final_sale_price'],
+                    'pay_method':e['negotation_id__pay_method'],
+                    'description':e['negotation_id__description']
+                });
+
+            print(negotations_queryset[0])
+
+            return JsonResponse(data, status=200, safe=False);
+
+
+
+        except Exception as e:
+            print(e);          
+            return HttpResponse('Ha ocurrido un error', status=400);  
+    else:
+        return HttpResponse('Unsupported method', status=405);
 
 # @name: Gw_Brand_Viewset
 # @description: Viewset for brand model

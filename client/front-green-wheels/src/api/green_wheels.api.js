@@ -54,13 +54,15 @@ export const getVehicleModels = () => gw_api_viewset('vehicle_models')
 
 export const getVehicles = () => gw_api_viewset('vehicles');
 
-export const getNegotations = (id) => gw_api('get_seller_assigned_negotations/' + id);
+export const getAssignedNegotations = (id) => gw_api('get_seller_assigned_negotations/' + id);
 
 export const getHeadquarterInventory = (id) => gw_api('get_headquarter_inventory/' + id);
 
 export const getGroupIdByPerson = (id, group) => gw_api('get_group_id_by_person/' + id + '/' + group + '/');
 
 export const getRequestedProcesses = () => gw_api_viewset('request_process/');
+
+export const getNegotationDetails = (id) => gw_api('get_negotations_details_by_seller/' + id);
 
 // POST
 

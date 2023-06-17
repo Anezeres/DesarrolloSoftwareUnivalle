@@ -48,6 +48,7 @@ urlpatterns = [
     path('get_headquarter_inventory/<int:id>/', get_vehicles_components_headquarter, name = 'get_vehicles_components_headquarter'),
     path('get_group_id_by_person/<int:id>/<slug:group>/', get_group_id_person, name = 'get_group_id_person'),
     path('create_request_sell_service/', create_request_sell_service, name = 'create_request_sell_service'),
+    path('get_negotations_details_by_seller/<int:id>/', get_negotation_details_by_seller, name = 'get_negotations_details_by_seller'),
     # PANELS
     path('control_panels/', include('green_wheels_app.panel_urls')),
     # AUTH
