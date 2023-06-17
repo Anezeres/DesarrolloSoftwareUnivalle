@@ -8,7 +8,6 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
@@ -96,7 +95,7 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={`../../assets/user.png`}
+                  src={`https://campusvirtual.univalle.edu.co/moodle/pluginfile.php/2730108/user/icon/mooveuv/f1?rev=15636064`}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>
@@ -118,7 +117,7 @@ const Sidebar = () => {
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
-              title="Panel de control"
+              title="Panel principal"
               to="/"
               icon={<HomeOutlinedIcon />}
               selected={selected}
@@ -147,7 +146,7 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
             <Item
-              title="Balances clientes"
+              title="Tabla de vehiculos"
               to="/invoices"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
@@ -161,13 +160,6 @@ const Sidebar = () => {
             >
               Pages
             </Typography>
-            <Item
-              title="Formulario"
-              to="/form"
-              icon={<PersonOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
             <Item
               title="Calendario"
               to="/calendar"
