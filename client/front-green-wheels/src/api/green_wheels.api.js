@@ -122,6 +122,8 @@ export const createNewWorkshopboss = (data) => gw_api.post('create_new_workshopb
 
 export const createNewManager = (data) => gw_api.post('create_new_manager/', data, credentials);
 
+
+
 // PUT
 
 export const putEditPerson = (data) => gw_api.put('edit', data, credentials);
@@ -139,3 +141,5 @@ export const putEditHeadquarter = (id, data) => gw_api_viewset.post('headquarter
 export const putEditConcessionaire = (id, data) => gw_api_viewset.post('concessionaires/' + id + "/", data, credentials);
 
 export const putEditWorkshop = (id, data) => gw_api_viewset.post('workshops/' + id + "/", data, credentials);
+
+export const setFinishedDate = (id) => gw_api.put('set_finish_date_attended_process/' + id + "/", credentials);

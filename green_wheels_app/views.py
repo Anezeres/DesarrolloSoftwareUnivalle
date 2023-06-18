@@ -52,7 +52,8 @@ def create_users_groups(sender, **kwargs):
 @receiver(post_migrate)
 def create_default_panels(sender, **kwargs):
     panels = ['test_panel', 'prueba', 'create_seller', 'create_workshopboss', 'create_manager', 'create_vehicle_components',
-              'request_sell_service', 'check_inventory', 'check_negotations', 'assign_negotation', 'create_edit_negotation'];
+              'request_sell_service', 'check_inventory', 'check_negotations', 'assign_negotation', 'create_edit_negotation',
+              'create_locations', 'manage_users_as_manager', 'manage_users_as_admin'];
     for panel in panels:
         Gw_Panel.objects.get_or_create(panel_name=panel);
 
@@ -84,14 +85,18 @@ id|panel_name               |
  8|check_inventory          |
  9|check_negotations        |
  10|assign_negotation       |
- 11|create_edit_negotation  | 
+ 11|create_edit_negotation  |
+ 12|create_locations        |  
+ 13|manage_users_as_manager |
+ 14|manage_users_as_admin   |
 
 '''
 # 1 -> test_panel, 2 -> prueba, 3 -> create_seller
 @receiver(post_migrate)
 def default_allowed_panels(sender, **kwargs):
     # relation : (panel_id, group_id)
-    relations = [(1, 2), (1, 4), (3, 4), (4, 4), (5, 4), (6, 4), (7, 1), (8, 4), (9, 4), (10, 4), (11, 2)];
+    relations = [(1, 2), (1, 4), (3, 4), (4, 4), (5, 4), (6, 4), (7, 1), (8, 4), (9, 4), (10, 4), (11, 2),
+                 (12, 4), (13,4),(14,5)];
     for relation in relations:
         group_admin = Group.objects.get(id=5);
         try:
@@ -779,11 +784,12 @@ def get_seller_assigned_negotations(request, id):
         data = [];
 
         for elem in query:
-            data.append({'id':elem['id'],
-                'employee_id':elem['employee_id'],
-                               'attended_date':elem['attended_date'],
-                               'finished_date':elem['finished_date'],
-                               'service_id':elem['service_id']});
+            if not elem['finished_date']:
+                data.append({'id':elem['id'],
+                    'employee_id':elem['employee_id'],
+                                'attended_date':elem['attended_date'],
+                                'finished_date':elem['finished_date'],
+                                'service_id':elem['service_id']});
 
         return JsonResponse(data, safe=False);
     else:
@@ -826,11 +832,11 @@ def get_vehicles_components_headquarter(request, id):
 def create_request_sell_service(request):
     if request.method == 'POST':
         try:
-            data = request.body.decode('utf-8')
+            data = request.body.decode('utf-8');
             response = aux_create_sell_service_and_negotation(request.user, json.loads(data));
             new_data = response.content.decode('utf-8');
 
-            service_instance_id = json.loads(new_data)['id']
+            service_instance_id = json.loads(new_data)['id'];
 
             service_instance = Gw_Service_Sell_Vehicle.objects.get(id=service_instance_id);
 
@@ -885,6 +891,31 @@ def get_negotation_details_by_seller(request, id):
             return HttpResponse('Ha ocurrido un error', status=400);  
     else:
         return HttpResponse('Unsupported method', status=405);
+
+
+# @name: set_finish_date_attended_process
+# @description: This function sets an attended process's date to the current one indicating that
+# the given process was finished or eliminated.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+def set_finish_date_attended_process(request, id):
+    if request.method == 'PUT':
+        try:        
+            process = Gw_Attended_Process.objects.get(id=id);
+        
+            process.finished_date = date.today();
+        
+            process.save();
+        
+            return HttpResponse('Correcto', status=200);
+        except Exception as e:
+            print(e);
+            return HttpResponse('An error has ocurred', status=400);
+    else:
+        return HttpResponse('Unsupported method', status=405);
+
+
 
 # @name: Gw_Brand_Viewset
 # @description: Viewset for brand model

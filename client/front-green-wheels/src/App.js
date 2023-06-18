@@ -49,6 +49,7 @@ const App = () => {
           <Route path="/control_panels/create_edit_negotation" element={<ControlPanel panel={<CreateEditNegotation/>}/>}/>
           <Route path="/control_panels/create_locations" element={<ControlPanel panel={<CreateLocations/>}/>}/>
           <Route path="/control_panels/manage_users_as_manager" element={<ControlPanel panel={<ManageUsersAsManager/>}/>}/>
+          <Route path="/control_panels/manage_users_as_admin" element={<ControlPanel panel={<ManageUsersAsAdmin/>}/>}/>
         </Routes>
       </BrowserRouter>
   );

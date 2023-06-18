@@ -56,6 +56,7 @@ urlpatterns = [
     path('create_new_manager/', create_new_manager, name = 'create_new_manager'),
     path('get_manage_users_list_manager/', get_manage_users_list_manager, name = 'get_manage_users_list_manager'),
     path('get_manage_users_list_admin/', get_manage_users_list_admin, name = 'get_manage_users_list_admin'),
+    path('set_finish_date_attended_process/<int:id>/', set_finish_date_attended_process, name = 'set_finish_date_attended_process'),
     # PANELS
     path('control_panels/', include('green_wheels_app.panel_urls')),
     # AUTH

@@ -71,7 +71,7 @@ export const AssignNegotation = () => {
             }
             const response = await postCreateAttendedProcess(data);
 
-            if (response.status >= 200 && response.status <= 200){
+            if (response.status >= 200 && response.status <= 299){
                 console.log("Correcto");
                 resetForm();
             } else {
