@@ -39,8 +39,8 @@ const BarChart = ({ isDashboard = false }) => {
           },
         },
       }}
-      keys={["hot dog", "burger", "sandwich", "kebab", "fries", "donut"]}
-      indexBy="country"
+      keys={["2023", "2022", "2021", "2020", "2019", "2018"]}
+      indexBy="marca"
       margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
       padding={0.3}
       valueScale={{ type: "linear" }}
@@ -51,7 +51,7 @@ const BarChart = ({ isDashboard = false }) => {
           id: "dots",
           type: "patternDots",
           background: "inherit",
-          color: "#38bcb2",
+          color: "#abe637",
           size: 4,
           padding: 1,
           stagger: true,
@@ -60,7 +60,7 @@ const BarChart = ({ isDashboard = false }) => {
           id: "lines",
           type: "patternLines",
           background: "inherit",
-          color: "#eed312",
+          color: "#ee7512",
           rotation: -45,
           lineWidth: 6,
           spacing: 10,
@@ -76,7 +76,7 @@ const BarChart = ({ isDashboard = false }) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "country", // changed
+        legend: isDashboard ? undefined : "Marca", // Comparativo
         legendPosition: "middle",
         legendOffset: 32,
       }}
@@ -84,7 +84,7 @@ const BarChart = ({ isDashboard = false }) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "food", // changed
+        legend: isDashboard ? undefined : "Cantidad vendida", // Comparativo
         legendPosition: "middle",
         legendOffset: -40,
       }}
