@@ -4,7 +4,7 @@ import { RetrievePersonForm} from "../retrievers/RetrieverPersonForm";
 import { getUserGroups, getLoggedUser} from "../../api/green_wheels.api";
 import {useState, useEffect} from 'react';
 
-
+//Candidato a borrar
 export const ManageUsersPanel = () => {
     const [role, setRole] = useState('');
 

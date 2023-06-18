@@ -246,14 +246,44 @@ def get_persons_list(request):
 
         return JsonResponse(person_dict, safe=False);
     else:
-        return HttpResponse('Unsupported method', status=405)
+        return HttpResponse('Unsupported method', status=405);
 
 
+# @name: get_manage_users_list_manager
+# @description: Retrieves a list of the users which managers has the permissions to managers.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+def get_manage_users_list_manager(request):
+    if request.method == 'GET':
+        sellers_list = get_employees_list(request).content.decode('utf-8');
+        
+        return JsonResponse(sellers_list, status=200, safe=False);
+        
+    else:
+        return HttpResponse('Unsupported method', status=405);
+
+
+# @name: get_manage_users_list_admin
+# @description: Retrieves a list of the users which managers has the permissions to the admin.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+
+def get_manage_users_list_admin(request):
+    if request.method == 'GET':
+        managers_list = get_managers_list(request).content.decode('utf-8');
+        
+        return JsonResponse(managers_list, status=200, safe=False);
+        
+    else:
+        return HttpResponse('Unsupported method', status=405);
 
 # @name: get_clients_list
 # @description: Get the data from all the client objects
 # @author: Paul Rodrigo Rojas G.
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
 def get_clients_list(request):
     if request.method == 'GET':
         client_queryset = Gw_Client.objects.all();
@@ -269,7 +299,7 @@ def get_clients_list(request):
 
         return JsonResponse(client_dict, safe=False);
     else:
-        return HttpResponse('Unsupported method', status=405)
+        return HttpResponse('Unsupported method', status=405);
 
 
 
@@ -297,8 +327,8 @@ def get_client(request, id):
 
 
 
-# @name: post_create_client
-# @description: Creates Clients objects.
+# @name: post_create_seller
+# @description: Creates Seller objects.
 # @author: Paul Rodrigo Rojas G.
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 

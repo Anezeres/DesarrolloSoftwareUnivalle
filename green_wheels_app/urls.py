@@ -50,6 +50,9 @@ urlpatterns = [
     path('create_request_sell_service/', create_request_sell_service, name = 'create_request_sell_service'),
     path('get_negotations_details_by_seller/<int:id>/', get_negotation_details_by_seller, name = 'get_negotations_details_by_seller'),
     path('check_attended_sell_request/<int:id>/', check_attended_sell_request, name = 'check_attended_sell_request'),
+    path('testing/', get_manage_users_list_manager, name = 'testing'),
+    path('get_manage_users_list_manager/', get_manage_users_list_manager, name = 'get_manage_users_list_manager'),
+    path('get_manage_users_list_admin/', get_manage_users_list_admin, name = 'get_manage_users_list_admin'),
     # PANELS
     path('control_panels/', include('green_wheels_app.panel_urls')),
     # AUTH
