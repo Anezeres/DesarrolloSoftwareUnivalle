@@ -44,7 +44,7 @@ export const CreateEditForm = ({createdMode, attributes, getItems, postItem, put
             console.log("Edicion correcta");
             resetForm();
             setSelectedItem(false);
-            async function getBrandsRequest () {
+            async function getItemsRequest () {
               try {
                   const response = await getItems();
                   setItems(response.data);
@@ -53,7 +53,7 @@ export const CreateEditForm = ({createdMode, attributes, getItems, postItem, put
                   console.log(error);
               }  
           }
-          getBrandsRequest();
+          getItemsRequest();
           } else {
             console.log("Edicion incorrecta")
           }

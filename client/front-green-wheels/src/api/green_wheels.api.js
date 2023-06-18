@@ -38,6 +38,8 @@ export const getAllPersons = () => gw_api('get_persons_list');
 
 export const getClients = () => gw_api('get_clients_list');
 
+export const getManagers = () => gw_api('get_managers_list');
+
 export const getEmployeesTypeList = (position) => gw_api('get_employees_type_list/' + position + '/');
 
 export const getLoggedUser = () => gw_api('user');
@@ -117,6 +119,8 @@ export const checkAttendedRequest = (data) => gw_api.post('check_attended_sell_r
 export const createNewSeller = (data) => gw_api.post('create_new_seller/', data, credentials);
 
 export const createNewWorkshopboss = (data) => gw_api.post('create_new_workshopboss/', data, credentials);
+
+export const createNewManager = (data) => gw_api.post('create_new_manager/', data, credentials);
 
 // PUT
 

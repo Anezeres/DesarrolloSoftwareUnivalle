@@ -190,7 +190,6 @@ class UserEditSerializer(serializers.Serializer):
 		fields = '__all__';
 
 	def edit(self, data):
-		
 		try:
 			user = UserModel.objects.get(person_id=data['person_id']);
 			fields = ['id_type', 'names', 'last_names', 'email',
@@ -206,7 +205,8 @@ class UserEditSerializer(serializers.Serializer):
 			user.save();
 		
 			return user;
-		except Exception:
+		except Exception as e:
+			print(e);
 			print("Ha ocurrido un error");
 
 		

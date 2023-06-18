@@ -20,6 +20,7 @@ import { AssignNegotation } from './components/panel_components/AssignNegotation
 import { CreateEditNegotation } from './components/panel_components/CreateEditNegotation'; 
 import { CreateLocations } from './components/panel_components/CreateLocations';
 import { ManageUsersAsManager } from './components/panel_components/ManageUsersAsManager';
+import { ManageUsersAsAdmin } from './components/panel_components/ManageUsersAsAdmin';
 
 
 const App = () => {
@@ -31,7 +32,7 @@ const App = () => {
           <Route path="/register" element={<RegisterPage/>}/>
           <Route path="/logout" element={<LogoutPage/>}/>
 
-          <Route path="/testing" element={<ManageUsersAsManager/>}/>
+          <Route path="/testing" element={<ManageUsersAsAdmin/>}/>
           <Route path="/create_client" element={<ClientForm/>}/>
           <Route path="/control_panels/send_email" element={<ControlPanel panel={<EmailPage/>}/>}/>
           <Route path="/control_panels/test_panel" element={<ControlPanel panel={<TestPnl/>}/>}/>
@@ -47,6 +48,7 @@ const App = () => {
           <Route path="/control_panels/assign_negotation" element={<ControlPanel panel={<AssignNegotation/>}/>}/>
           <Route path="/control_panels/create_edit_negotation" element={<ControlPanel panel={<CreateEditNegotation/>}/>}/>
           <Route path="/control_panels/create_locations" element={<ControlPanel panel={<CreateLocations/>}/>}/>
+          <Route path="/control_panels/manage_users_as_manager" element={<ControlPanel panel={<ManageUsersAsManager/>}/>}/>
         </Routes>
       </BrowserRouter>
   );

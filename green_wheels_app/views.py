@@ -421,6 +421,33 @@ def create_new_workshopboss(request):
     else:
         return HttpResponse('Unsupported method', status=405);
 
+# @name: create_new_manager
+# @description: Allows to create persons instances and assign them automatically into managers group.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+def create_new_manager(request):
+    if request.method == 'POST':
+        try:
+            register_instance = UserRegister();
+
+            data = json.loads(request.body.decode('utf-8'));
+
+            register_instance.post(data);
+
+            data_manager= {
+                'id': data['person_id']
+            }
+
+            post_create_manager(data_manager);
+
+            return HttpResponse('Correcto', status=200);
+        except Exception as e:
+            print(e);
+            return HttpResponse('Error', status=400);
+    else:
+        return HttpResponse('Unsupported method', status=405);
+
 
 # @name: get_group_id_person
 # @description: Retrieves the group id for the person with the given person_id and
@@ -649,7 +676,7 @@ def get_admins_list(request):
 
         return JsonResponse(admin_dict, safe=False);
     else:
-        return HttpResponse('Unsupported method', status=405)
+        return HttpResponse('Unsupported method', status=405);
 
 
 

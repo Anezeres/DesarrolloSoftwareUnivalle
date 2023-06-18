@@ -37,6 +37,7 @@ urlpatterns = [
     path('get_employees_type_list/<int:position>/', get_employees_type_list, name = 'get_employees_type_list'),
     path('post_create_seller/', post_create_seller, name='post_create_seller'),
     path('post_create_workshopboss/', post_create_workshopboss, name='post_create_workshopboss'),
+    path('post_create_manager/', post_create_manager, name='post_create_manager'),
     path('get_managers_list/', get_managers_list, name='get_managers_list'),
     path('get_manager/<int:id>/', get_manager, name = 'get_manager'),
     path('post_create_manager/', post_create_manager, name='post_create_manager'),
@@ -52,6 +53,7 @@ urlpatterns = [
     path('check_attended_sell_request/<int:id>/', check_attended_sell_request, name = 'check_attended_sell_request'),
     path('create_new_seller/', create_new_seller, name = 'create_new_seller'),
     path('create_new_workshopboss/', create_new_workshopboss, name = 'create_new_workshopboss'),
+    path('create_new_manager/', create_new_manager, name = 'create_new_manager'),
     path('get_manage_users_list_manager/', get_manage_users_list_manager, name = 'get_manage_users_list_manager'),
     path('get_manage_users_list_admin/', get_manage_users_list_admin, name = 'get_manage_users_list_admin'),
     # PANELS
