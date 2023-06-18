@@ -258,7 +258,11 @@ def get_manage_users_list_manager(request):
     if request.method == 'GET':
         sellers_list = get_employees_list(request).content.decode('utf-8');
         
-        return JsonResponse(sellers_list, status=200, safe=False);
+        data = json.loads(sellers_list);
+
+        print(data)
+
+        return JsonResponse(data, status=200, safe=False);
         
     else:
         return HttpResponse('Unsupported method', status=405);
@@ -274,7 +278,9 @@ def get_manage_users_list_admin(request):
     if request.method == 'GET':
         managers_list = get_managers_list(request).content.decode('utf-8');
         
-        return JsonResponse(managers_list, status=200, safe=False);
+        data = json.loads(managers_list)
+
+        return JsonResponse(data, status=200, safe=False);
         
     else:
         return HttpResponse('Unsupported method', status=405);
@@ -332,27 +338,89 @@ def get_client(request, id):
 # @author: Paul Rodrigo Rojas G.
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
-@panel_permission('create_seller')
+#@panel_permission('create_seller')
 def post_create_seller(request):
+    #if request.method == 'POST':
+    try:
+        #id = int(json.loads(request.body)['id']);
+        id = int(request['id']);
+        person_exists = Gw_Person.objects.filter(person_id=id).exists();
+        seller_exists = Gw_Employee.objects.filter(Q(person_id=id) & Q(position=1)).exists();
+        if (not person_exists):
+            return HttpResponse('Person object was not found', status=404);
+        elif (seller_exists):
+            print(id)
+            return HttpResponse('Seller already exists', status=400);
+        else:
+            person = Gw_Person.objects.get(person_id=id);
+            Gw_Employee.objects.create(person_id=person, position=1);
+            return HttpResponse('The User has been created', status=200);
+    except Exception as e:
+        print(e);
+        return HttpResponse('An error has ocurred', status=400);
+    #else:
+     #   return HttpResponse('Unsupported method', status=405);
+
+
+
+# @name: create_new_seller
+# @description: Allows to create persons instances and assign them automatically into employees group with
+# seller position.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+def create_new_seller(request):
     if request.method == 'POST':
         try:
-            id = int(json.loads(request.body)['id']);
-            person_exists = Gw_Person.objects.filter(person_id=id).exists();
-            seller_exists = Gw_Employee.objects.filter(Q(person_id=id) & Q(position=1)).exists();
-            if (not person_exists):
-                return HttpResponse('Person object was not found', status=404);
-            elif (seller_exists):
-                print(id)
-                return HttpResponse('Seller already exists', status=400);
-            else:
-                person = Gw_Person.objects.get(person_id=id);
-                Gw_Employee.objects.create(person_id=person, position=1);
-                return HttpResponse('The User has been created', status=200);
+            register_instance = UserRegister();
+
+            data = json.loads(request.body.decode('utf-8'));
+
+            register_instance.post(data);
+
+            data_seller = {
+                'id': data['person_id']
+            }
+
+            post_create_seller(data_seller);
+
+            return HttpResponse('Correcto', status=200);
         except Exception as e:
             print(e);
-            return HttpResponse('An error has ocurred', status=400);
+            return HttpResponse('Error', status=400);
     else:
-        return HttpResponse('Unsupported method', status=405)
+        return HttpResponse('Unsupported method', status=405);
+
+
+
+# @name: create_new_workshopboss
+# @description: Allows to create persons instances and assign them automatically into employees group with
+# workshopboss position.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+def create_new_workshopboss(request):
+    if request.method == 'POST':
+        try:
+            register_instance = UserRegister();
+
+            data = json.loads(request.body.decode('utf-8'));
+
+            register_instance.post(data);
+
+            data_workshopboss = {
+                'id': data['person_id']
+            }
+
+            post_create_workshopboss(data_workshopboss);
+
+            return HttpResponse('Correcto', status=200);
+        except Exception as e:
+            print(e);
+            return HttpResponse('Error', status=400);
+    else:
+        return HttpResponse('Unsupported method', status=405);
+
 
 # @name: get_group_id_person
 # @description: Retrieves the group id for the person with the given person_id and
@@ -396,27 +464,28 @@ def get_group_id_person(request, id, group):
 # @author: Paul Rodrigo Rojas G.
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
-@panel_permission('create_workshopboss')
+#@panel_permission('create_workshopboss')
 def post_create_workshopboss(request):
-    if request.method == 'POST':
-        try:
-            id = int(json.loads(request.body)['id']);
-            person_exists = Gw_Person.objects.filter(person_id=id).exists();
-            workshop_boss_exists = Gw_Employee.objects.filter(Q(person_id=id) & Q(position=2)).exists();
-            if (not person_exists):
-                return HttpResponse('Person object was not found', status=404);
-            elif (workshop_boss_exists):
-                print(id)
-                return HttpResponse('workshop_boss already exists', status=400);
-            else:
-                person = Gw_Person.objects.get(person_id=id);
-                Gw_Employee.objects.create(person_id=person, position=2);
-                return HttpResponse('The User has been created', status=200);
-        except Exception as e:
-            print(e);
-            return HttpResponse('An error has ocurred', status=400);
-    else:
-        return HttpResponse('Unsupported method', status=405)
+    #if request.method == 'POST':
+    try:
+        #id = int(json.loads(request.body)['id']);
+        id = int(request['id']);
+        person_exists = Gw_Person.objects.filter(person_id=id).exists();
+        workshop_boss_exists = Gw_Employee.objects.filter(Q(person_id=id) & Q(position=2)).exists();
+        if (not person_exists):
+            return HttpResponse('Person object was not found', status=404);
+        elif (workshop_boss_exists):
+            print(id)
+            return HttpResponse('workshop_boss already exists', status=400);
+        else:
+            person = Gw_Person.objects.get(person_id=id);
+            Gw_Employee.objects.create(person_id=person, position=2);
+            return HttpResponse('The User has been created', status=200);
+    except Exception as e:
+        print(e);
+        return HttpResponse('An error has ocurred', status=400);
+    #else:
+     #   return HttpResponse('Unsupported method', status=405)
 
 
 # @name: post_create_manager
@@ -424,27 +493,28 @@ def post_create_workshopboss(request):
 # @author: Paul Rodrigo Rojas G.
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
-@panel_permission('create_manager')
+#@panel_permission('create_manager')
 def post_create_manager(request):
-    if request.method == 'POST':
-        try:
-            id = int(json.loads(request.body)['id']);
-            person_exists = Gw_Person.objects.filter(person_id=id).exists();
-            manager_exists = Gw_Manager.objects.filter(Q(person_id=id)).exists();
-            if (not person_exists):
-                return HttpResponse('Person object was not found', status=404);
-            elif (manager_exists):
-                print(id)
-                return HttpResponse('manager already exists', status=400);
-            else:
-                person = Gw_Person.objects.get(person_id=id);
-                Gw_Manager.objects.create(person_id=person);
-                return HttpResponse('The User has been created', status=200);
-        except Exception as e:
-            print(e);
-            return HttpResponse('An error has ocurred', status=400);
-    else:
-        return HttpResponse('Unsupported method', status=405)
+    #if request.method == 'POST':
+    try:
+        #id = int(json.loads(request.body)['id']);
+        id = int(request['id']);
+        person_exists = Gw_Person.objects.filter(person_id=id).exists();
+        manager_exists = Gw_Manager.objects.filter(Q(person_id=id)).exists();
+        if (not person_exists):
+            return HttpResponse('Person object was not found', status=404);
+        elif (manager_exists):
+            print(id)
+            return HttpResponse('manager already exists', status=400);
+        else:
+            person = Gw_Person.objects.get(person_id=id);
+            Gw_Manager.objects.create(person_id=person);
+            return HttpResponse('The User has been created', status=200);
+    except Exception as e:
+        print(e);
+        return HttpResponse('An error has ocurred', status=400);
+    #else:
+     #   return HttpResponse('Unsupported method', status=405)
 
 
 # @name: get_employees_list

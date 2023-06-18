@@ -70,6 +70,10 @@ export const getConcessionaires = () => gw_api_viewset('concessionaires');
 
 export const getWorkshops = () => gw_api_viewset('workshops');
 
+export const getManageUserManager = () => gw_api('get_manage_users_list_manager');
+
+export const getManageUserAdmin = () => gw_api('get_manage_users_list_admin');
+
 // POST
 
 export const postLoginForm = (data) => gw_api.post('login', data, credentials);
@@ -109,6 +113,10 @@ export const postCreateConcessionaire = (data) => gw_api_viewset.post('concessio
 export const postCreateWorkshop = (data) => gw_api_viewset.post('workshops/', data, credentials);
 
 export const checkAttendedRequest = (data) => gw_api.post('check_attended_sell_request/', data, credentials);
+
+export const createNewSeller = (data) => gw_api.post('create_new_seller/', data, credentials);
+
+export const createNewWorkshopboss = (data) => gw_api.post('create_new_workshopboss/', data, credentials);
 
 // PUT
 

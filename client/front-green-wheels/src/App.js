@@ -19,6 +19,8 @@ import { RequestSellService } from './components/panel_components/RequestSellSer
 import { AssignNegotation } from './components/panel_components/AssignNegotation';
 import { CreateEditNegotation } from './components/panel_components/CreateEditNegotation'; 
 import { CreateLocations } from './components/panel_components/CreateLocations';
+import { ManageUsersAsManager } from './components/panel_components/ManageUsersAsManager';
+
 
 const App = () => {
   return (
@@ -29,7 +31,7 @@ const App = () => {
           <Route path="/register" element={<RegisterPage/>}/>
           <Route path="/logout" element={<LogoutPage/>}/>
 
-          <Route path="/testing" element={<AssignNegotation/>}/>
+          <Route path="/testing" element={<ManageUsersAsManager/>}/>
           <Route path="/create_client" element={<ClientForm/>}/>
           <Route path="/control_panels/send_email" element={<ControlPanel panel={<EmailPage/>}/>}/>
           <Route path="/control_panels/test_panel" element={<ControlPanel panel={<TestPnl/>}/>}/>

@@ -13,7 +13,10 @@ from django.http import HttpResponse
 class UserRegister(APIView):
 	permission_classes = (permissions.AllowAny,)
 	def post(self, request):
-		clean_data = custom_validation(request.data);
+		if type(request) is dict:
+			clean_data = custom_validation(request);
+		else:
+			clean_data = custom_validation(request.data);
 		serializer = UserRegisterSerializer(data=clean_data);
 		if serializer.is_valid(raise_exception=True):
 			user = serializer.create(clean_data);
