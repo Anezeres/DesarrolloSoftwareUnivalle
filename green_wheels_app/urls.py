@@ -49,6 +49,7 @@ urlpatterns = [
     path('get_headquarter_inventory/<int:id>/', get_vehicles_components_headquarter, name = 'get_vehicles_components_headquarter'),
     path('get_group_id_by_person/<int:id>/<slug:group>/', get_group_id_person, name = 'get_group_id_person'),
     path('create_request_sell_service/', create_request_sell_service, name = 'create_request_sell_service'),
+    path('create_repair_vehicle_service/', create_repair_vehicle_service, name = 'create_repair_vehicle_service'),
     path('get_negotations_details_by_seller/<int:id>/', get_negotation_details_by_seller, name = 'get_negotations_details_by_seller'),
     path('check_attended_sell_request/<int:id>/', check_attended_sell_request, name = 'check_attended_sell_request'),
     path('create_new_seller/', create_new_seller, name = 'create_new_seller'),

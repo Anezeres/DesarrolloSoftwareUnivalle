@@ -27,6 +27,7 @@ admin.site.register(Gw_Replacement_Inventory);
 admin.site.register(Gw_Replacement_Part);
 
 #admin.site.register(Gw_Service); As it is an abstract model it is not necessary to add it to the admin panel.
+admin.site.register(Gw_Repair_Vehicle);
 admin.site.register(Gw_Service_Sell_Vehicle);
 admin.site.register(Gw_Request_Process);
 admin.site.register(Gw_Attended_Process);

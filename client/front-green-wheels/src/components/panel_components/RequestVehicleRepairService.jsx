@@ -1,9 +1,9 @@
 import { Formik, Form} from "formik"
-import {getLoggedUser, getGroupIdByPerson, postCreateRequestSellService} from "../../api/green_wheels.api"
+import {getLoggedUser, getGroupIdByPerson, postCreateRequestRepairVehicle, postCreateRequestSellService} from "../../api/green_wheels.api"
 import {useState, useEffect} from 'react';
 import { createTextFields } from "../forms/CreateTextFields";
 
-export const RequestSellService = () => {
+export const RequestVehicleRepairService = () => {
     const [clientId, setClientId] =  useState(null);
 
     const initialValues = {
@@ -34,16 +34,15 @@ export const RequestSellService = () => {
 
     async function onSubmit(values,{resetForm}) {
         try {
-            const sellServiceData = {
+            const repairServiceData = {
                 'vehicle_plate':values.vehicle_plate,
                 'client_id':clientId,
-                //'negotation_id':values.negotation_id,
-                'concessionaire_id':values.concessionaire_id
+                'workshop_id':values.workshop_id
             }
 
-            const postSellService = await postCreateRequestSellService(sellServiceData);//postCreateSellService(sellServiceData);
+            const postRepairService = await postCreateRequestRepairVehicle(repairServiceData);
 
-            if (postSellService.status >= 200 && postSellService.status <= 299) {
+            if (postRepairService.status >= 200 && postRepairService.status <= 299) {
                 console.log("Creación Exitosa");
                 resetForm();
             } else {
@@ -58,7 +57,7 @@ export const RequestSellService = () => {
     }
 
     return <div>
-    <h2>Realizar solicitud de cotización</h2>
+    <h2>Realizar solicitud de reparación</h2>
     <p>Recuerde que debe estar logueado con una cuenta de tipo cliente para el correcto funcionamiento
         del proceso.
     </p>

@@ -772,6 +772,11 @@ def get_allowed_panels(request, id):
         return HttpResponse('Unsupported method', status=405);
 
 
+# @name: get_seller_assigned_negotations
+# @description: Get all the negotations assigned to a seller
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
 def get_seller_assigned_negotations(request, id):
     if request.method == 'GET':
         query = Gw_Attended_Process.objects.filter(employee_id=id).values(
@@ -847,6 +852,90 @@ def create_request_sell_service(request):
         return HttpResponse('Exito', status=200);
     else:
         return HttpResponse('Unsupported method', status=405);
+
+
+
+
+# @name: aux_create_diagnosis_repair_service
+# @description: This method creates a sell_service that is already associated with an empty negotation
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+def aux_create_diagnosis_repair_service(user, data):
+    try:
+        user = user;
+
+        empty_diagnosis_data = {
+            'vehicle_plate':data['vehicle_plate'],
+            'client_id':data['client_id'],
+            'description':'empty',
+            'date':None,
+            'price':0,
+            'mechanic_id':0,
+            'mechanic_name':'empty',
+            
+        }
+
+        diagnosis_serializer = Gw_Diagnosis_Viewset.serializer_class(data=empty_diagnosis_data,
+                                                                    context={'author':user});
+    
+        if diagnosis_serializer.is_valid():
+
+            diagnosis_serializer.save();
+            diagnosis_id = diagnosis_serializer.data['id'];
+
+            repair_service_data = {
+                "mechanic_name":"empty",
+                "mechanic_id":0,
+                "diagnosis_id":diagnosis_id,
+                "workshop_id":data['workshop_id'] 
+                }
+
+            repair_service_serializer = Gw_Repair_Vehicle_Service_Viewset.serializer_class(data=repair_service_data,
+                                            context={'author': user})
+
+            if repair_service_serializer.is_valid():
+                repair_service_serializer.save()
+                return JsonResponse(repair_service_serializer.data, status=status.HTTP_201_CREATED);
+            else:
+                return JsonResponse(repair_service_serializer.errors, status=status.HTTP_400_BAD_REQUEST);
+    except Exception as e:
+        print(e);
+        return HttpResponse("Ha ocurrido un error", status=500);
+    else:
+        return JsonResponse(diagnosis_serializer.errors, status=status.HTTP_400_BAD_REQUEST);
+
+
+
+
+# @name: create_repair_vehicle_service
+# @description: This endpoint allows to create requested_process instances assign to sell_service instances.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+def create_repair_vehicle_service(request):
+    if request.method == 'POST':
+        try:
+            data = request.body.decode('utf-8');
+
+            response = aux_create_diagnosis_repair_service(request.user, json.loads(data));
+            new_data = response.content.decode('utf-8');
+
+            service_instance_id = json.loads(new_data)['id'];
+
+            print(service_instance_id)
+
+            service_instance = Gw_Service_Diagnosis_Vehicle.objects.get(id=service_instance_id);
+
+            Gw_Request_Process.objects.create(service_id=service_instance, requested_date=date.today(), attended=False);
+        except Exception as e:
+            print(e);
+            return HttpResponse('Ha ocurrido une error', status=500);
+
+        return HttpResponse('Exito', status=200);
+    else:
+        return HttpResponse('Unsupported method', status=405);
+
 
 
 # @name: get_negotation_details_by_seller
@@ -1151,6 +1240,15 @@ class Gw_Attended_Process_Viewset(viewsets.ModelViewSet):
     queryset = Gw_Attended_Process.objects.all();
     serializer_class = Gw_Attended_Process_Serializer;
 
+# @name: Gw_Repair_Vehicle_Service_Viewset
+# @description: Viewset for repair vehicle service
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Repair_Vehicle_Service_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Repair_Vehicle.objects.all();
+    serializer_class = Gw_Repair_Vehicle_Service_Serializer;
+
 
 # @name: Gw_Diagnosis_Viewset
 # @description: Viewset for diagnosis
@@ -1160,8 +1258,11 @@ class Gw_Attended_Process_Viewset(viewsets.ModelViewSet):
 class Gw_Diagnosis_Viewset(viewsets.ModelViewSet):
     queryset = Gw_Service_Diagnosis_Vehicle.objects.all();
     serializer_class = Gw_Diagnosis_Serializer;
-    def get_permissions(self):
-        return [permissions.IsAuthenticated(), HavePanelAccess('create_diagnosis_panel')];
+
+    def create(self, request, *args, **kwargs):
+        return aux_create_diagnosis_repair_service(request.user, request.data);
+    #def get_permissions(self):
+     #   return [permissions.IsAuthenticated(), HavePanelAccess('create_diagnosis_panel')];
 
 # @name: Gw_Replacement_Viewset
 # @description: Viewset for replacement part

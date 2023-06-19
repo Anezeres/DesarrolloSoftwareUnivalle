@@ -104,6 +104,8 @@ export const postCreateNegotation = (data) => gw_api_viewset.post('negotations/'
 
 export const postCreateSellService = (data) => gw_api_viewset.post('service_sell_vehicles/', data, credentials);
 
+export const postCreateRequestRepairVehicle = (data) => gw_api.post('create_repair_vehicle_service/', data, credentials);
+
 export const postCreateRequestSellService = (data) => gw_api.post('create_request_sell_service/', data, credentials);
 
 export const postCreateAttendedProcess = (data) => gw_api_viewset.post('attended_process/', data, credentials);

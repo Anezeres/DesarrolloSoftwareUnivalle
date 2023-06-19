@@ -125,6 +125,18 @@ class Gw_Diagnosis_Serializer(serializers.ModelSerializer):
         fields = '__all__';
 
 
+# @name: Gw_Repair_Vehicle_Service_Serializer
+# @description: Serializer for repair vehicle service instances
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+
+
+class Gw_Repair_Vehicle_Service_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Gw_Repair_Vehicle;
+        fields = '__all__';
+
 # @name: Gw_Vehicles_Inventory_Serializer
 # @description: Serializer for vehicle inventory model
 # @author: Paul Rodrigo Rojas G.

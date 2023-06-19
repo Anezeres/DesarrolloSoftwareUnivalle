@@ -321,13 +321,13 @@ class Gw_Service_Sell_Vehicle(Gw_Service):
 
 class Gw_Service_Diagnosis_Vehicle(Gw_Service):
     description = models.CharField(max_length=200);
-    date = models.DateField();
+    date = models.DateField(null=True);
     price = models.FloatField(null=True);
     mechanic_id = models.IntegerField(null=True);
-    mechanic_name = models.CharField(max_length=40, default='');
+    mechanic_name = models.CharField(max_length=40, default='', null=True);
 
     def __str__(self):
-        return self.id + ' - ' + self.price
+        return str(self.id) + ' - ' + str(self.price)
 
 # @name: Gw_Repair_Vehicle
 # @description: Represents the repairing vehicles service
@@ -335,8 +335,8 @@ class Gw_Service_Diagnosis_Vehicle(Gw_Service):
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
 class Gw_Repair_Vehicle(models.Model):
-    mechanic_id = models.IntegerField();
-    mechanic_name = models.CharField(max_length=100);
+    mechanic_id = models.IntegerField(null=True);
+    mechanic_name = models.CharField(max_length=100, null=True);
     diagnosis_id = models.ForeignKey('Gw_Service_Diagnosis_Vehicle', on_delete=models.CASCADE);
     workshop_id = models.ForeignKey('Gw_Workshop', on_delete=models.CASCADE);
 

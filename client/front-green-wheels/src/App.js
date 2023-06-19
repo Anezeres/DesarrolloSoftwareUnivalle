@@ -21,6 +21,8 @@ import { CreateEditNegotation } from './components/panel_components/CreateEditNe
 import { CreateLocations } from './components/panel_components/CreateLocations';
 import { ManageUsersAsManager } from './components/panel_components/ManageUsersAsManager';
 import { ManageUsersAsAdmin } from './components/panel_components/ManageUsersAsAdmin';
+import { RequestVehicleRepairService } from './components/panel_components/RequestVehicleRepairService';
+import { AssignRepair } from './components/panel_components/AssignRepair';
 
 
 const App = () => {
@@ -32,7 +34,7 @@ const App = () => {
           <Route path="/register" element={<RegisterPage/>}/>
           <Route path="/logout" element={<LogoutPage/>}/>
 
-          <Route path="/testing" element={<ManageUsersAsAdmin/>}/>
+          <Route path="/testing" element={<AssignRepair/>}/>
           <Route path="/create_client" element={<ClientForm/>}/>
           <Route path="/control_panels/send_email" element={<ControlPanel panel={<EmailPage/>}/>}/>
           <Route path="/control_panels/test_panel" element={<ControlPanel panel={<TestPnl/>}/>}/>
@@ -45,7 +47,9 @@ const App = () => {
           <Route path="/control_panels/create_vehicle_components" element={<ControlPanel panel={<CreateVehicleComponents/>}/>}/>
           <Route path="/control_panels/manage_users" element={<ControlPanel panel={<ManageUsersPanel/>}/>}/>
           <Route path="/control_panels/request_sell_service" element={<ControlPanel panel={<RequestSellService/>}/>}/>
+          <Route path="/control_panels/request_repair_vehicle_service" element={<ControlPanel panel={<RequestVehicleRepairService/>}/>}/>
           <Route path="/control_panels/assign_negotation" element={<ControlPanel panel={<AssignNegotation/>}/>}/>
+          <Route path="/control_panels/assign_repair" element={<ControlPanel panel={<AssignRepair/>}/>}/>
           <Route path="/control_panels/create_edit_negotation" element={<ControlPanel panel={<CreateEditNegotation/>}/>}/>
           <Route path="/control_panels/create_locations" element={<ControlPanel panel={<CreateLocations/>}/>}/>
           <Route path="/control_panels/manage_users_as_manager" element={<ControlPanel panel={<ManageUsersAsManager/>}/>}/>

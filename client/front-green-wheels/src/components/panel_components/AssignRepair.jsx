@@ -3,21 +3,21 @@ import { Formik, Form, Field, ErrorMessage} from 'formik'
 import {useState, useEffect} from 'react';
 import { getEmployeesTypeList, getRequestedProcesses, postCreateAttendedProcess} from '../../api/green_wheels.api';
 
-export const AssignNegotation = () => {
+export const AssignRepair = () => {
 
-    const [sellers, setSellers] = useState([]);
+    const [workshopbosss, setworkshopbosss] = useState([]);
     const [requests, setRequests] = useState([]);
-    const [selectedSeller, setSelectedSeller] = useState("");
+    const [selectedworkshopboss, setSelectedworkshopboss] = useState("");
     const [selectedRequest, setSelectedRequest] = useState("");
 
 
     useEffect(()=>{
-        async function requestSellers(){
+        async function requestworkshopbosss(){
             try {
-                const responseSellers = await getEmployeesTypeList(1);
+                const responseworkshopbosss = await getEmployeesTypeList(2);
 
-                if (responseSellers.status >= 200 && responseSellers.status <= 299) {
-                    setSellers(responseSellers.data);
+                if (responseworkshopbosss.status >= 200 && responseworkshopbosss.status <= 299) {
+                    setworkshopbosss(responseworkshopbosss.data);
                 } else {
                     console.log("Ha ocurrido un error");
                 }
@@ -33,19 +33,19 @@ export const AssignNegotation = () => {
                 console.log(error);
             }
         };
-        requestSellers();
+        requestworkshopbosss();
     },
     []);
 
-    const onSelectSeller = (item) => {
-        setSelectedSeller(item.employee_id);
+    const onSelectworkshopboss = (item) => {
+        setSelectedworkshopboss(item.employee_id);
     }
 
     const onSelectRequest = (item) => {
         setSelectedRequest(item.id);
     }
 
-    const formatResultSeller = (item) => {
+    const formatResultworkshopboss = (item) => {
         return (
             <>
               <span style={{ display: 'block', textAlign: 'left' }}> {item.person_id} - {item.names}</span>
@@ -98,21 +98,21 @@ export const AssignNegotation = () => {
                         fuseOptions={{ keys: ["id"] }}
                         resultStringKeyName="id"
                     />
-                    <label htmlFor="seller">Seleccione el vendedor</label>
+                    <label htmlFor="workshopboss">Seleccione el vendedor</label>
                     <ReactSearchAutocomplete
-                        items={sellers}
+                        items={workshopbosss}
                         onSearch={()=>{}}
                         onHover={()=>{}}
-                        onSelect={onSelectSeller}
+                        onSelect={onSelectworkshopboss}
                         onFocus={()=>{}}
                         autoFocus
-                        formatResult={formatResultSeller}
+                        formatResult={formatResultworkshopboss}
                         fuseOptions={{ keys: ["person_id", "names"] }}
                         resultStringKeyName="employee_id"
                     />
                 </div>
                 <div>
-                 <Formik initialValues={{"sell_input":selectedSeller,
+                 <Formik initialValues={{"sell_input":selectedworkshopboss,
                  "negotation_input":selectedRequest}}
                    onSubmit={handlePost} enableReinitialize>
                     <Form className = "formulario">
@@ -137,7 +137,7 @@ export const AssignNegotation = () => {
                         name="negotation_input"
                         placeholder="negotation_input"
                         //disabled={true}
-                        //value={selectedSeller}
+                        //value={selectedworkshopboss}
                         />
                         <ErrorMessage name="negotation_input" component='div' className='error'/>
                         </div>
