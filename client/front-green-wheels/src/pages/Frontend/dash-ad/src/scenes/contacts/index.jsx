@@ -9,6 +9,7 @@ const Contacts = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+
   const columns = [
     { field: "id", headerName: "ID", flex: 0.5 },
     { field: "registrarId", headerName: "Registro ID" },
@@ -51,6 +52,7 @@ const Contacts = () => {
       flex: 1,
     },
   ];
+  
 
   return (
     <Box m="20px">

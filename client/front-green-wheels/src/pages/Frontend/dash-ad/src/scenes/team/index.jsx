@@ -10,6 +10,7 @@ import Header from "../../components/Header";
 const Team = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  
   const columns = [
     { field: "id", headerName: "ID" },
     {
@@ -100,7 +101,17 @@ const Team = () => {
           },
         }}
       >
-        <DataGrid checkboxSelection rows={mockDataTeam} columns={columns} />
+        <DataGrid 
+        checkboxSelection 
+        rows={mockDataTeam} 
+        columns={columns} 
+        initialState={{
+          pinnedColumns: {
+            left: [mockDataTeam],
+            right: ['actions'],
+          },
+        }}
+        />
       </Box>
     </Box>
   );
