@@ -76,6 +76,10 @@ export const getManageUserManager = () => gw_api('get_manage_users_list_manager'
 
 export const getManageUserAdmin = () => gw_api('get_manage_users_list_admin');
 
+export const getListSellServices = () => gw_api('get_list_requested_sell_services');
+
+export const getListRepairServices = () => gw_api('get_list_requested_repair_services');
+
 // POST
 
 export const postLoginForm = (data) => gw_api.post('login', data, credentials);

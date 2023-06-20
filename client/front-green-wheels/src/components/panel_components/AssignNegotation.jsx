@@ -1,7 +1,7 @@
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import { Formik, Form, Field, ErrorMessage} from 'formik'
 import {useState, useEffect} from 'react';
-import { getEmployeesTypeList, getRequestedProcesses, postCreateAttendedProcess} from '../../api/green_wheels.api';
+import { getEmployeesTypeList, postCreateAttendedProcess, getListSellServices} from '../../api/green_wheels.api';
 
 export const AssignNegotation = () => {
 
@@ -22,7 +22,7 @@ export const AssignNegotation = () => {
                     console.log("Ha ocurrido un error");
                 }
 
-                const responseRequests = await getRequestedProcesses();
+                const responseRequests = await getListSellServices();//await getRequestedProcesses();
 
                 if (responseRequests.status >= 200 && responseRequests.status <= 299) {
                     setRequests(responseRequests.data);
@@ -42,7 +42,7 @@ export const AssignNegotation = () => {
     }
 
     const onSelectRequest = (item) => {
-        setSelectedRequest(item.id);
+        setSelectedRequest(item.service_id);
     }
 
     const formatResultSeller = (item) => {

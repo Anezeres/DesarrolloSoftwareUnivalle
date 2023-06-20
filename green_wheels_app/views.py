@@ -483,7 +483,6 @@ def get_group_id_person(request, id, group):
 
             return JsonResponse(data);
         except Exception as e:
-            print("Hola a todos")
             print(e);
             return HttpResponse('Sorry, an error has ocurred', status=500);
 
@@ -772,6 +771,42 @@ def get_allowed_panels(request, id):
         return HttpResponse('Unsupported method', status=405);
 
 
+
+# @name: get_workshopboss_assigned_repairs
+# @description: Get all the repairs assigned to a workshopboss
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+def get_workshopboss_assigned_repairs(request, id):
+    if request.method == 'GET':
+
+        list_repairs_services_id = list(Gw_Service_Diagnosis_Vehicle.objects.all().values_list('id', flat=True));
+
+        query = Gw_Attended_Process.objects.filter(Q(employee_id=id) & Q(service_id__in=list_repairs_services_id)
+                                                   ).values(
+                                                                          'id',
+                                                                          'employee_id',
+                                                                          'attended_date',
+                                                                          'finished_date',
+                                                                          'service_id');
+
+
+        data = [];
+
+        for elem in query:
+            if not elem['finished_date']:
+                data.append({'id':elem['id'],
+                    'employee_id':elem['employee_id'],
+                                'attended_date':elem['attended_date'],
+                                'finished_date':elem['finished_date'],
+                                'service_id':elem['service_id']});
+
+        return JsonResponse(data, safe=False);
+    else:
+        return HttpResponse('Unsupported method', status=405);
+
+
+
 # @name: get_seller_assigned_negotations
 # @description: Get all the negotations assigned to a seller
 # @author: Paul Rodrigo Rojas G.
@@ -779,12 +814,17 @@ def get_allowed_panels(request, id):
 
 def get_seller_assigned_negotations(request, id):
     if request.method == 'GET':
-        query = Gw_Attended_Process.objects.filter(employee_id=id).values(
+
+        list_sell_services_id = list(Gw_Service_Sell_Vehicle.objects.all().values_list('id', flat=True));
+
+        query = Gw_Attended_Process.objects.filter(Q(employee_id=id) & Q(service_id__in=list_sell_services_id)
+                                                   ).values(
                                                                           'id',
                                                                           'employee_id',
                                                                           'attended_date',
                                                                           'finished_date',
                                                                           'service_id');
+
 
         data = [];
 
@@ -883,7 +923,7 @@ def aux_create_diagnosis_repair_service(user, data):
 
             diagnosis_serializer.save();
             diagnosis_id = diagnosis_serializer.data['id'];
-
+            print("Hola" + str(diagnosis_id))
             repair_service_data = {
                 "mechanic_name":"empty",
                 "mechanic_id":0,
@@ -896,7 +936,7 @@ def aux_create_diagnosis_repair_service(user, data):
 
             if repair_service_serializer.is_valid():
                 repair_service_serializer.save()
-                return JsonResponse(repair_service_serializer.data, status=status.HTTP_201_CREATED);
+                return JsonResponse(diagnosis_serializer.data, status=status.HTTP_201_CREATED);
             else:
                 return JsonResponse(repair_service_serializer.errors, status=status.HTTP_400_BAD_REQUEST);
     except Exception as e:
@@ -1114,6 +1154,61 @@ def aux_create_sell_service_and_negotation(user, data):
     else:
         return JsonResponse(negotation_serializer.errors, status=status.HTTP_400_BAD_REQUEST);
 
+
+# @name: get_list_requested_sell_services
+# @description: Get the list of sell services requests.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+
+def get_list_requested_sell_services(request):
+    if request.method == 'GET':
+        queryset = Gw_Service_Sell_Vehicle.objects.all();
+    
+        queryset_list = [];
+
+        for q in queryset:
+            if Gw_Request_Process.objects.filter(service_id=q.id).exists():                
+                requested_process = Gw_Request_Process.objects.get(service_id=q.id);
+                queryset_list.append({
+                    'id':requested_process.id,
+                    'requested_date':str(requested_process.requested_date),
+                    'attended':requested_process.attended,
+                    'service_id':requested_process.service_id.id
+                });
+    
+    
+        return JsonResponse(queryset_list, status=200, safe=False);
+    else:
+        return HttpResponse('Unsupported method', status=405);
+
+
+# @name: get_list_requested_repair_services
+# @description: Get the list of repair services requests.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+
+def get_list_requested_repair_services(request):
+    if request.method == 'GET':
+        queryset = Gw_Service_Diagnosis_Vehicle.objects.all();
+    
+        queryset_list = [];
+
+        for q in queryset:
+            if Gw_Request_Process.objects.filter(service_id=q.id).exists():                
+                requested_process = Gw_Request_Process.objects.get(service_id=q.id);
+                queryset_list.append({
+                    'id':requested_process.id,
+                    'requested_date':str(requested_process.requested_date),
+                    'attended':requested_process.attended,
+                    'service_id':requested_process.service_id.id
+                });
+    
+    
+        return JsonResponse(queryset_list, status=200, safe=False);
+    else:
+        return HttpResponse('Unsupported method', status=405);
 
 
 

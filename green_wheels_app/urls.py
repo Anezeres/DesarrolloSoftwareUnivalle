@@ -28,6 +28,9 @@ router.register(r'replacements_inventory', Gw_Replacement_Inventory_Viewset);
 urlpatterns = [
     path('', index_render, name = 'index'), # This is just a test.
     path('api/', include(router.urls)),
+    path('get_list_requested_repair_services/', get_list_requested_repair_services, name='get_list_requested_repair_services'),
+    path('get_list_requested_sell_services/', get_list_requested_sell_services, name='get_list_requested_sell_services'),
+    path('get_workshopboss_assigned_repairs/', get_workshopboss_assigned_repairs, name='get_workshopboss_assigned_repairs'),
     path('get_persons_list/', get_persons_list, name='get_persons_list'),
     path('get_person/<int:id>/', get_person, name = 'get_person'),
     path('get_clients_list/', get_clients_list, name='get_clients_list'),
