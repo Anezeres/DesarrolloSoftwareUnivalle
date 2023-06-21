@@ -10,18 +10,20 @@ import logo from '../Frontend/Media/logog.png';
 import logo2 from '../Frontend/Media/logog.png';
 
 
+
 export function PersonLoginForm() {
 
   const Navigate = useNavigate();
   const [password, setPassword] = useState('');
   const [names, setNames] = useState('');
   const [email, setEmail] = useState('');
+  const [personId, setPersonId] = useState('');
 
   async function InicioSesion(a) {
     a.preventDefault();
         try {
                 const response = await postLoginForm({
-                        email: email,
+                        person_id: personId,
                         password: password
                 });
 
@@ -35,13 +37,17 @@ export function PersonLoginForm() {
                 }
         }
         catch (error) {
-            setEmail('');
+            setPersonId('');
             setPassword('');
             console.log("La operación fracaso");
         }
   }
 
-  async function Registro(b) {
+  const sendToRegistrationPage = () => {
+    return Navigate('/register');
+  }
+
+  async function registro(b) {
     b.preventDefault();
     try {
             const response = await postRegisterForm({
@@ -176,7 +182,9 @@ export function PersonLoginForm() {
               <div className="heading">
                 <h2>¡Inicia sesión!</h2>
                 <h6>¿No tienes cuenta?</h6>
-                <a href="#" className="toggle"> Regístrate aquí</a>
+                {/**<a href="#" className="toggle"> Regístrate aquí</a> */}
+                
+                <button onClick={sendToRegistrationPage}>Regístrate Aquí</button>
               </div>
               <div className="actual-form">
                 <div className="input-wrap">
@@ -185,11 +193,11 @@ export function PersonLoginForm() {
                     minLength="5"
                     className="input-field"
                     autoComplete="off"
-                    value={email}
+                    value={personId}
                     required
-                    onChange={(a)=>setEmail(a.target.value)}
+                    onChange={(a)=>setPersonId(a.target.value)}
                   />
-                  <label>Email</label>
+                  <label>Person ID</label>
                 </div>
                 <div className="input-wrap">
                   <input
@@ -212,7 +220,7 @@ export function PersonLoginForm() {
             </form>
 
             {/*REGISTRO DE USUARIO*/}
-            <form action="PersonLoginForm.jsx" autoComplete="off" className="sign-up-form" onSubmit={Registro}>
+            <form action="PersonLoginForm.jsx" autoComplete="off" className="sign-up-form" onSubmit={registro}>
               <div className="logo">
                 <img src={logo2} alt="GreenWheels" />
                 <h4>GreenWheels</h4>
@@ -294,4 +302,3 @@ export function PersonLoginForm() {
     </main>
   );
 }
-
