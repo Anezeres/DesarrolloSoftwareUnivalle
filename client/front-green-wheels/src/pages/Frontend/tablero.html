@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../Frontend/login.css">
+  <title>Login</title>
+</head>
+<body>
+  <main>
+    <div class="box">
+      <div class="inner-box">
+        <div class="forms-wrap">
+          <!-- INICIO SESION -->
+          <form action="PersonLoginForm.jsx" autocomplete="off" class="sign-in-form" onsubmit="InicioSesion(event)">
+            <div class="logo">
+              <img src="../Frontend/Media/logog.png" alt="GreenWheels">
+              <h4>GreenWheels</h4>
+            </div>
+            <div class="heading">
+              <h2>¡Inicia sesión!</h2>
+              <h6>¿No tienes cuenta?</h6>
+              <button onclick="sendToRegistrationPage()">Regístrate Aquí</button>
+            </div>
+            <div class="actual-form">
+              <div class="input-wrap">
+                <input type="text" minlength="5" class="input-field" autocomplete="off" value="" required>
+                <label>Person ID</label>
+              </div>
+              <div class="input-wrap">
+                <input type="password" minlength="4" class="input-field" autocomplete="off" value="" required>
+                <label>Contraseña</label>
+              </div>
+              <input type="submit" value="Iniciar Sesión" class="sign-btn">
+              <p class="text">
+                ¿Olvidaste tu contraseña o usuario?
+                <a href="#">Da clic aquí</a>
+              </p>
+            </div>
+          </form>
+          

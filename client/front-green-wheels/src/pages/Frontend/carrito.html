@@ -1,0 +1,206 @@
+
+<!DOCTYPE html> 
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Wheels</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="Home.css">
+    <link rel="stylesheet" href="tablero.css">
+</head>
+<body>
+    <section>
+        <div class="circle"></div>
+        <header>
+            <a href="#"><img src="/client/front-green-wheels/src/pages/Frontend/Home-page/Media/logog.png" class="logo"></a>
+            <a href="#"><img src="/client/front-green-wheels/src/pages/Frontend/Home-page/Media/logo2.png" class="logo2"></a>
+            <ul class="navigation">
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Servicios</a></li>
+                <li><a href="#">Carrito</a></li>
+                <li><a href="#">Accede</a></li>
+            </ul>
+        </header>
+        <div class="containter">
+            <div class="content">
+                <!-- TITULO -->
+                <div class="textBox">
+                    <h1>GreenWheels</h1>
+                    <p>Si quieres llegar lejos, hazlo con estilo</p>
+                    <a href="#">YA SOY CLIENTE</a>
+                </div>
+
+                <!-- IMAGENES CARROS -->
+                <div class="imgBox">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide"><img src="/client/front-green-wheels/src/pages/Frontend/Home-page/Media/img1.png"></div>
+                            <div class="swiper-slide"><img src="/client/front-green-wheels/src/pages/Frontend/Home-page/Media/img2.png"></div>
+                            <div class="swiper-slide"><img src="/client/front-green-wheels/src/pages/Frontend/Home-page/Media/img3.png"></div>
+                            <div class="swiper-slide"><img src="/client/front-green-wheels/src/pages/Frontend/Home-page/Media/img4.png"></div>
+                            <div class="swiper-slide"><img src="/client/front-green-wheels/src/pages/Frontend/Home-page/Media/img5.png"></div>
+                            <div class="swiper-slide"><img src="/client/front-green-wheels/src/pages/Frontend/Home-page/Media/img6.png"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BARRA DE BUSQUEDA -->
+
+            </div>
+        </div>
+    </section>
+
+    <div class = "wrapper">
+      <aside>
+        <header>
+          <h1 class = "cabeza">GreenWheels</h1>
+        </header>
+        <nav>
+          <ul class="menu">
+            <li>
+              <a class = "boton-menu boton-volver" href="./home-page.html">
+                <i class="bi bi-arrow-return-left"></i>Seguir buscando
+              </a>
+            </li>
+            <li>
+              <a class = "boton-menu boton-interesado active" href="./carrito.html">
+                <i class="bi bi-cart-fill"></i>Comparar
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <footer>
+          <p class = "texto-footer">© 2023 GreenWheels</p>
+        </footer>
+      </aside>
+      <main>
+        <h2 class = "titulo-principal">¡Compara entre las características principales!</h2>
+        <div class = "contenedor-preguntar">
+          <p id="interesado-vacio" class = "interesado-vacio">Aún no tienes ningún vehiculo para comparar <i class="bi bi-emoji-frown-fill"></i></p>
+            
+            <div id="vehiculos-interesados"class="vehiculos-interesados disabled">
+              <!-- ESTO SE RELLENA CON EL CARRITO.JS -->
+            </div>
+
+            <div id="vehiculo-acciones" class="vehiculo-acciones disabled">
+              <button id="vehiculo-acciones-vaciar" class="vehiculo-vaciar">Eliminar todo</button>
+            </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+            effect: 'coverflow',
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: 'auto',
+            coverflowEffect: {
+                rotate: 0,
+                stretch: 0,
+                depth: 200,
+                modifier: 1,
+                slideShadows: true,
+            },
+            loop: true,
+        })
+    </script>
+    <script src="./carrito.js"></script>
+    <script src="./menu.js"></script>
+
+
+
+<!-- Follow -->
+<div class="follow">
+  <p>Sigue a GreenWheels
+  <a href="https://facebook.com">
+    <img src="https://i.ibb.co/LrVMXNR/social-fb.png" alt="Facebook">
+  </a>
+  <a href="https://twitter.com">
+    <img src="https://i.ibb.co/vJvbLwm/social-twitter.png" alt="Twitter">
+  </a>
+  <a href="https://linkedin.com">
+    <img src="https://i.ibb.co/b30HMhR/social-linkedin.png" alt="Linkedin">
+  </a>
+</div>
+</div>
+
+    </body>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+  var swiper = new Swiper('.swiper-container', {
+    effect: 'coverflow',
+    grabCursor: true,
+    centeredSlides: true,
+    slidesPerView: 'auto',
+    coverflowEffect: {
+      rotate: 0,
+      stretch: 0,
+      depth: 200,
+      modifier: 1,
+      slideShadows: true,
+    },
+    loop: true,
+    autoplay: {
+      delay: 3000, // Cambia este valor para ajustar el tiempo de intervalo entre cada slide (en milisegundos)
+    },
+  });
+</script>
+
+
+    <!-- Links -->
+    <div class="links">
+      <div class="links-inner">
+        <ul>
+          <li><h3>Ayuda</h3></li>
+          <li><a href="#">Modifica tu usuario</a></li>
+          <li><a href="#">Preguntas frcuentes</a></li>
+          <li><a href="#">Resolución de problemas</a></li>
+  
+        </ul>
+        <ul>
+          <li><h3>Encuentranos</h3></li>
+          <li><a href="#">Nuestras sedes</a></li>
+          <li><a href="#">Contactanos</a></li>
+          <li><a href="#">Trabaja con nosotros</a></li>
+        </ul>
+        <ul>
+          <li><h3>Sobre nosotros</h3></li>
+          <li><a href="#">Nuestra historia</a></li>
+          <li><a href="#">Misión</a></li>
+          <li><a href="#">Privacidad</a></li>
+        </ul>
+        <ul>
+          <li><h3>Mi cuenta</h3></li>
+          <li><a href="#">Ingresa</a></li>
+          <li><a href="#">Mis reparaciones</a></li>
+          <li><a href="#">Coche a tu estilo</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <ul>
+          <li><a href="#">Sitemap</a></li>
+        <li><a href="#">Contact GreenWheels</a></li>
+        <li><a href="#">Privacy & cookies</a></li>
+        <li><a href="#">Terms of use</a></li>
+        <li><a href="#">Safety & eco</a></li>
+        <li><a href="#">About our ads</a></li>
+        <li><a href="#">&copy; GreenWheels 2023</a></li>
+        </ul>
+      </div>
+    </footer>
+</html>
+
+
+
+
+
