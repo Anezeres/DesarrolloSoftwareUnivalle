@@ -65,8 +65,8 @@ export const AssignRepair = () => {
         console.log(values)
         try {
             const data = {
-                "service_id":values.negotation_input,
-                "employee_id":values.sell_input
+                "service_id":values.order_input,
+                "employee_id":values.repair_input
             }
             const response = await postCreateAttendedProcess(data);
 
@@ -85,8 +85,8 @@ export const AssignRepair = () => {
 
     return  <>
                 <div className = "formulario">
-                    <h2>Asignar cotización a vendedor</h2>
-                    <label htmlFor="negotation_request">Seleccione la Cotización</label>
+                    <h2>Asignar reparación a jefe de taller</h2>
+                    <label htmlFor="negotation_request">Seleccione la reparación</label>
                     <ReactSearchAutocomplete
                         items={requests}
                         onSearch={()=>{}}
@@ -98,7 +98,7 @@ export const AssignRepair = () => {
                         fuseOptions={{ keys: ["id"] }}
                         resultStringKeyName="id"
                     />
-                    <label htmlFor="workshopboss">Seleccione el vendedor</label>
+                    <label htmlFor="workshopboss">Seleccione el jefe de taller</label>
                     <ReactSearchAutocomplete
                         items={workshopbosss}
                         onSearch={()=>{}}
@@ -112,34 +112,34 @@ export const AssignRepair = () => {
                     />
                 </div>
                 <div>
-                 <Formik initialValues={{"sell_input":selectedworkshopboss,
-                 "negotation_input":selectedRequest}}
+                 <Formik initialValues={{"repair_input":selectedworkshopboss,
+                 "order_input":selectedRequest}}
                    onSubmit={handlePost} enableReinitialize>
                     <Form className = "formulario">
-                        <div key="sell_input">
-                        <label htmlFor="sell_input">Vendedor</label>
+                        <div key="repair_input">
+                        <label htmlFor="repair_input">Jefe de Taller</label>
                         
                         <Field
-                        id="sell_input"
-                        name="sell_input"
-                        placeholder="sell_input"
+                        id="repair_input"
+                        name="repair_input"
+                        placeholder="repair_input"
                         //disabled={true}
                         //value={selectedRequest}
                         />
-                        <ErrorMessage name="sell_input" component='div' className='error'/>
+                        <ErrorMessage name="repair_input" component='div' className='error'/>
                         </div>
 
 
-                        <div key="negotation_input">
-                        <label htmlFor="negotation_input">Cotizacion</label>
+                        <div key="order_input">
+                        <label htmlFor="order_input">Reparación</label>
                         <Field
-                        id="negotation_input"
-                        name="negotation_input"
-                        placeholder="negotation_input"
+                        id="order_input"
+                        name="order_input"
+                        placeholder="order_input"
                         //disabled={true}
                         //value={selectedworkshopboss}
                         />
-                        <ErrorMessage name="negotation_input" component='div' className='error'/>
+                        <ErrorMessage name="order_input" component='div' className='error'/>
                         </div>
                         <button type="submit">SUBMIT</button>
                     </Form>

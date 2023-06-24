@@ -12,6 +12,7 @@ router.register(r'brands', Gw_Brand_Viewset);
 router.register(r'vehicle_models', Gw_Vehicle_Model_Viewset);
 router.register(r'vehicles', Gw_Vehicle_Viewset);
 router.register(r'service_sell_vehicles', Gw_Service_Sell_Vehicle_Viewset);
+router.register(r'service_repair_vehicles', Gw_Repair_Vehicle_Service_Viewset);
 router.register(r'negotations', Gw_Negotations_Viewset);
 router.register(r'headquarters', Gw_Headquarter_Viewset);
 router.register(r'concessionaires', Gw_Concessionaire_Viewset);
@@ -30,7 +31,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('get_list_requested_repair_services/', get_list_requested_repair_services, name='get_list_requested_repair_services'),
     path('get_list_requested_sell_services/', get_list_requested_sell_services, name='get_list_requested_sell_services'),
-    path('get_workshopboss_assigned_repairs/', get_workshopboss_assigned_repairs, name='get_workshopboss_assigned_repairs'),
+    path('get_workshopboss_assigned_repairs/<int:id>/', get_workshopboss_assigned_repairs, name='get_workshopboss_assigned_repairs'),
     path('get_persons_list/', get_persons_list, name='get_persons_list'),
     path('get_person/<int:id>/', get_person, name = 'get_person'),
     path('get_clients_list/', get_clients_list, name='get_clients_list'),
@@ -53,6 +54,8 @@ urlpatterns = [
     path('get_group_id_by_person/<int:id>/<slug:group>/', get_group_id_person, name = 'get_group_id_person'),
     path('create_request_sell_service/', create_request_sell_service, name = 'create_request_sell_service'),
     path('create_repair_vehicle_service/', create_repair_vehicle_service, name = 'create_repair_vehicle_service'),
+    #get_repair_details_by_workshopboss
+    path('get_repair_details_by_workshopboss/<int:id>/', get_repair_details_by_workshopboss, name = 'get_repair_details_by_workshopboss'),
     path('get_negotations_details_by_seller/<int:id>/', get_negotation_details_by_seller, name = 'get_negotations_details_by_seller'),
     path('check_attended_sell_request/<int:id>/', check_attended_sell_request, name = 'check_attended_sell_request'),
     path('create_new_seller/', create_new_seller, name = 'create_new_seller'),

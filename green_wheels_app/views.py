@@ -53,7 +53,7 @@ def create_users_groups(sender, **kwargs):
 def create_default_panels(sender, **kwargs):
     panels = ['test_panel', 'prueba', 'create_seller', 'create_workshopboss', 'create_manager', 'create_vehicle_components',
               'request_sell_service', 'check_inventory', 'check_negotations', 'assign_negotation', 'create_edit_negotation',
-              'create_locations', 'manage_users_as_manager', 'manage_users_as_admin'];
+              'create_locations', 'manage_users_as_manager', 'manage_users_as_admin', 'assign_repair', 'create_edit_repair_service'];
     for panel in panels:
         Gw_Panel.objects.get_or_create(panel_name=panel);
 
@@ -89,6 +89,8 @@ id|panel_name               |
  12|create_locations        |  
  13|manage_users_as_manager |
  14|manage_users_as_admin   |
+ 15|assign_repair           |
+ 16|create_edit_repair_service |
 
 '''
 # 1 -> test_panel, 2 -> prueba, 3 -> create_seller
@@ -96,7 +98,7 @@ id|panel_name               |
 def default_allowed_panels(sender, **kwargs):
     # relation : (panel_id, group_id)
     relations = [(1, 2), (1, 4), (3, 4), (4, 4), (5, 4), (6, 4), (7, 1), (8, 4), (9, 4), (10, 4), (11, 2),
-                 (12, 4), (13,4),(14,5)];
+                 (12, 4), (13,4),(14,5), (15,5), (16, 3)];
     for relation in relations:
         group_admin = Group.objects.get(id=5);
         try:
@@ -990,7 +992,7 @@ def get_negotation_details_by_seller(request, id):
 
             list_services_id = Gw_Attended_Process.objects.filter(employee_id=employee_id).values('service_id__id');
 
-            negotations_queryset = Gw_Service_Sell_Vehicle.objects.filter(Q(id__in=list_services_id)).values(
+            repair_services_queryset = Gw_Service_Sell_Vehicle.objects.filter(Q(id__in=list_services_id)).values(
                 'negotation_id__id',
                 'negotation_id__final_sale_price',
                 'negotation_id__last_modification_date',
@@ -1000,7 +1002,7 @@ def get_negotation_details_by_seller(request, id):
 
             data = [];
 
-            for e in negotations_queryset:
+            for e in repair_services_queryset:
                 data.append({
                     'id':e['negotation_id__id'],
                     'last_modification_date':e['negotation_id__last_modification_date'],
@@ -1009,12 +1011,53 @@ def get_negotation_details_by_seller(request, id):
                     'description':e['negotation_id__description']
                 });
 
-            print(negotations_queryset[0])
+            print(repair_services_queryset[0])
 
             return JsonResponse(data, status=200, safe=False);
 
 
 
+        except Exception as e:
+            print(e);          
+            return HttpResponse('Ha ocurrido un error', status=400);  
+    else:
+        return HttpResponse('Unsupported method', status=405);
+
+
+# @name: get_repair_details_by_workshopboss
+# @description: This endpoint retrieves in a list the data of the repairs that are assigned to an user
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+def get_repair_details_by_workshopboss(request, id):
+    if request.method == 'GET':
+        try:
+            employee_id = Gw_Employee.objects.get(person_id=id).employee_id;
+
+            list_services_id = Gw_Attended_Process.objects.filter(employee_id=employee_id).values('service_id__id');
+
+            repair_services_queryset = Gw_Repair_Vehicle.objects.filter(diagnosis_id__id__in=list_services_id).values(
+                'id',
+                'mechanic_name',
+                'mechanic_id',
+                'diagnosis_id',
+                'workshop_id',
+            );
+
+
+            data = [];
+
+            for e in repair_services_queryset:
+                data.append({
+                    'id':e['id'],
+                    'mechanic_name':e['mechanic_name'],
+                    'mechanic_id':e['mechanic_id'],
+                    'diagnosis_id':e['diagnosis_id'],
+                    'workshop_id':e['workshop_id'],
+                });
+
+            print(data);
+            return JsonResponse(data, status=200, safe=False);
         except Exception as e:
             print(e);          
             return HttpResponse('Ha ocurrido un error', status=400);  

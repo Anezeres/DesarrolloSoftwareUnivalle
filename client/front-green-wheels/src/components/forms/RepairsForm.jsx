@@ -1,15 +1,15 @@
-import { CreateEditForm } from "./CreateEditForm";
-import {postCreateNegotation, putEditNegotation, getLoggedUser, getNegotationDetails} from "../../api/green_wheels.api";
+import { CreateEditForm } from "./CreateEditForm"
 import { useState, useEffect } from "react";
+import { getLoggedUser, getRepairServiceDetails, postCreateRepairService, putEditRepairService } from "../../api/green_wheels.api";
 
-export const NegotationForm = ({createdMode}) => {
+export const RepairForm = ({createdMode}) => {
 
-    const attributes = ['last_modification_date', 'final_sale_price', 'pay_method', 'description'];
+    const attributes = ['mechanic_name', 'mechanic_id', 'diagnosis_id', 'workshop_id',];
 
     const [personId, setPersonId] =  useState(0);
 
     useEffect(()=>{
-        async function getSeller(){
+        async function getWorkshopboss() {
             try {
                 const responseUser = await getLoggedUser();
 
@@ -18,24 +18,24 @@ export const NegotationForm = ({createdMode}) => {
                 } else {
                     console.log("Ha ocurrido un error");
                 }
-                
+
             } catch (error) {
                 console.log(error);
             }
         }
-        getSeller();    
+        getWorkshopboss();    
     }, []);
 
   const passParameterToGet = () => {
-    return getNegotationDetails(personId);
+    return getRepairServiceDetails(personId);
   }
 
   return (<CreateEditForm
     createdMode={createdMode}
     attributes={attributes}
     getItems = {passParameterToGet}
-    postItem = {postCreateNegotation}
-    putItem = {putEditNegotation}
+    postItem = {postCreateRepairService}
+    putItem = {putEditRepairService}
     deleteItem = {null}
     searchBy={['id']}
     showResults={['id']}
