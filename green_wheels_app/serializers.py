@@ -169,6 +169,16 @@ class Gw_Replacement_Inventory_Serializer(serializers.ModelSerializer):
 		fields = '__all__';
 
 
+# @name: Gw_Needed_Replacement_Part_Serializer
+# @description: Serializer for need replacements part model's instances
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
+
+class Gw_Needed_Replacement_Part_Serializer(serializers.ModelSerializer):
+	class Meta:
+		model = Gw_Needed_Replacement_Part;
+		fields = '__all__';
+
 # Here are the serializers that are used for users authentication
 UserModel = get_user_model()
 

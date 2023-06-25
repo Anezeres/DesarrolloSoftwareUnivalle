@@ -84,6 +84,12 @@ export const getListSellServices = () => gw_api('get_list_requested_sell_service
 
 export const getListRepairServices = () => gw_api('get_list_requested_repair_services');
 
+export const getReplacementsParts = () => gw_api_viewset('replacement');
+
+export const getNeededReplacementParts = () => gw_api_viewset('needed_replacement_parts');
+
+export const getDiagnosis = () => gw_api_viewset('diagnosis');
+
 // POST
 
 export const postLoginForm = (data) => gw_api.post('login', data, credentials);
@@ -134,6 +140,9 @@ export const createNewManager = (data) => gw_api.post('create_new_manager/', dat
 
 export const postCreateWorkshop = (data) => gw_api_viewset.post('workshops/', data, credentials);
 
+export const postCreateReplacement = (data) => gw_api_viewset.post('replacement/', data, credentials);
+
+export const postCreateNeededReplacementPart = (data) => gw_api_viewset.post('needed_replacement_parts/', data, credentials);
 
 // PUT
 
@@ -156,3 +165,7 @@ export const putEditConcessionaire = (id, data) => gw_api_viewset.post('concessi
 export const putEditWorkshop = (id, data) => gw_api_viewset.post('workshops/' + id + "/", data, credentials);
 
 export const setFinishedDate = (id) => gw_api.put('set_finish_date_attended_process/' + id + "/", credentials);
+
+export const putEditReplacement = (id, data) => gw_api_viewset.put('replacement/' + id + "/", data, credentials);
+
+export const putEditNeededReplacementPart = (id, data) => gw_api_viewset.put('needed_replacement_parts/' + id + "/", data, credentials);

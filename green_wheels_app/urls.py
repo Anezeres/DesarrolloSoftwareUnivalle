@@ -23,7 +23,7 @@ router.register(r'replacement', Gw_Replacement_Viewset);
 router.register(r'diagnosis', Gw_Diagnosis_Viewset);
 router.register(r'vehicles_inventory', Gw_Vehicles_Inventory_Viewset);
 router.register(r'replacements_inventory', Gw_Replacement_Inventory_Viewset);
-
+router.register(r'needed_replacement_parts', Gw_Needed_Replacement_Part_Viewset);
 
 
 urlpatterns = [
@@ -54,7 +54,6 @@ urlpatterns = [
     path('get_group_id_by_person/<int:id>/<slug:group>/', get_group_id_person, name = 'get_group_id_person'),
     path('create_request_sell_service/', create_request_sell_service, name = 'create_request_sell_service'),
     path('create_repair_vehicle_service/', create_repair_vehicle_service, name = 'create_repair_vehicle_service'),
-    #get_repair_details_by_workshopboss
     path('get_repair_details_by_workshopboss/<int:id>/', get_repair_details_by_workshopboss, name = 'get_repair_details_by_workshopboss'),
     path('get_negotations_details_by_seller/<int:id>/', get_negotation_details_by_seller, name = 'get_negotations_details_by_seller'),
     path('check_attended_sell_request/<int:id>/', check_attended_sell_request, name = 'check_attended_sell_request'),

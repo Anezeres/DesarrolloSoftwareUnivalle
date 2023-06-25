@@ -351,7 +351,7 @@ class Gw_Repair_Vehicle(models.Model):
 class Gw_Needed_Replacement_Part(models.Model):
     diagnosis_id = models.ForeignKey('Gw_Service_Diagnosis_Vehicle', on_delete=models.CASCADE);
     replacement_id = models.ForeignKey('Gw_Replacement_Part', on_delete=models.CASCADE);
-    approved = models.BooleanField();
+    approved = models.BooleanField(default=False);
 
 
 

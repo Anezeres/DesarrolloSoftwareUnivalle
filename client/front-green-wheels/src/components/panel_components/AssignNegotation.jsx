@@ -65,8 +65,8 @@ export const AssignNegotation = () => {
         console.log(values)
         try {
             const data = {
-                "service_id":values.negotation_input,
-                "employee_id":values.sell_input
+                "replacement_id":values.replacement_id,
+                "diagnosis_id":values.diagnosis_id
             }
             const response = await postCreateAttendedProcess(data);
 

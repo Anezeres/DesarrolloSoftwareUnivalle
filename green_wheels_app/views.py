@@ -53,7 +53,8 @@ def create_users_groups(sender, **kwargs):
 def create_default_panels(sender, **kwargs):
     panels = ['test_panel', 'prueba', 'create_seller', 'create_workshopboss', 'create_manager', 'create_vehicle_components',
               'request_sell_service', 'check_inventory', 'check_negotations', 'assign_negotation', 'create_edit_negotation',
-              'create_locations', 'manage_users_as_manager', 'manage_users_as_admin', 'assign_repair', 'create_edit_repair_service'];
+              'create_locations', 'manage_users_as_manager', 'manage_users_as_admin', 'assign_repair', 'create_edit_repair_service',
+              'assign_replacement_part'];
     for panel in panels:
         Gw_Panel.objects.get_or_create(panel_name=panel);
 
@@ -91,6 +92,7 @@ id|panel_name               |
  14|manage_users_as_admin   |
  15|assign_repair           |
  16|create_edit_repair_service |
+ 17|assign_replacement_part    |
 
 '''
 # 1 -> test_panel, 2 -> prueba, 3 -> create_seller
@@ -98,7 +100,7 @@ id|panel_name               |
 def default_allowed_panels(sender, **kwargs):
     # relation : (panel_id, group_id)
     relations = [(1, 2), (1, 4), (3, 4), (4, 4), (5, 4), (6, 4), (7, 1), (8, 4), (9, 4), (10, 4), (11, 2),
-                 (12, 4), (13,4),(14,5), (15,5), (16, 3)];
+                 (12, 4), (13,4),(14,5), (15,5), (16, 3), (17, 3)];
     for relation in relations:
         group_admin = Group.objects.get(id=5);
         try:
@@ -1410,8 +1412,8 @@ class Gw_Diagnosis_Viewset(viewsets.ModelViewSet):
 class Gw_Replacement_Viewset(viewsets.ModelViewSet):
     queryset = Gw_Replacement_Part.objects.all();
     serializer_class = Gw_Replacement_Part_Serializer;
-    def get_permissions(self):
-        return [permissions.IsAuthenticated(), HavePanelAccess('create_replacement_panel')];
+    #def get_permissions(self):
+     #   return [permissions.IsAuthenticated(), HavePanelAccess('create_replacement_panel')];
 
 
 
@@ -1425,7 +1427,14 @@ class Gw_Vehicles_Inventory_Viewset(viewsets.ModelViewSet):
     serializer_class = Gw_Vehicle_Inventory_Serializer;
 
 
+# @name: Gw_Needed_Replacement_Part_Viewset
+# @description: Viewset for needed replacements part model's instances.
+# @author: Paul Rodrigo Rojas G.
+# @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
+class Gw_Needed_Replacement_Part_Viewset(viewsets.ModelViewSet):
+    queryset = Gw_Needed_Replacement_Part.objects.all();
+    serializer_class = Gw_Needed_Replacement_Part_Serializer;
 
 # This endpoint is just for testing.
 def index_render(request):

@@ -25,6 +25,8 @@ import { ManageUsersAsAdmin } from './components/panel_components/ManageUsersAsA
 import { RequestVehicleRepairService } from './components/panel_components/RequestVehicleRepairService';
 import { AssignRepair } from './components/panel_components/AssignRepair';
 import { CreateEditRepair } from './components/panel_components/CreateEditRepair';
+import { CreateEditReplacementPart } from './components/panel_components/CreateEditReplacementPart';
+import { AssignReplacementPart } from './components/panel_components/AssignReplacementPart';
 
 const App = () => {
   return (
@@ -57,6 +59,8 @@ const App = () => {
           <Route path="/control_panels/manage_users_as_admin" element={<ControlPanel panel={<ManageUsersAsAdmin/>}/>}/>
           <Route path="/control_panels/assign_repair" element={<ControlPanel panel={<AssignRepair/>}/>}/>
           <Route path="/control_panels/create_edit_repair_service" element={<ControlPanel panel={<CreateEditRepair/>}/>}/>
+          <Route path="/control_panels/create_edit_replacement_part" element={<ControlPanel panel={<CreateEditReplacementPart/>}/>}/>
+          <Route path="/control_panels/assign_replacement_part" element={<ControlPanel panel={<AssignReplacementPart/>}/>}/>
         </Routes>
       </BrowserRouter>
   );
