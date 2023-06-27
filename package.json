@@ -1,0 +1,19 @@
+{
+  "name": "packge.json",
+  "version": "1.0.0",
+  "description": "This software is for an university project. Its objective it's to serve as \r a resources manager for an electric car seller company.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcela981/DesarrolloSoftwareUnivalle.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marcela981/DesarrolloSoftwareUnivalle/issues"
+  },
+  "homepage": "https://github.com/marcela981/DesarrolloSoftwareUnivalle#readme"
+}

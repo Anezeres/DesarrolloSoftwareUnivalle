@@ -5,14 +5,19 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import Group
 from django.db.models.signals import post_migrate
 from django.dispatch import receiver
+import datetime
 
-@receiver(post_migrate)
-def create_users_groups(sender, **kwargs):
-    Clients_Group, created = Group.objects.get_or_create(name='Clients');
-    Seller_Group, created = Group.objects.get_or_create(name='Sellers');
-    WorkshopBoss_Group, created = Group.objects.get_or_create(name='WorkshopBoss');
-    Manager_Group, created = Group.objects.get_or_create(name='Manager');
-    Admin_Group, created = Group.objects.get_or_create(name='AppAdmin');
+
+# # Create the user groups when migrating
+# @receiver(post_migrate)
+# def create_users_groups(sender, **kwargs):
+#     Clients_Group, created = Group.objects.get_or_create(name='Clients');
+#     Seller_Group, created = Group.objects.get_or_create(name='Sellers');
+#     WorkshopBoss_Group, created = Group.objects.get_or_create(name='WorkshopBoss');
+#     Manager_Group, created = Group.objects.get_or_create(name='Manager');
+#     Admin_Group, created = Group.objects.get_or_create(name='AppAdmin');
+
+
 
 # @name: CustomUserManager
 # @description: Manager that sets the settings to create an user in the custom model.
@@ -22,28 +27,28 @@ def create_users_groups(sender, **kwargs):
 
 class CustomUserManager(BaseUserManager):
 
-    def create_user(self, person_id, names, email, password, **extra_fields):
+    def create_user(self, person_id, email, password, id_type=1, **extra_fields):
         if not person_id:
             raise ValueError("Users must have a person id!")
         email = self.normalize_email(email)
-        user = self.model(person_id=person_id, email=email, names=names, id_type=1, **extra_fields)
-        user.set_password(password)
-        user.save()
-        return user
+        user = self.model(person_id=person_id, email=email, id_type=id_type, **extra_fields);
+        user.set_password(password);
+        user.save();
+        return user;
 
     def create_superuser(self, person_id, email, password, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('is_active', True)
+        extra_fields.setdefault('is_staff', True);
+        extra_fields.setdefault('is_superuser', True);
+        extra_fields.setdefault('is_active', True);
 
         if extra_fields.get('is_staff') is not True:
-            raise ValueError('Superuser must have is_staff=True.')
+            raise ValueError('Superuser must have is_staff=True.');
         if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Superuser must have is_superuser=True.')
-        
-        names = 'Admin'
+            raise ValueError('Superuser must have is_superuser=True.');
 
-        return self.create_user(person_id, names, email, password, **extra_fields)
+        names = 'Admin';
+
+        return self.create_user(person_id, email, password, names=names, **extra_fields);
 
 
 # @name: Gw_Person
@@ -66,7 +71,7 @@ class Gw_Person(AbstractBaseUser, PermissionsMixin):
     birth_date = models.DateField(null=True);
     phone1 = models.IntegerField(null=True);
     phone2 = models.IntegerField(null=True);
-    email = models.EmailField(null=True);
+    email = models.EmailField();
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -91,6 +96,8 @@ class Gw_Client(models.Model):
     client_id = models.AutoField(primary_key=True);
     person_id = models.ForeignKey('Gw_Person', related_name='person', on_delete=models.CASCADE);
 
+    def __str__(self):
+        return ( str(self.client_id)+' - '+self.person_id.names)
 
 # @name: Gw_Employee
 # @description: Model that represents the employees and it is associated with a person instance.
@@ -108,6 +115,8 @@ class Gw_Employee(models.Model):
     position = models.SmallIntegerField(choices=CHOICES);
     person_id = models.ForeignKey('Gw_Person', on_delete=models.CASCADE);
 
+    def __str__(self):
+        return str(self.person_id) +' - '+ self.person_id.names
 
 
 # @name: Gw_Manager
@@ -119,6 +128,8 @@ class Gw_Manager(models.Model):
     manager_id = models.AutoField(primary_key=True);
     person_id = models.ForeignKey('Gw_Person', on_delete=models.CASCADE);
 
+    def __str__(self):
+        return str(self.person_id) +' - '+ self.person_id.names
 
 
 # @name: Gw_Admin
@@ -184,6 +195,8 @@ class Gw_Headquarter(models.Model):
     city = models.CharField(max_length=50);
     address = models.CharField(max_length=100);
 
+    def __str__(self):
+        return str(self.id) +' - '+ self.name;
 
 
 # @name: Gw_Concessionaire
@@ -194,6 +207,9 @@ class Gw_Headquarter(models.Model):
 class Gw_Concessionaire(models.Model):
     headquarter_id = models.ForeignKey('Gw_Headquarter', on_delete=models.CASCADE);
 
+    def __str__(self):
+        return str(self.id) +' - '+ self.headquarter_id.name;
+
 
 
 # @name: Gw_Workshop
@@ -202,7 +218,7 @@ class Gw_Concessionaire(models.Model):
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
 class Gw_Workshop(models.Model):
-    workshop_id = models.ForeignKey('Gw_Headquarter', on_delete=models.CASCADE);
+    headquarter_id = models.ForeignKey('Gw_Headquarter', on_delete=models.CASCADE);
 
 
 
@@ -214,6 +230,9 @@ class Gw_Workshop(models.Model):
 class Gw_Associate_Headquarter(models.Model):
     person_id = models.ForeignKey('Gw_Person', on_delete=models.CASCADE);
     headquarter_id = models.ForeignKey('Gw_Headquarter', on_delete=models.CASCADE);
+
+    def __str__(self):
+        return str(self.headquarter_id) +' - '+str(self.person_id)
 
 
 
@@ -275,13 +294,13 @@ class Gw_Negotation(models.Model):
 
     CHOICES = [
         (1, 'cash'),
-        (2, 'credit_cart'),
+        (2, 'credit_card'),
     ]
 
-    last_modification_date = models.DateField();
-    final_sale_price = models.FloatField();
-    pay_method = models.SmallIntegerField(default=1, choices=CHOICES);
-    description = models.CharField(max_length=100);
+    last_modification_date = models.DateField(null=True);
+    final_sale_price = models.FloatField(null=True);
+    pay_method = models.SmallIntegerField(default=1, choices=CHOICES, null=True);
+    description = models.CharField(max_length=100, null=True);
 
 
 # @name: Gw_Service_Sell_Vehicle
@@ -290,6 +309,7 @@ class Gw_Negotation(models.Model):
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
 class Gw_Service_Sell_Vehicle(Gw_Service):
+
     negotation_id = models.ForeignKey('Gw_Negotation', on_delete=models.CASCADE);
     concessionaire_id = models.ForeignKey('Gw_Concessionaire', on_delete=models.CASCADE);
 
@@ -301,13 +321,13 @@ class Gw_Service_Sell_Vehicle(Gw_Service):
 
 class Gw_Service_Diagnosis_Vehicle(Gw_Service):
     description = models.CharField(max_length=200);
-    date = models.CharField(max_length=30);
+    date = models.DateField(null=True);
     price = models.FloatField(null=True);
     mechanic_id = models.IntegerField(null=True);
-    mechanic_name = models.CharField(max_length=40, default='');
+    mechanic_name = models.CharField(max_length=40, default='', null=True);
 
     def __str__(self):
-        return self.id + ' - ' + self.price
+        return str(self.id) + ' - ' + str(self.price)
 
 # @name: Gw_Repair_Vehicle
 # @description: Represents the repairing vehicles service
@@ -315,8 +335,8 @@ class Gw_Service_Diagnosis_Vehicle(Gw_Service):
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
 class Gw_Repair_Vehicle(models.Model):
-    mechanic_id = models.IntegerField();
-    mechanic_name = models.CharField(max_length=100);
+    mechanic_id = models.IntegerField(null=True);
+    mechanic_name = models.CharField(max_length=100, null=True);
     diagnosis_id = models.ForeignKey('Gw_Service_Diagnosis_Vehicle', on_delete=models.CASCADE);
     workshop_id = models.ForeignKey('Gw_Workshop', on_delete=models.CASCADE);
 
@@ -331,7 +351,8 @@ class Gw_Repair_Vehicle(models.Model):
 class Gw_Needed_Replacement_Part(models.Model):
     diagnosis_id = models.ForeignKey('Gw_Service_Diagnosis_Vehicle', on_delete=models.CASCADE);
     replacement_id = models.ForeignKey('Gw_Replacement_Part', on_delete=models.CASCADE);
-    approved = models.BooleanField();
+    approved = models.BooleanField(default=False);
+
 
 
 # @name: Gw_Request_Process
@@ -339,13 +360,10 @@ class Gw_Needed_Replacement_Part(models.Model):
 # @author: Paul Rodrigo Rojas G.
 # @email: paul.rojas@correounivalle.edu.co, PaulRodrigoRojasECL@gmail.com
 
-
-
 class Gw_Request_Process(models.Model):
     requested_date = models.DateField();
     attended = models.BooleanField();
     service_id = models.ForeignKey('Gw_Service', on_delete=models.CASCADE);
-
 
 
 # @name: Gw_Attended_Process
@@ -355,8 +373,8 @@ class Gw_Request_Process(models.Model):
 
 class Gw_Attended_Process(models.Model):
     employee_id = models.ForeignKey('Gw_Employee', on_delete=models.CASCADE);
-    attended_date = models.DateField();
-    finished_date = models.DateField();
+    attended_date = models.DateField(null=True, default=datetime.date.today);
+    finished_date = models.DateField(null=True);
     service_id = models.ForeignKey('Gw_Service', on_delete=models.CASCADE);
 
 

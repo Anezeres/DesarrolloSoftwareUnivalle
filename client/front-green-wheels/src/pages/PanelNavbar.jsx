@@ -21,9 +21,10 @@ export const PanelNavbar = ({person_id}) => {
     }, [person_id])
     
 
-    return (<div>
-        <p><a href="../">HOME</a></p>
-        <hr></hr>
-        {allowedPanels.map((panel, id)=> <p key={id}><a href={panel}>{panel}</a></p>)}
-    </div>);
+    // return (<div>
+    //     <p><a href="../">HOME</a></p>
+    //     <hr></hr>
+    //     {allowedPanels.map((panel, id)=> <p key={id}><a href={panel}>{panel}</a></p>)}
+    // </div>);
+    return allowedPanels;
 }
