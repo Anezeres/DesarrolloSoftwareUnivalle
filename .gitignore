@@ -4,3 +4,5 @@ __pycache__
 /__pycache__
 /green_wheels_app/migrations/*
 !/green_wheels_app/migrations/__init__.py
+/client/front-green-wheels/src/pages/Frontend/dash-ger
+/client/front-green-wheels/src/pages/Frontend/dash-ad

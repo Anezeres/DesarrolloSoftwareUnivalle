@@ -27,8 +27,8 @@ import { AssignRepair } from './components/panel_components/AssignRepair';
 import { CreateEditRepair } from './components/panel_components/CreateEditRepair';
 import { CreateEditReplacementPart } from './components/panel_components/CreateEditReplacementPart';
 import { AssignReplacementPart } from './components/panel_components/AssignReplacementPart';
-
 const App = () => {
+
   return (
     <BrowserRouter>
         <Routes>
@@ -36,7 +36,7 @@ const App = () => {
           <Route path="/login" element={<LoginPage/>}/>
           <Route path="/register" element={<RegisterPage/>}/>
           <Route path="/logout" element={<LogoutPage/>}/>
-
+          
           <Route path="/testing" element={<AssignRepair/>}/>
           <Route path="/create_client" element={<ClientForm/>}/>
           <Route path="/control_panels/send_email" element={<ControlPanel panel={<EmailPage/>}/>}/>

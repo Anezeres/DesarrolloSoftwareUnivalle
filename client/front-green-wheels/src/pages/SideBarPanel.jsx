@@ -1,7 +1,9 @@
 import {getAllowedPanels} from "../api/green_wheels.api";
+import Sidebar from "./dashboard/scenes/global/Sidebar";
 import {useState, useEffect} from 'react';
 
-export const PanelNavbar = ({person_id}) => {
+export const SideBarPanel = ({isSidebar, person_id}) => {
+
     const [allowedPanels, setAllowedPanels] = useState([]);
 
     useEffect(()=> {
@@ -19,12 +21,7 @@ export const PanelNavbar = ({person_id}) => {
         }
         getPanels();
     }, [person_id])
-    
 
-    // return (<div>
-    //     <p><a href="../">HOME</a></p>
-    //     <hr></hr>
-    //     {allowedPanels.map((panel, id)=> <p key={id}><a href={panel}>{panel}</a></p>)}
-    // </div>);
-    return allowedPanels;
+
+    return <Sidebar isSidebar={isSidebar} panels={allowedPanels}/>
 }

@@ -34,7 +34,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   );
 };
 
-const Sidebar = () => {
+const Sidebar = ({panels}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -116,13 +116,22 @@ const Sidebar = () => {
           )}
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-            <Item
+            
+          <Item
+              title="Panel principal"
+              to="../"
+              icon={<HomeOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
+            {/* <Item
               title="Panel principal"
               to="/"
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
 
             <Typography
               variant="h6"
@@ -131,7 +140,7 @@ const Sidebar = () => {
             >
               Data
             </Typography>
-            <Item
+            {/* <Item
               title="Equipo de usuarios"
               to="/team"
               icon={<PeopleOutlinedIcon />}
@@ -151,16 +160,28 @@ const Sidebar = () => {
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
+
+            {panels.map((e,i) =>
+              <Item
+              key = {i}
+
+              title={e}
+              to={"/control_panels/"+e}
+              icon={<ReceiptOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />)
+            }
 
             <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
-              Pages
+              {/* Pages */}
             </Typography>
-            <Item
+            {/* <Item
               title="Calendario"
               to="/calendar"
               icon={<CalendarTodayOutlinedIcon />}
@@ -173,7 +194,7 @@ const Sidebar = () => {
               icon={<HelpOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
 
             <Typography
               variant="h6"
@@ -183,6 +204,13 @@ const Sidebar = () => {
               Charts
             </Typography>
             <Item
+              title="Cerrar sesión"
+              to="/logout"
+              icon={<BarChartOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            {/* <Item
               title="Grafico de barras"
               to="/bar"
               icon={<BarChartOutlinedIcon />}
@@ -209,7 +237,7 @@ const Sidebar = () => {
               icon={<MapOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
           </Box>
         </Menu>
       </ProSidebar>
