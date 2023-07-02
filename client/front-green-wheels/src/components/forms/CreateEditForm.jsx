@@ -1,19 +1,42 @@
-import {Formik, Form} from "formik";
+import {Formik, Form, Field, ErrorMessage, setIn} from "formik";
 import { createTextFields } from "./CreateTextFields";
 import {useState, useEffect} from 'react';
-import { ReactSearchAutocomplete } from 'react-search-autocomplete'
+import { ReactSearchAutocomplete } from 'react-search-autocomplete';
+import { CreateAutocompleteInput } from "./CreateAutocompleteInput";
 
 
-export const CreateEditForm = ({createdMode, attributes, getItems, postItem, putItem, deleteItem, searchBy, showResults}) => {
+export const CreateEditForm = ({createdMode, attributes, getItems, postItem, putItem, deleteItem, searchBy, showResults,
+autocompleteInputs=[]}) => {
 
     const [items, setItems] = useState([]);
 
     const [selectedItem, setSelectedItem] = useState(false);
 
-    const initialValues = attributes.reduce((acc, field) => {
+    const [autocompleteItems, setAutocompleteItems] = useState([]);
+
+    const [initialValues, setInitialValues] = useState(
+      attributes.reduce((acc, field) => {
       acc[field] = '';
       return acc;
-    }, {});
+      }, {})
+    );
+
+    const updateFormInput = (item) => {
+
+      console.log(item)
+
+      setAutocompleteItems(
+        initialValues[item.field]=item[item.inputValue]
+      )
+      
+      console.log(initialValues)
+    
+    }
+    
+    // const initialValues = attributes.reduce((acc, field) => {
+    //   acc[field] = '';
+    //   return acc;
+    // }, {});
 
     const handleOnSelect = (item) => {
       setSelectedItem(false);
@@ -121,12 +144,31 @@ export const CreateEditForm = ({createdMode, attributes, getItems, postItem, put
         /></>}
             </>
             ) : 
-            (<><Formik initialValues={initialValues} onSubmit={handlePost}> 
+            (<>
+            <div className="formulario">
+              {autocompleteInputs.map((e,i)=>
+                <CreateAutocompleteInput
+                key={i}
+                label={e.label}
+                options={e.options}
+                searchKeys={e.searchKeys}
+                showKey={e.showKey}
+                //onSelectAction={e.onSelectAction}
+                onSelectAction={updateFormInput}
+                
+              />  
+              )}
+            </div>
+
+            <Formik initialValues={initialValues} onSubmit={handlePost}> 
               <Form className='formulario'>
-                  {createTextFields(attributes)}
+                  {createTextFields(attributes)}                  
+
                   <button type="submit">Submit</button>
               </Form>
-          </Formik></>)}
+            </Formik>
+            
+          </>)}
             
             
         </>
