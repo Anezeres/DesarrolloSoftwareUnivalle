@@ -1,42 +1,33 @@
 import { CreateEditForm } from "./CreateEditForm"
-import {getDiagnosis, getWorkshops, getReplacementsParts, postCreateReplacement, putEditReplacement } from "../../api/green_wheels.api";
+import {getVehicleModels, getReplacementsParts, postCreateReplacement, putEditReplacement } from "../../api/green_wheels.api";
 import {useState, useEffect} from 'react';
 
 export const ReplacementPartForm = ({createdMode}) => {
 
   const attributes = ['name', 'description', 'model_id'];
 
-  const [diagnosis, setDiagnosis] = useState([]);
-
-  const [workshops, setWorkshops] = useState([]);
+  const [vehiclesModels, setVehiclesModels] = useState([]);
 
   useEffect(() => {
     async function makeRequest () {
         try {
-            const responseDiagnosis = await getDiagnosis();
-            const responseWorkshops = await getWorkshops();
-            if (responseDiagnosis.status >= 200 && responseDiagnosis.status <= 299 
-              && responseWorkshops.status >= 200  && responseWorkshops.status <= 299) {
+            const response = await getVehicleModels();
 
-                const newDiagnosis = responseDiagnosis.data.map((e,i)=>{
+            if (response.status >= 200 && response.status <= 299) {
+
+                const newVehiclesModels = response.data.map((e,i)=>{
                     e["field"] = "model_id";
                     e["inputValue"] = "id";
                     return e;
                 });
 
-                const newWorkshops = responseWorkshops.data.map((e,i)=>{
-                  e["field"] = "model_id";
-                  e["inputValue"] = "id";
-                  return e;
-                });
-                
-                setDiagnosis(newDiagnosis);
-                setWorkshops(newWorkshops);
+                setVehiclesModels(newVehiclesModels);
             } else {
                 console.log("Ha ocurrido un error")
             }
         } catch (error) {
-            console.log(error);
+
+            console.error(error);
         }}
         makeRequest();
 }, []);
@@ -44,7 +35,7 @@ export const ReplacementPartForm = ({createdMode}) => {
   return (<CreateEditForm 
     createdMode={createdMode} 
     attributes={attributes}
-    disableAttributes={[]}
+    disableAttributes={['model_id']}
     getItems = {getReplacementsParts}
     postItem = {postCreateReplacement}
     putItem = {putEditReplacement}
@@ -53,17 +44,11 @@ export const ReplacementPartForm = ({createdMode}) => {
     showResults={['name', 'model_id']}
     autocompleteInputs={[
       {
-          label:"diagnosis_id",
-          options:diagnosis,
-          searchKeys:["diagnosis_id"],
-          showKey:"diagnosis_id",
-      }, 
-      {
-        label:"workshop_id",
-        options: workshops,
-        searchKeys:["workshop_id"],
-        showKey:"workshop_id",
-    }
+          label:"model_id",
+          options:vehiclesModels,
+          searchKeys:["name"],
+          showKey:"name",
+      }
     ]}
 
     />);

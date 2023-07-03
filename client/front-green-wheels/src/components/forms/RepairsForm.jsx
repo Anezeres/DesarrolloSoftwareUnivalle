@@ -50,7 +50,7 @@ export const RepairForm = ({createdMode}) => {
                 }
 
             } catch (error) {
-                console.log(error);
+                console.error(error);
             }
         }
         getWorkshopboss();    
@@ -74,8 +74,8 @@ export const RepairForm = ({createdMode}) => {
         {
             label:"diagnosis_id",
             options:diagnosis,
-            searchKeys:["diagnosis_id"],
-            showKey:"diagnosis_id",
+            searchKeys:["id"],
+            showKey:"id",
         }, 
         {
           label:"workshop_id",
