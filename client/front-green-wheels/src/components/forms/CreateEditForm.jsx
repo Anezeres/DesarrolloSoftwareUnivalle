@@ -4,8 +4,7 @@ import {useState, useEffect} from 'react';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete';
 import { CreateAutocompleteInput } from "./CreateAutocompleteInput";
 
-
-export const CreateEditForm = ({createdMode, attributes, getItems, postItem, putItem, deleteItem, searchBy, showResults,
+export const CreateEditForm = ({createdMode, attributes, disableAttributes=[], getItems, postItem, putItem, deleteItem, searchBy, showResults,
 autocompleteInputs=[]}) => {
 
     const [items, setItems] = useState([]);
@@ -21,7 +20,9 @@ autocompleteInputs=[]}) => {
       }, {})
     );
 
-    const updateFormInput = (item) => {
+      const updateFormInput = (item) => {
+
+      console.log("CHEESE")
 
       console.log(item)
 
@@ -94,6 +95,16 @@ autocompleteInputs=[]}) => {
         if (response.status >= 200 && response.status <= 299) {
             console.log("Creacion Correcta");
             resetForm();
+            async function getItemsRequest () {
+              try {
+                  const response = await getItems();
+                  setItems(response.data);
+                  setSelectedItem(false);
+              } catch (error) {
+                  console.log(error);
+              }  
+          }
+          getItemsRequest();
         } else {
           console.log("Creacion incorrecta");
         }
@@ -128,7 +139,7 @@ autocompleteInputs=[]}) => {
                 <button onClick={()=>{setSelectedItem(false)}}>Choose another</button>
                 <Formik initialValues={selectedItem} onSubmit={handleEdit}> 
                   <Form className='formulario'>
-                      {createTextFields(attributes)}
+                      {createTextFields(attributes, disableAttributes)}
                       <button type="submit">Submit</button>
                   </Form>
                 </Formik> </>:
@@ -162,7 +173,7 @@ autocompleteInputs=[]}) => {
 
             <Formik initialValues={initialValues} onSubmit={handlePost}> 
               <Form className='formulario'>
-                  {createTextFields(attributes)}                  
+                  {createTextFields(attributes, disableAttributes)}                  
 
                   <button type="submit">Submit</button>
               </Form>

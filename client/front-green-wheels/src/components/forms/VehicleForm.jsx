@@ -1,7 +1,6 @@
 import { CreateEditForm } from "./CreateEditForm"
 import {getVehicleModels, getVehicles, putEditVehicle, postCreateVehicle } from "../../api/green_wheels.api";
 import { useState, useEffect } from "react";
-import { version } from "react";
 
 export const VehicleForm = ({createdMode}) => {
 
@@ -32,6 +31,7 @@ export const VehicleForm = ({createdMode}) => {
     return (<CreateEditForm 
         createdMode={createdMode} 
         attributes={attributes}
+        disableAttributes={['model_id']}
         getItems = {getVehicles}
         postItem = {postCreateVehicle}
         putItem = {putEditVehicle}
@@ -39,16 +39,6 @@ export const VehicleForm = ({createdMode}) => {
         searchBy={['plate', 'model']}
         showResults={['plate', 'model']}
         autocompleteInputs={[
-            // {
-            //     label:"model_id",
-            //     options:[
-            //     {"field":"model_id", "inputValue":"value", "value":1, "name":"a"},
-            //     {"field":"model_id", "inputValue":"value", "value":2, "name":"b"},
-            //     {"field":"model_id", "inputValue":"value", "value":3, "name":"c"}],
-            //     searchKeys:["name"],
-            //     showKey:"name",
-            //     onSelectAction:onSelectAction
-            // }
             {
                 label:"model_id",
                 options:vehiclesModels,
