@@ -2,14 +2,11 @@ import React, {useState} from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik'
 import { postEmailForm } from '../../api/green_wheels.api';
 import {BasicSchema} from '../../schemas/validaciones'
-import { CButton } from '@coreui/react';
 import '@coreui/coreui/dist/css/coreui.min.css';
-import axios from 'axios';
 
 export const EmailForm = () =>{
 
     const [mensaje_exitoso, setMensaje_exitoso] = useState(false)
-    const [correos_destinatarios2, setCorreosDestinatarios] = useState('');
 
     return (
         <div className='d-flex justify-content-end'>
@@ -46,9 +43,6 @@ export const EmailForm = () =>{
                 }
 
             }}
-            // handleChange = { (values)=>{
-                
-            // } }
             >
                 { () => (
                     <Form className="formulario">
