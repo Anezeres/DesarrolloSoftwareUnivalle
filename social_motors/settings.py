@@ -12,7 +12,14 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+import os
+
+import environ
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -20,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-6m_98fj%!0xl2ve&wb_84f&096k&8rz5orq(io69oksq_o3s=c'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -117,8 +124,14 @@ WSGI_APPLICATION = 'social_motors.wsgi.application'
 # @email: nicol.ortiz@correounivalle.edu.co, nicolvaleria0919@gmail.com
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": os.environ.get('DJANGO_DATABASE_NAME'),
+        "USER": os.environ.get('DJANGO_DATABASE_NAME'),
+        "PASSWORD": os.environ.get('DJANGO_SECRET_KEY'),
+        "HOST": os.environ.get('DJANGO_DATABASE_HOST'),
+        "PORT": os.environ.get('DB_PORT'),
     }
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
