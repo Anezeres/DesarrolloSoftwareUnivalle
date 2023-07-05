@@ -11,38 +11,38 @@ export const EmailForm = () =>{
     const [mensaje_exitoso, setMensaje_exitoso] = useState(false)
     const [correos_destinatarios2, setCorreosDestinatarios] = useState('');
 
-    const enviarTodos = (url) => {
-        axios.get(url)
-          .then(response => {
-            const correosDestinatarios = [];
-            response.data.forEach(item => {
-                const correo = item[0];
-                correosDestinatarios.push(correo);
-              });
-              setCorreosDestinatarios(correosDestinatarios.join(', '));
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      };
+    // const enviarTodos = (url) => {
+    //     axios.get(url)
+    //       .then(response => {
+    //         const correosDestinatarios = [];
+    //         response.data.forEach(item => {
+    //             const correo = item[0];
+    //             correosDestinatarios.push(correo);
+    //           });
+    //           setCorreosDestinatarios(correosDestinatarios.join(', '));
+    //       })
+    //       .catch(error => {
+    //         console.error(error);
+    //       });
+    //   };
 
-        const enviarEmpleadoEspecifico = (url,grupo) => {
-            axios.get(url)
-            .then(response => {
-                const correosDestinatarios = [];
-                response.data.forEach(item => {
-                    const correo = item[0];
-                    const grupos = item[1];
-                    if (grupos.includes(grupo)) {
-                    correosDestinatarios.push(correo);
-                    }
-                });
-                setCorreosDestinatarios(correosDestinatarios.join(', '));
-            })
-            .catch(error => {
-                console.error(error);
-            });
-        };
+        // const enviarEmpleadoEspecifico = (url,grupo) => {
+        //     axios.get(url)
+        //     .then(response => {
+        //         const correosDestinatarios = [];
+        //         response.data.forEach(item => {
+        //             const correo = item[0];
+        //             const grupos = item[1];
+        //             if (grupos.includes(grupo)) {
+        //             correosDestinatarios.push(correo);
+        //             }
+        //         });
+        //         setCorreosDestinatarios(correosDestinatarios.join(', '));
+        //     })
+        //     .catch(error => {
+        //         console.error(error);
+        //     });
+        // };
 
     return (
         <div className='d-flex justify-content-end'>
@@ -123,11 +123,11 @@ export const EmailForm = () =>{
                     </Form>
                 )}    
             </Formik>
-            <div className="mx-auto">
+            {/* <div className="mx-auto">
                 <CButton color="primary" onClick={() => enviarTodos('http://localhost:8000/get_employees_email')}>Todos</CButton>
                 <CButton color="primary" onClick={() => enviarEmpleadoEspecifico('http://localhost:8000/get_employees_email',3)}>Jefes de taller</CButton> 
                 <CButton color="primary" onClick={() => enviarEmpleadoEspecifico('http://localhost:8000/get_employees_email',2)}>Vendedores</CButton> 
-            </div>            
+            </div>             */}
 		</div>
     );
 }
