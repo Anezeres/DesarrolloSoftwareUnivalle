@@ -7,7 +7,6 @@ import carrousel1 from '../Frontend/Media/carrousel1.png';
 import carrousel2 from '../Frontend/Media/carrousel2.png';
 import carrousel3 from '../Frontend/Media/carrousel3.png';
 import logo from '../Frontend/Media/logog.png';
-import logo2 from '../Frontend/Media/logog.png';
 
 
 
@@ -15,9 +14,15 @@ export function PersonLoginForm() {
 
   const Navigate = useNavigate();
   const [password, setPassword] = useState('');
-  const [names, setNames] = useState('');
-  const [email, setEmail] = useState('');
   const [personId, setPersonId] = useState('');
+  const [id, setId] = useState('');  
+  const [names, setNames] = useState('');
+  const [lastNames, setLastNames] = useState('');
+  const [email, setEmail] = useState('');
+  const [passwordR, setPasswordR] = useState('');
+  const [living_address, set_living_address] = useState('');
+  const [id_type, set_id_type] = useState('');
+  
 
   async function InicioSesion(a) {
     a.preventDefault();
@@ -47,12 +52,16 @@ export function PersonLoginForm() {
     return Navigate('/register');
   }
 
-  async function registro(b) {
+    async function registro(b) {
     b.preventDefault();
     try {
             const response = await postRegisterForm({
+                    person_id: id,
+                    id_type: id_type,
                     names: names,
+                    last_names: lastNames,
                     email: email,
+                    living_address: living_address,
                     password: password
             });
 
@@ -71,7 +80,7 @@ export function PersonLoginForm() {
 }
 
   useEffect(() => {
-    const images = document.querySelectorAll(".image");
+        const images = document.querySelectorAll(".image");
     const bullets = document.querySelectorAll(".bullets span");
     const inputs = document.querySelectorAll(".input-field");
     const toggle_btn = document.querySelectorAll(".toggle");
@@ -82,8 +91,8 @@ export function PersonLoginForm() {
 
     function showImage(index) {
       images.forEach((image, i) => {
-        image.classList.remove("show");
-        bullets[i].classList.remove("active");
+          image.classList.remove("show");
+          bullets[i].classList.remove("active");
       });
 
       images[index].classList.add("show");
@@ -109,13 +118,13 @@ export function PersonLoginForm() {
 
     bullets.forEach((bullet, index) => {
       bullet.addEventListener("click", () => {
-        currentIndex = index;
-        showImage(currentIndex);
+          currentIndex = index;
+          showImage(currentIndex);
 
-        const textSlider = document.querySelector(".text-group");
-        textSlider.style.transform = `translateY(${-(currentIndex) * 2.2}rem)`;
+          const textSlider = document.querySelector(".text-group");
+          textSlider.style.transform = `translateY(${-(currentIndex) * 2.2}rem)`;
 
-        resetSliderInterval();
+          resetSliderInterval();
       });
     });
 
@@ -123,17 +132,17 @@ export function PersonLoginForm() {
 
     inputs.forEach((inp) => {
       inp.addEventListener("focus", () => {
-        inp.classList.add("active");
+          inp.classList.add("active");
       });
       inp.addEventListener("blur", () => {
-        if (inp.value !== "") return;
-        inp.classList.remove("active");
+          if (inp.value != "") return;
+          inp.classList.remove("active");
       });
     });
 
     toggle_btn.forEach((btn) => {
       btn.addEventListener("click", () => {
-        main.classList.toggle("sign-up-mode");
+          main.classList.toggle("sign-up-mode");
       });
     });
 
@@ -156,50 +165,40 @@ export function PersonLoginForm() {
     bullets.forEach((bullet) => {
       bullet.addEventListener("click", moveSlider);
     });
-
-    return () => {
-      bullets.forEach((bullet) => {
-        bullet.removeEventListener("click", moveSlider);
-      });
-
-      clearInterval(interval);
-    };
-  }, []);
+  });
 
 
   return (
     <main>
-      <div className="box">
-        <div className="inner-box">
-          <div className="forms-wrap">
-
-            {/*INICIO SESION*/}
-            <form action="PersonLoginForm.jsx" autoComplete="off" className="sign-in-form" onSubmit={InicioSesion}>
-              <div className="logo">
-                <img src={logo} alt="GreenWheels" />
-                <h4>GreenWheels</h4>
-              </div>
-              <div className="heading">
-                <h2>¡Inicia sesión!</h2>
-                <h6>¿No tienes cuenta?</h6>
-                {/**<a href="#" className="toggle"> Regístrate aquí</a> */}
-                
-                <button onClick={sendToRegistrationPage}>Regístrate Aquí</button>
-              </div>
-              <div className="actual-form">
-                <div className="input-wrap">
-                  <input
-                    type="text"
-                    minLength="5"
-                    className="input-field"
-                    autoComplete="off"
-                    value={personId}
-                    required
-                    onChange={(a)=>setPersonId(a.target.value)}
-                  />
-                  <label>Person ID</label>
+        <div className="box">
+          <div className="inner-box">
+            <div className="forms-wrap">
+              <form action="login.html" autoComplete="off" className="sign-in-form">
+                <div className="logo">
+                  <img src={logo} alt="GreenWheels" />
+                  <h4>GreenWheels</h4>
                 </div>
-                <div className="input-wrap">
+
+                <div className="heading">
+                  <h2>¡Inicia sesión!</h2>
+                  <h6>¿No tienes cuenta?</h6>
+                  <a href="#" className="toggle">Regístrate aquí</a>
+                </div>
+
+                <div className="actual-form">
+                  <div className="input-wrap">
+                      <input
+                      type="text"
+                      minLength="5"
+                      className="input-field"
+                      autoComplete="off"
+                      value={personId}
+                      required
+                      onChange={(a)=>setPersonId(a.target.value)}/>
+                    <label>Person ID</label>
+                  </div>
+
+                  <div className="input-wrap">
                   <input
                     type="password"
                     minLength="4"
@@ -211,94 +210,124 @@ export function PersonLoginForm() {
                   />
                   <label>Contraseña</label>
                 </div>
-                <input type="submit" value="Iniciar Sesión" className="sign-btn" />
-                <p className="text">
-                  ¿Olvidaste tu contraseña o usuario?
-                  <a href="#">Da clic aquí</a>
-                </p>
-              </div>
-            </form>
 
-            {/*REGISTRO DE USUARIO*/}
-            <form action="PersonLoginForm.jsx" autoComplete="off" className="sign-up-form" onSubmit={registro}>
-              <div className="logo">
-                <img src={logo2} alt="GreenWheels" />
-                <h4>GreenWheels</h4>
-              </div>
-              <div className="heading">
-                <h2>¡Regístrate!</h2>
-                <h6>¿Ya tienes una cuenta?</h6>
-                <a href="#" className="toggle"> Inicia sesión</a>
-              </div>
-              <div className="actual-form">
-                <div className="input-wrap">
-                  <input
-                    type="text"
-                    minLength="4"
-                    className="input-field"
-                    autoComplete="off"
-                    value={names}
-                    required
-                    onChange={(b)=>setNames(b.target.value)}
-                  />
-                  <label>Nombre</label>
+                  <input type="submit" value="Iniciar Sesión" className="sign-btn" />
+                  <p className="text">
+                    ¿Olvidaste tu contraseña o usuario?
+                    <a href="#">Da clic aquí</a>
+                  </p>
                 </div>
-                <div className="input-wrap">
-                  <input
-                    type="email"
-                    className="input-field"
-                    autoComplete="off"
-                    value={email}
-                    required
-                    onChange={(b)=>setEmail(b.target.value)}
-                  />
-                  <label>Email</label>
-                </div>
-                <div div className="input-wrap">
-                  <input
-                    type="password"
-                    minLength="4"
-                    className="input-field"
-                    autoComplete="off"
-                    value={password}
-                    required
-                    onChange={(b)=>setPassword(b.target.value)}
-                  />
-                  <label>Contraseña</label>
-                </div>
-                <input type="submit" value="Regístrate" className="sign-btn" />
-                <p className="text">
-                Autorizo el uso de mis datos de acuerdo a la
-                  <a href="#">declaración de privacidad</a> y acepto los
-                  <a href="#">términos y condiciones.</a>
-                </p>
-              </div>
-            </form>
-          </div>
+              </form>
 
-          <div className="carrousel">
-            <div className="images-wrapper">
-              <img src={carrousel1} className="image img-1 show" alt="" />
-              <img src={carrousel2} className="image img-2" alt="" />
-              <img src={carrousel3} className="image img-3" alt="" />
+              <form action="login.html" autoComplete="off" className="sign-up-form">
+                <div className="logo">
+                  <img src={logo} alt="GreenWheels" />
+                  <h4>GreenWheels</h4>
+                </div>
+
+                <div className="heading">
+                  <h2>¡Regístrate!</h2>
+                  <h6>¿Ya tienes una cuenta?</h6>
+                  <a href="#" className="toggle">Inicia sesión</a>
+                </div>
+
+                <div className="actual-form">
+                  <div className="input-wrap">
+                    <input
+                      type="number"
+                      minLength="10"
+                      className="input-field"
+                      autoComplete="off"
+                      value={id}
+                      required
+                      onChange={(b)=>setId(b.target.value)}/>
+                    <label>ID</label>
+                  </div>
+
+                  <div className="input-wrap">
+                    <input
+                      type="text"
+                      minLength="10"
+                      className="input-field"
+                      autoComplete="off"
+                      value={names}
+                      required
+                      onChange={(b)=>setNames(b.target.value)}
+                    />
+                    <label>Full name</label>
+                  </div>
+
+                  <div className="input-wrap">
+                    <input
+                      type="email"
+                      minLength="10"
+                      className="input-field"
+                      autoComplete="off"
+                      value={email}
+                      required
+                      onChange={(b)=>setEmail(b.target.value)}
+                    />
+                    <label>Email</label>
+                  </div>
+
+                  <div className="input-wrap">
+                    <input
+                      type="text"
+                      minLength="10"
+                      className="input-field"
+                      autoComplete="off"
+                      value={living_address}
+                      required
+                      onChange={(b)=>set_living_address(b.target.value)}
+                    />
+                    <label>Living adress</label>
+                  </div>
+
+                  <div className="input-wrap">
+                    <input
+                      type="password"
+                      minLength="8"
+                      className="input-field"
+                      autoComplete="off"
+                      value={passwordR}
+                      required
+                      onChange={(b)=>setPasswordR(b.target.value)}/>
+                    <label>Password</label>
+                  </div>
+
+                  <input type="submit" value="Regístrate" className="sign-btn" />
+                  <p className="text">
+                    Autorizo el uso de mis datos de acuerdo a la
+                    <a href="#">declaración de privacidad</a>
+                    y acepto los
+                    <a href="#">terminos y condiciones.</a>
+                  </p>
+                </div>
+              </form>
             </div>
-            <div className="text-slider">
-              <div className="text-wrap">
-                <div className="text-group">
-                  <h2>Llega, pero hazlo con estilo</h2>
-                  <h2>Compra, vende, administra</h2>
-                  <h2>Viaja seguro, viaja verde</h2>
-                </div>
+            <div className="carrousel">
+              <div className="images-wrapper">
+                <img src={carrousel1} className="image img-1 show" alt="" />
+                <img src={carrousel2} className="image img-2" alt="" />
+                <img src={carrousel3} className="image img-3" alt="" />
               </div>
-              <div className="bullets">
-                <span className="active" data-value="1"></span>
-                <span data-value="2"></span>
-                <span data-value="3"></span>
+              <div className="text-slider">
+                <div className="text-wrap">
+                  <div className="text-group">
+                    <h2>Llega, pero hazlo con estilo</h2>
+                    <h2>Compra, vende, administra</h2>
+                    <h2>Viaja seguro, viaja verde</h2>
+                  </div>
+                </div>
+                <div className="bullets">
+                  <span className="active" data-value="1"></span>
+                  <span data-value="2"></span>
+                  <span data-value="3"></span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
   );
 }

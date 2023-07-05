@@ -39,7 +39,8 @@ import image3 from './Media/img3.png';
 import image4 from './Media/img4.png';
 import image5 from './Media/img5.png';
 import image6 from './Media/img6.png';
-
+import login from '../components/PersonLoginForm';
+import Comparar from './Comparar';
 
 
 export function HomePage() {
@@ -446,7 +447,7 @@ export function HomePage() {
             <div className="textBox">
               <h1>GreenWheels</h1>
               <p>Si quieres llegar lejos, hazlo con estilo</p>
-              <a href="#">YA SOY CLIENTE</a>
+              <a href='login'>YA SOY CLIENTE</a>
             </div>
 
             {/* IMAGENES CARROS */}
@@ -492,7 +493,7 @@ export function HomePage() {
                 </button>
               </li>
               <li>
-                <a className="boton-menu boton-interesado" href="#">
+              <a href = 'Comparar' className="boton-menu boton-interesado">
                   <i className="bi bi-cart-fill"></i>Comparar
                   <span id="numerito" className="numerito"></span>
                 </a>
